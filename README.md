@@ -9,3 +9,5 @@ SyncBackFree weekly backup executer
 	- 3.2.1 Automatically perform all backup procedure with API(if possible).
 	- 3.2.2 Deal with bugs and weird situation.
 - 3.3 SBFWBE Requirement
+
+https://forum.2brightsparks.com/bb/viewtopic.php?t=13106
