@@ -348,3 +348,24 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Obsidian Folder
+.obsidian/
+
+# Visual Studio Code Workspace
+*.code-workspace
+
+# Excecutable files
+*.exe
+*.spec
+build/
+dist/
+
+# Release Files
+.Release/
+
+# Test Files
+test_file/
+
+# VS Code
+.vscode/
