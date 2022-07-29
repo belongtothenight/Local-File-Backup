@@ -360,6 +360,8 @@ MigrationBackup/
 *.spec
 build/
 dist/
+log/
+backup_test/
 
 # Release Files
 .Release/
