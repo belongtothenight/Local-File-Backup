@@ -3,7 +3,7 @@ from os import system, listdir, stat
 from os.path import isfile, join, isdir
 from timeit import default_timer
 from time import strftime, localtime
-from datetime import date
+from datetime import date, datetime, timezone
 
 # Startup
 start = default_timer()
@@ -39,30 +39,40 @@ dst = './src/backup_test/dst/'
 # onlyfiles = [f for f in listdir(src_3) if isdir(join(src_3, f))]
 # print("[LOG] " + onlyfiles)
 
-def list_all_files(path, file_directory, error_message, total_file_size):
+def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime):
     '''
     Args:
         path: (str) path to be processed
         file_directory: (list) empty list to be filled with file directories
         error_message: (list) empty list to be filled with error messages
-        total_file_size: (list) total file size
+        file_size: (list) empty list to be filled with file size
+        atime: (list) empty list to be filled with access time
+        mtime: (list) empty list to be filled with modification time
+        ctime: (list) empty list to be filled with creation time
     Returns:
         file_directory: (list) file directories
         error_message: (list) error messages
+        file_size: (list) file size
+        atime: (list) access time
+        mtime: (list) modification time
+        ctime: (list) creation time
     '''
     try:
         for f in listdir(path):
             if isfile(join(path, f)):
                 file_directory.append(join(path, f))
-                total_file_size.append(stat(join(path, f)).st_size)
+                file_size.append(stat(join(path, f)).st_size)
+                atime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_atime)))
+                mtime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_mtime)))
+                ctime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_ctime)))
             elif isdir(join(path, f)):
-                list_all_files(join(path, f), file_directory, error_message, total_file_size)# recursive call
+                list_all_files(join(path, f), file_directory, error_message, file_size, atime, mtime, ctime)# recursive call
             else:
                 print("[LOG] Unknown file type: " + join(path, f))
     except Exception as e:
         error_message.append(str(e))
         print("[LOG] Error: " + str(e))
-    return file_directory, error_message, total_file_size
+    return file_directory, error_message, file_size, atime, mtime, ctime
 
 def sum_file_size(size_list):
     '''
@@ -88,17 +98,20 @@ def create():
     a = []
     b = []
     c = []
-    return a, b, c
+    d = []
+    e = []
+    f = []
+    return a, b, c, d, e, f
 
-fd, err, size = create() # create empty lists
-fd_1, err_1, size_1 = list_all_files(src_4, fd, err, size)
-fd, err, size = create() # reset
-fd_2, err_2, size_2 = list_all_files(src_5, fd, err, size)
-fd, err, size = create() # reset
+fd, err, size, atime, mtime, ctime = create() # create empty lists
+fd_1, err_1, size_1, atime_1, mtime_1, ctime_1 = list_all_files(src_4, fd, err, size, atime, mtime, ctime)
+fd, err, size, atime, mtime, ctime = create() # reset
+fd_2, err_2, size_2, atime_2, mtime_2, ctime_2 = list_all_files(src_5, fd, err, size, atime, mtime, ctime)
+fd, err, size, atime, mtime, ctime = create() # reset
 tfs_1 = sum_file_size(size_1)
 tfs_2 = sum_file_size(size_2)
 tfs = tfs_1 + tfs_2
-del size_1[:], size_2[:], fd[:], err[:], size[:] # this delete the variables
+del fd[:], err[:], size[:], atime[:], mtime[:], ctime[:] # this delete the variables
 
 total_1, used_1, free_1 = disk_usage(src_4)
 total_2, used_2, free_2 = disk_usage(src_5)
@@ -131,11 +144,11 @@ sentence_1 = [
 ]
 sentence_2 = [
     "\n\n",
-    "All accessible files in " + src_4 + ":\n\n",
+    "All accessible files in " + src_4 + ": (directory | size(byte) | atime | mtime | ctime)\n\n",
 ]
 sentence_3 = [
     "\n\n",
-    "All accessible files in " + src_5 + ":\n\n",
+    "All accessible files in " + src_5 + ": (directory | size(byte) | atime | mtime | ctime)\n\n",
 ]
 sentence_4 = [
     "\n\n",
@@ -148,15 +161,15 @@ sentence_5 = [
 
 # Write log
 f = open('./src/log/all_accessible_files.txt', 'w', encoding='utf-8')
-for element in sentence_1:  f.write(element)
-for element in sentence_2:  f.write(element)
-for element in fd_1:        f.write(element + "\n")
-for element in sentence_3:  f.write(element)
-for element in fd_2:        f.write(element + "\n")
-for element in sentence_4:  f.write(element)
-for element in err_1:       f.write(element + "\n")
-for element in sentence_5:  f.write(element)
-for element in err_2:       f.write(element + "\n")
+for element in sentence_1:          f.write(element)
+for element in sentence_2:          f.write(element)
+for index in range(len(fd_1)):      f.write(str(fd_1[index]) + " | " + str(size_1[index]) + " | " + str(atime_1[index]) + " | " + str(mtime_1[index]) + " | " + str(ctime_1[index]) + "\n")
+for element in sentence_3:          f.write(element)
+for index in range(len(fd_2)):      f.write(str(fd_2[index]) + " | " + str(size_2[index]) + " | " + str(atime_2[index]) + " | " + str(mtime_2[index]) + " | " + str(ctime_2[index]) + "\n")
+for element in sentence_4:          f.write(element)
+for element in err_1:               f.write(element + "\n")
+for element in sentence_5:          f.write(element)
+for element in err_2:               f.write(element + "\n")
 f.close()
 
 '''
