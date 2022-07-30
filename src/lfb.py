@@ -115,4 +115,5 @@ print("[LOG] End executing load_disk_to_mem.py\n")
 https://github.com/bnot elongtothenight/Local-File-Backup
 https://docs.python.org/3/library/shutil.html
 https://stackoverflow.com/questions/42487578/python-shutil-copytree-use-ignore-function-to-keep-specific-files-types
+https://docs.python.org/3/library/stat.html
 '''
