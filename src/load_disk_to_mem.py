@@ -1,5 +1,5 @@
-import shutil
-from os import system, listdir
+from shutil import disk_usage, ignore_patterns, copy2, copytree
+from os import system, listdir, stat
 from os.path import isfile, join, isdir
 from functools import wraps
 from timeit import default_timer
@@ -18,14 +18,14 @@ src_3 = '.'
 src_4 = 'c:/'
 src_5 = 'd:/'
 dst = './src/backup_test/dst/'
-pattern = shutil.ignore_patterns('*.gitignore', '*.exe')
 
 # copy single file
-# status = shutil.copy2(src_1, dst)
+# status = copy2(src_1, dst)
 # print("[LOG] " + str(status))
 
 # copy everything inside the given directory
-# tree = shutil.copytree(src_2, dst, ignore=pattern, copy_function=shutil.copy2, dirs_exist_ok=True) 
+# pattern = ignore_patterns('*.gitignore', '*.exe')
+# tree = copytree(src_2, dst, ignore=pattern, copy_function=copy2, dirs_exist_ok=True) 
 # print("[LOG] " + tree)
 
 # print out the files in the directory (same layer)
@@ -40,26 +40,13 @@ pattern = shutil.ignore_patterns('*.gitignore', '*.exe')
 # onlyfiles = [f for f in listdir(src_3) if isdir(join(src_3, f))]
 # print("[LOG] " + onlyfiles)
 
-def process_directory(directory):
-    '''
-    Args:
-        directory: (list) directory to be processed
-    Returns:
-        directory: (list) processed directory
-    '''
-    for element in directory:
-        if '\\' in element:
-            element = element.replace('\'', '\\\'')
-        if '\\\\' in element:
-            element = element.replace('\\\\', '\\')
-    return directory
-
-def list_all_files(path, file_directory, error_message):
+def list_all_files(path, file_directory, error_message, total_file_size):
     '''
     Args:
         path: (str) path to be processed
         file_directory: (list) empty list to be filled with file directories
         error_message: (list) empty list to be filled with error messages
+        total_file_size: (list) total file size
     Returns:
         file_directory: (list) file directories
         error_message: (list) error messages
@@ -68,58 +55,109 @@ def list_all_files(path, file_directory, error_message):
         for f in listdir(path):
             if isfile(join(path, f)):
                 file_directory.append(join(path, f))
+                total_file_size.append(stat(join(path, f)).st_size)
             elif isdir(join(path, f)):
-                list_all_files(join(path, f), file_directory, error_message)# recursive call
+                list_all_files(join(path, f), file_directory, error_message, total_file_size)# recursive call
             else:
                 print("[LOG] Unknown file type: " + join(path, f))
     except Exception as e:
         error_message.append(str(e))
         print("[LOG] Error: " + str(e))
-    return file_directory, error_message
-    
-fd = []
-err = []
-fd_1, err_1 = list_all_files(src_4, fd, err)
-fd = [] # reset the list
-err = [] # reset the list
-fd_2, err_2 = list_all_files(src_5, fd, err)
-fd = [] # reset the list
-err = [] # reset the list
-del fd[:], err[:] # this delete the list
+    return file_directory, error_message, total_file_size
+
+def sum_file_size(size_list):
+    '''
+    Args:
+        size_list: (list) file size list
+    Returns:
+        total_size: (int) total file size
+    '''
+    total_size = 0
+    for size in size_list:
+        total_size += size
+    return total_size
+
+def create():
+    '''
+    Args:
+        None
+    Returns:
+        fd: (list) empty file directory
+        em: (list) empty error message
+        ts: (list) empty total file size
+    '''
+    a = []
+    b = []
+    c = []
+    return a, b, c
+
+fd, err, size = create() # create empty lists
+fd_1, err_1, size_1 = list_all_files(src_4, fd, err, size)
+fd, err, size = create() # reset
+fd_2, err_2, size_2 = list_all_files(src_5, fd, err, size)
+fd, err, size = create() # reset
+tfs_1 = sum_file_size(size_1)
+tfs_2 = sum_file_size(size_2)
+tfs = tfs_1 + tfs_2
+del size_1[:], size_2[:], fd[:], err[:], size[:] # this delete the variables
+
+total_1, used_1, free_1 = disk_usage(src_4)
+total_2, used_2, free_2 = disk_usage(src_5)
+total = total_1 + total_2
+used = used_1 + used_2
+free = free_1 + free_2
 
 # End
 stop = default_timer()
 print("[LOG] Operation Time: " + str(stop - start) + " seconds\n")
 print("[LOG] End executing load_disk_to_mem.py\n")
-# del variable # clear variable
+
+# Sentences
+sentence_1 = [
+    "This is a list of all accessible files currently in my laptop.\n",
+    "Executed at: " + str(date.today()) + " " + strftime("%H:%M:%S", localtime()) + "\n",
+    "Runtime: " + str(stop - start) + " seconds\n",
+    "Total file size (byte): free/used/used(accessible)/total: " + str(free) + "/" + str(used) + "/" + str(tfs) + "/" + str(total) + "\n",
+    "Total file size in " + src_4 + " (byte): free/used/used(accessible)/total: " + str(free_1) + "/" + str(used_1) + "/" + str(tfs_1) + "/" + str(total_1) + "\n",
+    "Total file size in " + src_5 + " (byte): free/used/used(accessible)/total: " + str(free_2) + "/" + str(used_2) + "/" + str(tfs_2) + "/" + str(total_2) + "\n",
+    "Total file size (GB): free/used/used(accessible)/total: " + str(free//(2**30)) + "/" + str(used//(2**30)) + "/" + str(tfs//(2**30)) + "/" + str(total//(2**30)) + "\n",
+    "Total file size in " + src_4 + " (GB): free/used/used(accessible)/total: " + str(free_1//(2**30)) + "/" + str(used_1//(2**30)) + "/" + str(tfs_1//(2**30)) + "/" + str(total_1//(2**30)) + "\n",
+    "Total file size in " + src_5 + " (GB): free/used/used(accessible)/total: " + str(free_2//(2**30)) + "/" + str(used_2//(2**30)) + "/" + str(tfs_2//(2**30)) + "/" + str(total_2//(2**30)) + "\n",
+    "Total number of accessible files: " + str(len(fd_1) + len(fd_2)) + "\n",
+    "Total number of unaccessible files: " + str(len(err_1) + len(err_2)) + "\n",
+    "Total number of accessible files in " + src_4 + " : " + str(len(fd_1)) + "\n",
+    "Total number of accessible files in " + src_5 + " : " + str(len(fd_2)) + "\n",
+    "Total number of inaccessible files in " + src_4 + " : " + str(len(err_1)) + "\n",
+    "Total number of inaccessible files in " + src_5 + " : " + str(len(err_2)) + "\n"
+]
+sentence_2 = [
+    "\n\n",
+    "All accessible files in " + src_4 + ":\n\n",
+]
+sentence_3 = [
+    "\n\n",
+    "All accessible files in " + src_5 + ":\n\n",
+]
+sentence_4 = [
+    "\n\n",
+    "All inaccessible files in " + src_4 + ":\n\n",
+]
+sentence_5 = [
+    "\n\n",
+    "All inaccessible files in " + src_5 + ":\n\n",
+]
 
 # Write log
 f = open('./src/log/all_accessible_files.txt', 'w', encoding='utf-8')
-f.write("This is a list of all accessible files currently in my laptop.\n")
-f.write("Executed at: " + str(date.today()) + " " + strftime("%H:%M:%S", localtime()) + "\n")
-f.write("Runtime: " + str(stop - start) + " seconds\n")
-f.write("Total number of accessible files in " + src_4 + " : " + str(len(fd_1)) + "\n")
-f.write("Total number of accessible files in " + src_5 + " : " + str(len(fd_2)) + "\n")
-f.write("Total number of inaccessible files in " + src_4 + " : " + str(len(err_1)) + "\n")
-f.write("Total number of inaccessible files in " + src_5 + " : " + str(len(err_2)) + "\n")
-f.write("Total number of accessible files: " + str(len(fd_1) + len(fd_2)) + "\n")
-f.write("Total number of unaccessible files: " + str(len(err_1) + len(err_2)) + "\n")
-f.write("\n\n")
-f.write("All accessible files in " + src_4 + ":\n\n")
-for element in fd_1:
-    f.write(element + "\n")
-f.write("\n\n")
-f.write("All accessible files in " + src_5 + ":\n\n")
-for element in fd_2:
-    f.write(element + "\n")
-f.write("\n\n")
-f.write("All unaccessible files in " + src_4 + ":\n\n")
-for element in err_1:
-    f.write(element + "\n")
-f.write("\n\n")
-f.write("All unaccessible files in " + src_5 + ":\n\n")
-for element in err_2:
-    f.write(element + "\n")
+for element in sentence_1:  f.write(element)
+for element in sentence_2:  f.write(element)
+for element in fd_1:        f.write(element + "\n")
+for element in sentence_3:  f.write(element)
+for element in fd_2:        f.write(element + "\n")
+for element in sentence_4:  f.write(element)
+for element in err_1:       f.write(element + "\n")
+for element in sentence_5:  f.write(element)
+for element in err_2:       f.write(element + "\n")
 f.close()
 
 '''
