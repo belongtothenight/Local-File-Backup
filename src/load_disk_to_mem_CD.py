@@ -162,7 +162,7 @@ sentence_5 = [
 ]
 
 # Write log
-f = open('./src/log/all_accessible_files.txt', 'w', encoding='utf-8')
+f = open('./src/log/all_accessible_files_CD.txt', 'w', encoding='utf-8')
 for element in sentence_1:          f.write(element)
 for element in sentence_2:          f.write(element)
 for index in range(len(fd_1)):      f.write(str(fd_1[index]) + " | " + str(size_1[index]) + " | " + str(atime_1[index]) + " | " + str(mtime_1[index]) + " | " + str(ctime_1[index]) + "\n")
