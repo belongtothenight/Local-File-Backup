@@ -2,8 +2,8 @@
 ## ATTENTION: Under development
 ## Functionality
 This is designed to do one side backup.
-1. File Backup
-2. File Filter
+1. [] File Backup
+2. [] File Filter
    1. File type
    2. Date Created
    3. File name
