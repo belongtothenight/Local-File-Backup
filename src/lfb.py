@@ -30,7 +30,6 @@ print("[LOG] Start executing {0}\n".format(Path(argv[0]).name))
 
 # Main
 file_info = get_file_info(src_8, dst_2)
-
 log = []
 progress = [0, len(file_info[0])]
 '''copy'''
