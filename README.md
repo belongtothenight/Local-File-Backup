@@ -9,7 +9,7 @@ This project is heavily inspired by [SyncBack](https://www.2brightsparks.com/).
 3. [ ] Change the entire fully tested code into a function and move it to lib file
 4. [ ] Add a read and write set_process functionality to the main file
 ```
-lfb_process_processname.txt
+lfb_process_processname.lfbp
 ===========================================================
 Process Settings</br>
 replica||False                                              (True: auto rename/False: ignore)
