@@ -2,7 +2,7 @@
 ## ATTENTION: Under development
 ## Description
 This repo aims to create a less complex version of backup softwares, but with the ability to automate the entire process.</br>
-This project is heavily inspired by [SyncBack]('https://www.2brightsparks.com/').
+This project is heavily inspired by [SyncBack](https://www.2brightsparks.com/).
 ## Undergoing Work
 1. [ ] Add unpack function
 2. [ ] Add file filter inside get_file_info() function
