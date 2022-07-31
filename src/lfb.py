@@ -29,23 +29,26 @@ system('cls')
 print("[LOG] Start executing {0}\n".format(Path(argv[0]).name))
 
 # Main
-file_info = get_file_info(src_2, dst_2)
+file_info = get_file_info(src_8, dst_2)
 
 log = []
 progress = [0, len(file_info[0])]
-
+'''copy'''
 for i in range(len(file_info[0])):
     log = copy_file(
         fd_src=file_info[0][i], size_src=file_info[2][i], 
         atime_src=file_info[3][i], mtime_src=file_info[4][i], 
-        fd_dst=dst_2, fd_dst_l=file_info[6], size_dst=file_info[8], 
+        fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8], 
         atime_dst=file_info[9], mtime_dst=file_info[10], log=log
         )
     progress[0] += 1
-    print("[LOG] Progress: {0}/{1}: {2}".format(progress[0], progress[1], log[-1]))
-
-log = archive_folder('test', src_2, dst_2, log, 'zip')
-log = archive_folder('test', src_2, dst_2, log, 'gztar')
+    print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+'''archive'''
+log = archive_folder('test', file_info[24], file_info[25], log, 'zip')
+log = archive_folder('test', file_info[24], file_info[25], log, 'tar')
+log = archive_folder('test', file_info[24], file_info[25], log, 'gztar')
+log = archive_folder('test', file_info[24], file_info[25], log, 'bztar')
+log = archive_folder('test', file_info[24], file_info[25], log, 'xztar')
 
 # End
 stop = default_timer()

@@ -17,30 +17,32 @@ def get_file_info(src_path, dst_path):
         src_path: (str) source path
         dst_path: (str) destination path
     Returns:
-        values[0] fd_src:       (list) source file          directory
-        values[1] err_src:      (list) source file          error
-        values[2] size_src:     (list) source file          size
-        values[3] atime_src:    (list) source file          access time
-        values[4] mtime_src:    (list) source file          modification time
-        values[5] ctime_src:    (list) source file          creation time
-        values[6] fd_dst:       (list) destination file     directory
-        values[7] err_dst:      (list) destination file     error
-        values[8] size_dst:     (list) destination file     size
-        values[9] atime_dst:    (list) destination file     access time
-        values[10] mtime_dst:   (list) destination file     modification time
-        values[11] ctime_dst:   (list) destination file     creation time
-        values[12] tfs_src:     (list) source file          total file size accessed (bytes)
-        values[13] tfs_dst:     (list) destination file     total file size accessed (bytes)
+        values[0] fd_src:       (list)  source file         directory
+        values[1] err_src:      (list)  source file         error
+        values[2] size_src:     (list)  source file         size
+        values[3] atime_src:    (list)  source file         access time
+        values[4] mtime_src:    (list)  source file         modification time
+        values[5] ctime_src:    (list)  source file         creation time
+        values[6] fd_dst:       (list)  destination file    directory
+        values[7] err_dst:      (list)  destination file    error
+        values[8] size_dst:     (list)  destination file    size
+        values[9] atime_dst:    (list)  destination file    access time
+        values[10] mtime_dst:   (list)  destination file    modification time
+        values[11] ctime_dst:   (list)  destination file    creation time
+        values[12] tfs_src:     (list)  source file         total file size accessed (bytes)
+        values[13] tfs_dst:     (list)  destination file    total file size accessed (bytes)
         values[14] tfs:         (list)                      total file size accessed (bytes)
-        values[15] total_src:   (list) source file          total file size (bytes)
-        values[16] used_src:    (list) source file          used space (bytes)
-        values[17] free_src:    (list) source file          free space (bytes)
-        values[18] total_dst:   (list) destination file     total file size (bytes)
-        values[19] used_dst:    (list) destination file     used space (bytes)
-        values[20] free_dst:    (list) destination file     free space (bytes)
+        values[15] total_src:   (list)  source file         total file size (bytes)
+        values[16] used_src:    (list)  source file         used space (bytes)
+        values[17] free_src:    (list)  source file         free space (bytes)
+        values[18] total_dst:   (list)  destination file    total file size (bytes)
+        values[19] used_dst:    (list)  destination file    used space (bytes)
+        values[20] free_dst:    (list)  destination file    free space (bytes)
         values[21] total:       (list)                      total file size (bytes)
         values[22] used:        (list)                      total used space (bytes)
         values[23] free:        (list)                      total free space (bytes)
+        values[24] root_fd_src: (str)   source path         root directory
+        values[25] root_fd_dst: (str)   destination path    root directory
     Description:
         This function gets the file information of the source and destination paths. It also calculates the total file size accessed, total file size, used space and free space. It serves as a initiator for providing critical information to the other functions.
     '''
@@ -127,10 +129,15 @@ def get_file_info(src_path, dst_path):
     used = used_src + used_dst
     free = free_src + free_dst
 
+    # Include root directory
+    root_fd_src = src_path
+    root_fd_dst = dst_path
+
     # Return values
     values = [
         fd_src, err_src, size_src, atime_src, mtime_src, ctime_src, fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst, 
-        tfs_src, tfs_dst, tfs, total_src, used_src, free_src, total_dst, used_dst, free_dst, total, used, free
+        tfs_src, tfs_dst, tfs, total_src, used_src, free_src, total_dst, used_dst, free_dst, total, used, free,
+        root_fd_src, root_fd_dst
         ]
     return values
 
@@ -161,16 +168,16 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         if size_src==size_dst[j] and atime_src==atime_dst[j] and mtime_src==mtime_dst[j]:
             # File has the same metadata beside creation time
             # print("[LOG] File is the same, skip " + fd_src)
-            log.append("[LOG] File is the same, skip " + fd_src)
+            log.append("[LOG] File is the same, skip\t\t" + fd_src)
         else:
             # File has different metadata
             # print("[LOG] File is different, copy " + fd_src)
-            log.append("[LOG] File is different, copy " + fd_src)
+            log.append("[LOG] File is different, copy\t\t" + fd_src)
             copy2(fd_src, fd_dst)
     except Exception as e:
         # File is not found in dst
         # print("[LOG] File is not found in dst, copy" + fd_src)
-        log.append("[LOG] File is not found in dst, copy" + fd_src)
+        log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
     return log
 
@@ -187,13 +194,21 @@ def archive_folder(archive_name, src_path, dst_path, log, archive_format):
     Description:
         This function archives the folder and provide archive replication protection.
     '''
-    # Replication protection
     files = []
+    # Formate
     match (archive_format):
         case ('zip'):
             archive_ext = '.zip'
+        case ('tar'):
+            archive_ext = '.tar'
         case ('gztar'):
             archive_ext = '.tar.gz'
+        case ('bztar'):
+            archive_ext = '.tar.bz2'
+        case ('xztar'):
+            archive_ext = '.tar.xz'
+
+    # Replication protection
     for (dirpath, dirnames, filenames) in walk(dst_path):
         files.extend(filenames)
         break
@@ -206,8 +221,8 @@ def archive_folder(archive_name, src_path, dst_path, log, archive_format):
     t_1 = default_timer()
     make_archive(base_name=join(dst_path, archive_name), format=archive_format, root_dir=dst_path, base_dir=src_path)
     t_2 = default_timer()
-    log.append("[LOG] Archive {0}{1} created. \t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
-    print("[LOG] Archive {0}{1} created. \t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
+    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
+    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
     return log
 
 def export_log(log, dst_path):
@@ -243,10 +258,16 @@ def export_log(log, dst_path):
         buf_2.clear()
     fcnt = [int(i) for i in fcnt]
     fcnt.sort()
-    fcnt = fcnt[-1]+1
+    try:
+        fcnt = fcnt[-1]+1
+    except:
+        fcnt = 1
     # Write to log file
     f = open(join(dst_path, 'log_{0}_{1}.txt'.format(str(date.today()), str(fcnt))), 'w', encoding='utf-8')
     for element in log:
         f.write(str(date.today()) + " " + strftime("%H:%M:%S", localtime()) + " " + element + "\n")
     f.close()
 
+if __name__ == "__main__":
+    system('cls')
+    print("This is a module, not a script.")
