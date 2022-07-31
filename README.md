@@ -9,7 +9,7 @@ This is designed to do one side backup.
    3. [ ] File name
    4. [ ] Existed file replace?
 3. Generate Execution Log</br>
-	1. [ ] Record every file transfer.
+	1. [x] Record every file transfer.
 4. Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
