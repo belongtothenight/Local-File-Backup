@@ -16,8 +16,10 @@ replica||False                                              (True: auto rename/F
 filter_on||True                                             (True: Enable/False: Disable) 
 copy_single_on||True                                        (True: Enable/False: Disable)
 copy_multi_on||True                                         (True: Enable/False: Disable)
+archive_auto_rename||True									(True: Enable/False: Disable)
 archive_single_on||True                                     (True: Enable/False: Disable)
 archive_multi_on||True                                      (True: Enable/False: Disable)
+unpack_auto_rename||True									(True: Enable/False: Disable)
 unpack_single_on||True                                      (True: Enable/False: Disable)
 unpack_multi_on||True                                       (True: Enable/False: Disable)
 ===========================================================

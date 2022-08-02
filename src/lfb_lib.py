@@ -11,28 +11,6 @@ from sys import argv
 from multiprocessing import Process
 from numpy import append
 
-def archive_extension(archive_format):
-    '''
-    Args:
-        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
-    Returns:
-        archive_extension: (str) archive extension ('.zip', '.tar', '.tar.gz', '.tar.bz2', '.tar.xz')
-    Description:
-        This function checks if the archive format is valid.
-    '''
-    match (archive_format):
-        case ('zip'):
-            archive_extension = '.zip'
-        case ('tar'):
-            archive_extension = '.tar'
-        case ('gztar'):
-            archive_extension = '.tar.gz'
-        case ('bztar'):
-            archive_extension = '.tar.bz2'
-        case ('xztar'):
-            archive_extension = '.tar.xz'
-    return archive_extension
-
 def get_file_info(src_path, dst_path):
     '''
     Args:
@@ -51,18 +29,18 @@ def get_file_info(src_path, dst_path):
         values[9] atime_dst:    (list)  destination file    access time
         values[10] mtime_dst:   (list)  destination file    modification time
         values[11] ctime_dst:   (list)  destination file    creation time
-        values[12] tfs_src:     (list)  source file         total file size accessed (bytes)
-        values[13] tfs_dst:     (list)  destination file    total file size accessed (bytes)
-        values[14] tfs:         (list)                      total file size accessed (bytes)
-        values[15] total_src:   (list)  source file         total file size (bytes)
-        values[16] used_src:    (list)  source file         used space (bytes)
-        values[17] free_src:    (list)  source file         free space (bytes)
-        values[18] total_dst:   (list)  destination file    total file size (bytes)
-        values[19] used_dst:    (list)  destination file    used space (bytes)
-        values[20] free_dst:    (list)  destination file    free space (bytes)
-        values[21] total:       (list)                      total file size (bytes)
-        values[22] used:        (list)                      total used space (bytes)
-        values[23] free:        (list)                      total free space (bytes)
+        values[12] tfs_src:     (int)   source file         total file size accessed (bytes)
+        values[13] tfs_dst:     (int)   destination file    total file size accessed (bytes)
+        values[14] tfs:         (int)                       total file size accessed (bytes)
+        values[15] total_src:   (int)   source file         total file size (bytes)
+        values[16] used_src:    (int)   source file         used space (bytes)
+        values[17] free_src:    (int)   source file         free space (bytes)
+        values[18] total_dst:   (int)   destination file    total file size (bytes)
+        values[19] used_dst:    (int)   destination file    used space (bytes)
+        values[20] free_dst:    (int)   destination file    free space (bytes)
+        values[21] total:       (int)                       total file size (bytes)
+        values[22] used:        (int)                       total used space (bytes)
+        values[23] free:        (int)                       total free space (bytes)
         values[24] root_fd_src: (str)   source path         root directory
         values[25] root_fd_dst: (str)   destination path    root directory
     Description:
@@ -163,6 +141,10 @@ def get_file_info(src_path, dst_path):
         ]
     return values
 
+def get_folder_info(src_path, dst_path):
+    print()
+    # return value
+
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
     '''
     Args:
@@ -202,6 +184,28 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
     return log
+
+def archive_extension(archive_format):
+    '''
+    Args:
+        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+    Returns:
+        archive_extension: (str) archive extension ('.zip', '.tar', '.tar.gz', '.tar.bz2', '.tar.xz')
+    Description:
+        This function checks if the archive format is valid.
+    '''
+    match (archive_format):
+        case ('zip'):
+            archive_extension = '.zip'
+        case ('tar'):
+            archive_extension = '.tar'
+        case ('gztar'):
+            archive_extension = '.tar.gz'
+        case ('bztar'):
+            archive_extension = '.tar.bz2'
+        case ('xztar'):
+            archive_extension = '.tar.xz'
+    return archive_extension
 
 def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     '''
