@@ -49,14 +49,17 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 
 ## Functionality
 1. File Backup
-   1. [x] Single-backup
-   2. [x] Multi-backup
+   1. [x] Single file backup
+   2. [ ] Single folder backup
+   3. [x] Multi folder backup
 2. File Archive
-   1. [x] Single-archive
-   2. [ ] Multi-archive
+   1. [x] Single file archive
+   2. [ ] Single folder archive
+   3. [ ] Multi folder archive
 3. File Unpack
-   1. [x] Single-unpack
-   2. [ ] Multi-unpack
+   1. [x] Single file unpack
+   2. [ ] Single folder unpack
+   3. [ ] Multi folder unpack
 4. File Filter
    1. [ ] File type
    2. [ ] Date Created
