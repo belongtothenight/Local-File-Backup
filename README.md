@@ -52,12 +52,12 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 
 ## Functionality
 1. File Backup
-   1. [x] Single file backup
-   2. [ ] Single folder backup
-   3. [x] Multi folder backup
+   1. [x] Single file copy
+   2. [ ] Single folder copy
+   3. [x] Multi folder copy
 2. File Archive
-   1. [x] Single file archive
-   2. [ ] Single folder archive
+   1. [ ] Single file archive
+   2. [x] Single folder archive
    3. [ ] Multi folder archive
 3. File Unpack
    1. [x] Single file unpack
