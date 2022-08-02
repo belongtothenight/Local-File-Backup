@@ -1,8 +1,8 @@
 from concurrent.futures import process
 from logging import root
-from shutil import disk_usage, copy2, make_archive
-from os import system, listdir, stat, walk
-from os.path import isfile, join, isdir
+from shutil import disk_usage, copy2, make_archive, unpack_archive, move
+from os import system, listdir, stat, walk, chdir, getcwd, sep
+from os.path import isfile, join, isdir, basename, dirname
 from pathlib import Path
 from timeit import default_timer
 from time import strftime, localtime
@@ -10,6 +10,28 @@ from datetime import date, datetime
 from sys import argv
 from multiprocessing import Process
 from numpy import append
+
+def archive_extension(archive_format):
+    '''
+    Args:
+        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+    Returns:
+        archive_extension: (str) archive extension ('.zip', '.tar', '.tar.gz', '.tar.bz2', '.tar.xz')
+    Description:
+        This function checks if the archive format is valid.
+    '''
+    match (archive_format):
+        case ('zip'):
+            archive_extension = '.zip'
+        case ('tar'):
+            archive_extension = '.tar'
+        case ('gztar'):
+            archive_extension = '.tar.gz'
+        case ('bztar'):
+            archive_extension = '.tar.bz2'
+        case ('xztar'):
+            archive_extension = '.tar.xz'
+    return archive_extension
 
 def get_file_info(src_path, dst_path):
     '''
@@ -167,48 +189,38 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         # print("[LOG] Find file: " + fd_src)
         if size_src==size_dst[j] and atime_src==atime_dst[j] and mtime_src==mtime_dst[j]:
             # File has the same metadata beside creation time
-            # print("[LOG] File is the same, skip " + fd_src)
+            print("[LOG] File is the same, skip " + fd_src)
             log.append("[LOG] File is the same, skip copy\t\t" + fd_src)
         else:
             # File has different metadata
-            # print("[LOG] File is different, copy " + fd_src)
+            print("[LOG] File is different, copy " + fd_src)
             log.append("[LOG] File is different, copy\t\t" + fd_src)
             copy2(fd_src, fd_dst)
     except Exception as e:
         # File is not found in dst
-        # print("[LOG] File is not found in dst, copy" + fd_src)
+        print("[LOG] File is not found in dst, copy" + fd_src)
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
     return log
 
-def archive_folder(archive_name, src_path, dst_path, log, archive_format):
+def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     '''
     Args:
         archive_name: (str) archive name
         src_path: (str) source path
         dst_path: (str) destination path
+        format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
         log: (list) list to be filled with log messages
-        format: (str) archive format ('zip', 'gztar')
     Returns:
         log: (list) log messages
     Description:
         This function archives the folder and provide archive replication protection.
     '''
-    files = []
-    # Formate
-    match (archive_format):
-        case ('zip'):
-            archive_ext = '.zip'
-        case ('tar'):
-            archive_ext = '.tar'
-        case ('gztar'):
-            archive_ext = '.tar.gz'
-        case ('bztar'):
-            archive_ext = '.tar.bz2'
-        case ('xztar'):
-            archive_ext = '.tar.xz'
+    # Format
+    archive_ext = archive_extension(archive_format)
 
     # Replication protection
+    files = []
     for (dirpath, dirnames, filenames) in walk(dst_path):
         files.extend(filenames)
         break
@@ -219,10 +231,43 @@ def archive_folder(archive_name, src_path, dst_path, log, archive_format):
 
     # Create archive
     t_1 = default_timer()
-    make_archive(base_name=join(dst_path, archive_name), format=archive_format, root_dir=dst_path, base_dir=src_path)
+    dir = getcwd()
+    chdir(src_path)
+    make_archive(base_name=join(dst_path, archive_name), format=archive_format, root_dir=src_path, base_dir='./')
+    chdir(dir)
     t_2 = default_timer()
-    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
-    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.".format(archive_name, archive_ext, t_2-t_1))
+    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    return log
+
+def unpack_file(archive_name, src_path, dst_path, archive_format, log):
+    '''
+    Args:
+        archive_name: (str) archive name
+        src_path: (str) source path
+        dst_path: (str) destination path
+        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+        log: (list) list to be filled with log messages
+    '''
+    # Format
+    archive_ext = archive_extension(archive_format)
+
+    # Replication protection
+    folders = []
+    for (dirpath, dirnames, filenames) in walk(dst_path):
+        folders.extend(dirnames)
+        break
+    if archive_name in folders:
+        log.append("[LOG] Folder already exists, skip unpacking\t" + dst_path + archive_name)
+        print("[LOG] Folder already exists, skip unpacking\t" + dst_path + archive_name)
+        return log
+
+    # Unpack archive
+    t_1 = default_timer()
+    unpack_archive(join(src_path, archive_name + archive_ext), join(dst_path, archive_name), archive_format)
+    t_2 = default_timer()
+    log.append("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
+    print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
     return log
 
 def export_log(log, dst_path):

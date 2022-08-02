@@ -46,16 +46,23 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 5. [ ] Add GUI
 
 ## Functionality
-This is designed to do one side backup.
 1. File Backup
-2. File Filter
+   1. [x] Single-backup
+   2. [x] Multi-backup
+2. File Archive
+   1. [x] Single-archive
+   2. [ ] Multi-archive
+3. File Unpack
+   1. [x] Single-unpack
+   2. [ ] Multi-unpack
+4. File Filter
    1. [ ] File type
    2. [ ] Date Created
    3. [ ] File name
-   4. [ ] 
-3. Generate Execution Log</br>
+   4. [ ] Replication check
+5. Generate Execution Log</br>
 	1. [x] Record every file transfer.
-4. Generate Set Backup Process (Personal)</br>
+6. Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
