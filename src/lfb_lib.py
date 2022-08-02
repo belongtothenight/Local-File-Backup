@@ -168,7 +168,7 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         if size_src==size_dst[j] and atime_src==atime_dst[j] and mtime_src==mtime_dst[j]:
             # File has the same metadata beside creation time
             # print("[LOG] File is the same, skip " + fd_src)
-            log.append("[LOG] File is the same, skip\t\t" + fd_src)
+            log.append("[LOG] File is the same, skip copy\t\t" + fd_src)
         else:
             # File has different metadata
             # print("[LOG] File is different, copy " + fd_src)
@@ -213,8 +213,8 @@ def archive_folder(archive_name, src_path, dst_path, log, archive_format):
         files.extend(filenames)
         break
     if archive_name + archive_ext in files:
-        log.append("[LOG] Archive already exists, skip")
-        print("[LOG] Archive already exists, skip")
+        log.append("[LOG] Archive already exists, skip archiving\t" + dst_path + archive_name + archive_ext)
+        print("[LOG] Archive already exists, skip archiving\t" + dst_path + archive_name + archive_ext)
         return log
 
     # Create archive

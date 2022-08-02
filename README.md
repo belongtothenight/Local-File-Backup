@@ -22,17 +22,17 @@ unpack_single_on||True                                      (True: Enable/False:
 unpack_multi_on||True                                       (True: Enable/False: Disable)
 ===========================================================
 Exclude file filters
-filter_filetype||txt                                       (filetype)                                               (without dot)
-filter_atime_after||2022-01-01 00:00:00                    (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_atime_before||2022-01-01 00:00:00                   (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_mtime_after||2022-01-01 00:00:00                    (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_mtime_before||2022-01-01 00:00:00                   (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_ctime_after||2022-01-01 00:00:00                    (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_ctime_before||2022-01-01 00:00:00                   (YYYY-MM-DD HH:MM:SS)                                    (date + time)
-filter_filename_exact||123                                 (Filename without extension)                             (exact match filename)
-filter_filenamePartial||12                                 (Partial filename without extension)                     (partial match filename)
-filter_file||D:/123.txt                                    (Full path with file)                                    (exact match file)
-filter_folder||D:/                                         (Full path till folder)                                  (exact match folder)
+filter_filetype||txt                                       	(filetype)                                              (without dot)
+filter_atime_after||2022-01-01 00:00:00                    	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_atime_before||2022-01-01 00:00:00                   	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_mtime_after||2022-01-01 00:00:00                    	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_mtime_before||2022-01-01 00:00:00                   	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_ctime_after||2022-01-01 00:00:00                    	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_ctime_before||2022-01-01 00:00:00                   	(YYYY-MM-DD HH:MM:SS)                                   (date + time)
+filter_filename_exact||123                                 	(Filename without extension)                            (exact match filename)
+filter_filenamePartial||12                                 	(Partial filename without extension)                    (partial match filename)
+filter_file||D:/123.txt                                    	(Full path with file)                                   (exact match file)
+filter_folder||D:/                                         	(Full path till folder)                                 (exact match folder)
 ===========================================================
 Process List
 copy_single_process||D:/1.txt||E:/                          (path||path)                                            (src path till file||dst path till folder)                                              Copy single file
