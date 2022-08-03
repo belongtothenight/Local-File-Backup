@@ -145,6 +145,12 @@ def get_folder_info(src_path, dst_path):
     print()
     # return value
 
+def duplicate_file_check():
+    print()
+
+def duplicate_folder_check():
+    print()
+
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
     '''
     Args:
@@ -164,7 +170,7 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
     Description:
         This function copies a file from the source path to the destination path. It also logs the actions performed.
     '''
-
+    ## Add duplication to this function
     try:
         # File with same name in dst
         j = fd_dst_l.index(join(fd_dst, Path(fd_src).name))
@@ -218,7 +224,7 @@ def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     Returns:
         log: (list) log messages
     Description:
-        This function archives the folder and provide archive replication protection.
+        This function archives the folder and provide archive duplication protection.
     '''
     # Format
     archive_ext = archive_extension(archive_format)
@@ -282,9 +288,9 @@ def export_log(log, dst_path):
     Returns:
         None
     Description:
-        Export log messages with file replication protection
+        Export log messages with file duplication protection
     '''
-    # Filename replication protection and generation
+    # Filename duplication protection and generation
     files = []
     buf_1 = []
     buf_2 = []

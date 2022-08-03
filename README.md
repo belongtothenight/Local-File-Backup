@@ -1,8 +1,8 @@
 # Local File Backup
 ## ATTENTION: Under development
 ## Description
-This repo aims to create a less complex version of backup softwares, but with the ability to automate the entire process.</br>
-This project is heavily inspired by [SyncBack](https://www.2brightsparks.com/).
+This repo aims to create a less complex version of backup softwares, but with the ability to automate the entire process. Archive and unpack functionalities are also provided.</br>
+This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 ## Undergoing Work
 1. [x] Add unpack function
 2. [ ] Finish backup functions (3)
@@ -15,7 +15,7 @@ This project is heavily inspired by [SyncBack](https://www.2brightsparks.com/).
 lfb_process_processname.lfbp
 ===========================================================
 Process Settings</br>
-replica||False                                              (True: auto rename/False: ignore)
+duplicate||False                                            (True: auto rename/False: ignore)
 filter_on||True                                             (True: Enable/False: Disable) 
 copy_single_on||True                                        (True: Enable/False: Disable)
 copy_multi_on||True                                         (True: Enable/False: Disable)
