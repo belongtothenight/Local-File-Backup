@@ -7,7 +7,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 1. [x] Add unpack function
 2. [x] Finish backup functions (3)
 3. [x] Finish archieve functions (3)
-4. [ ] Finish unpack functions (3)
+4. [x] Finish unpack functions (3)
 5. [ ] Add file filter inside get_file_info() function
 6. [ ] Change the entire fully tested code into a function and move it to lib file
 7. [ ] Add a read and write set_process functionality to the main file
@@ -62,7 +62,7 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 3. File Unpack
    1. [x] Single file unpack
    2. [x] Single folder unpack
-   3. [ ] Multi folder unpack
+   3. [x] Multi folder unpack
 4. File Filter
    1. [ ] File type
    2. [ ] Date Created

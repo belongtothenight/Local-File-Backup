@@ -1,6 +1,6 @@
 from logging import root
 from os import system
-from os.path import basename
+from os.path import basename, dirname
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
@@ -109,11 +109,14 @@ log = []
 # del file_info[:]
 
 '''multi_folder_unpack'''
-# folder_info = get_folder_info(src_3, dst_2)
-# progress = [0, len(folder_info[0])]
-# for i in range(len(folder_info[0])):
-#     log = archive_folder()
-# del folder_info[:]
+# file_info = get_file_info(dst_2, dst_2)
+# progress = [0, len(file_info[0])]
+# for i in range(progress[1]):
+#     if file_info[0][i].endswith('.zip'):
+#         log = unpack_file(basename(file_info[0][i]).rstrip('.zip'), dirname(file_info[0][i]), file_info[25], 'zip', log)
+#         progress[0] += 1
+#         print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+# del file_info[:]
 
 # End
 stop = default_timer()

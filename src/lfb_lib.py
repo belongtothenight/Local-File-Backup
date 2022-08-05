@@ -208,6 +208,12 @@ def duplicate_file_check():
 def duplicate_folder_check():
     print()
 
+def filter_file():
+    print()
+
+def filter_folder():
+    print()
+
 def disk_size_check():
     print()
 
