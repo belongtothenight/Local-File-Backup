@@ -12,6 +12,18 @@ from multiprocessing import Process
 from unittest import skip
 from numpy import append
 
+def sum_file_size(size_list):
+        '''
+        Args:
+            size_list: (list) file size list
+        Returns:
+            total_size: (int) total file size
+        '''
+        total_size = 0
+        for size in size_list:
+            total_size += size
+        return total_size
+
 def get_file_info(src_path, dst_path):
     '''
     Args:
@@ -47,18 +59,6 @@ def get_file_info(src_path, dst_path):
     Description:
         This function gets the file information of the source and destination paths. It also calculates the total file size accessed, total file size, used space and free space. It serves as a initiator for providing critical information to the other functions.
     '''
-    def sum_file_size(size_list):
-        '''
-        Args:
-            size_list: (list) file size list
-        Returns:
-            total_size: (int) total file size
-        '''
-        total_size = 0
-        for size in size_list:
-            total_size += size
-        return total_size
-
     def create():
         '''
         Args:
@@ -143,13 +143,72 @@ def get_file_info(src_path, dst_path):
     return values
 
 def get_folder_info(src_path, dst_path):
-    print()
+    '''
+    Args:
+        src_path: (str) source path
+        dst_path: (str) destination path
+    Returns:
+        values[0]   file_d_src:     (list) source file      file directory
+        values[1]   folder_d_src:   (list) source file      folder directory
+        values[2]   err_src:        (list) source file      error message
+        values[3]   size_src:       (list) source file      size
+        values[4]   tfs_src:        (int)  source file      total file size accessed (bytes)
+        values[5]   total_src:      (int)  source file      total file size (bytes)
+        values[6]   used_src:       (int)  source file      used space (bytes)
+        values[7]   free_src:       (int)  source file      free space (bytes)
+        values[8]   total_dst:      (int)  destination file total file size (bytes)
+        values[9]   used_dst:       (int)  destination file used space (bytes)
+        values[10]   free_dst:       (int)  destination file free space (bytes)
+        values[11]  total:          (int)                   total file size  (bytes)
+        values[12]  used:           (int)                   used space (bytes)
+        values[13]  free:           (int)                   free space (bytes)
+        values[14]  root_fd_src:    (str) source path       root directory
+        values[15]  root_fd_dst:    (str) destination path  root directory
+    Description:
+        This function gets the folder information of the source and destination path.
+    '''
+    file_d = []
+    folder_d = []
+    err = []
+    size = []
+    def get_folder_info(path, file_d, folder_d, err, size):
+        try:
+            for f in listdir(path):
+                if isfile(join(path, f)):
+                    file_d.append(join(path, f))
+                    size.append(stat(join(path, f)).st_size)
+                elif isdir(join(path, f)):
+                    folder_d.append(join(path, f))
+                    get_folder_info(join(path, f), file_d, folder_d, err, size)
+                else:
+                    print("[LOG] Unknown file type: " + join(path, f))
+        except Exception as e:
+            err.append(str(e))
+            print("[LOG] Error: " + str(e))
+        return file_d, folder_d, err, size
+    file_d, folder_d, err, size = get_folder_info(src_path, file_d, folder_d, err, size)
+    tfs_src = sum_file_size(size)
+    total_src, used_src, free_src = disk_usage(src_path)
+    total_dst, used_dst, free_dst = disk_usage(dst_path)
+    total = total_src + total_dst
+    used = used_src + used_dst
+    free = free_src + free_dst
+    root_fd_src = src_path
+    root_fd_dst = dst_path
+    values = [
+        file_d, folder_d, err, size, tfs_src, total_src, used_src, free_src, 
+        total_dst, used_dst, free_dst, total, used, free, root_fd_src, root_fd_dst
+        ]
+    return values
     # return value
 
 def duplicate_file_check():
     print()
 
 def duplicate_folder_check():
+    print()
+
+def disk_size_check():
     print()
 
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):

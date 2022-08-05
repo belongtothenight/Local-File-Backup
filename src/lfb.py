@@ -1,5 +1,6 @@
 from logging import root
 from os import system
+from os.path import basename
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
@@ -79,6 +80,14 @@ log = []
 # del file_info[:]
 
 '''multi_archive'''
+# folder_info = get_folder_info(src_3, dst_2)
+# progress = [0, len(folder_info[1])]
+# for i in range(len(folder_info[1])):
+#     log = archive_folder(basename(folder_info[1][i]), folder_info[1][i], folder_info[15], 'zip', log)
+#     progress[0] += 1
+#     print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+# del folder_info[:]
+
 
 '''single_file_unpack'''
 # file_info = get_file_info(dst_2, dst_2)
@@ -90,6 +99,14 @@ log = []
 # del file_info[:]
 
 '''single_folder_unpack'''
+file_info = get_file_info(dst_2, dst_2)
+progress = [0, len(file_info[0].endswith('.zip'))]
+for i in range(progress[1]):
+    if file_info[0][i].endswith('.zip'):
+        log = unpack_file(basename(file_info[0][i]), file_info[0][i], file_info[25], 'zip', log)
+        progress[0] += 1
+        print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+del file_info[:]
 
 '''multi_folder_unpack'''
 # folder_info = get_folder_info(src_3, dst_2)
@@ -110,4 +127,5 @@ https://github.com/bnot elongtothenight/Local-File-Backup
 https://docs.python.org/3/library/shutil.html
 https://stackoverflow.com/questions/42487578/python-shutil-copytree-use-ignore-function-to-keep-specific-files-types
 https://docs.python.org/3/library/stat.html
+https://stackoverflow.com/questions/8234445/format-output-string-right-alignment
 '''
