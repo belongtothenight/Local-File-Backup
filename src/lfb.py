@@ -116,7 +116,7 @@ log = []
 #         log = unpack_file(basename(file_info[0][i]).rstrip('.zip'), dirname(file_info[0][i]), file_info[25], 'zip', log)
 #         progress[0] += 1
 #         print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
-# del file_info[:]
+# del file_info[:]d
 
 # End
 stop = default_timer()

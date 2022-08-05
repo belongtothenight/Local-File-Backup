@@ -184,6 +184,7 @@ def get_file_info(src_path, dst_path):
         ]
     return values
 
+'''Add folder atime, mtime, ctime'''
 def get_folder_info(src_path, dst_path):
     '''
     Args:
