@@ -12,6 +12,25 @@ from multiprocessing import Process
 from unittest import skip
 from numpy import append
 
+# Sub functions
+def auto_rename_file():
+    print()
+
+def auto_rename_folder():
+    print()
+
+def duplicate_check():
+    print()
+
+def filter_file():
+    print()
+
+def filter_folder():
+    print()
+
+def disk_size_check():
+    print()
+
 def sum_file_size(size_list):
         '''
         Args:
@@ -24,6 +43,29 @@ def sum_file_size(size_list):
             total_size += size
         return total_size
 
+def archive_extension(archive_format):
+    '''
+    Args:
+        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+    Returns:
+        archive_extension: (str) archive extension ('.zip', '.tar', '.tar.gz', '.tar.bz2', '.tar.xz')
+    Description:
+        This function checks if the archive format is valid.
+    '''
+    match (archive_format):
+        case ('zip'):
+            archive_extension = '.zip'
+        case ('tar'):
+            archive_extension = '.tar'
+        case ('gztar'):
+            archive_extension = '.tar.gz'
+        case ('bztar'):
+            archive_extension = '.tar.bz2'
+        case ('xztar'):
+            archive_extension = '.tar.xz'
+    return archive_extension
+
+# Main functions
 def get_file_info(src_path, dst_path):
     '''
     Args:
@@ -200,22 +242,6 @@ def get_folder_info(src_path, dst_path):
         total_dst, used_dst, free_dst, total, used, free, root_fd_src, root_fd_dst
         ]
     return values
-    # return value
-
-def duplicate_file_check():
-    print()
-
-def duplicate_folder_check():
-    print()
-
-def filter_file():
-    print()
-
-def filter_folder():
-    print()
-
-def disk_size_check():
-    print()
 
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
     '''
@@ -256,28 +282,6 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
     return log
-
-def archive_extension(archive_format):
-    '''
-    Args:
-        archive_format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
-    Returns:
-        archive_extension: (str) archive extension ('.zip', '.tar', '.tar.gz', '.tar.bz2', '.tar.xz')
-    Description:
-        This function checks if the archive format is valid.
-    '''
-    match (archive_format):
-        case ('zip'):
-            archive_extension = '.zip'
-        case ('tar'):
-            archive_extension = '.tar'
-        case ('gztar'):
-            archive_extension = '.tar.gz'
-        case ('bztar'):
-            archive_extension = '.tar.bz2'
-        case ('xztar'):
-            archive_extension = '.tar.xz'
-    return archive_extension
 
 def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     '''
@@ -418,6 +422,7 @@ def export_log(log, dst_path):
         f.write(str(date.today()) + " " + strftime("%H:%M:%S", localtime()) + " " + element + "\n")
     f.close()
 
+# Execution Warning
 if __name__ == "__main__":
     system('cls')
     print("This is a module, not a script.")

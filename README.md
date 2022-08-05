@@ -68,9 +68,11 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
    2. [ ] Date Created
    3. [ ] File name
    4. [ ] Replication check
-5. Generate Execution Log</br>
+5. Folder Filter
+6. Duplication Check
+7. Generate Execution Log</br>
 	1. [x] Record every file transfer.
-6. Generate Set Backup Process (Personal)</br>
+8. Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
