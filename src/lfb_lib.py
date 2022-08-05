@@ -13,22 +13,22 @@ from unittest import skip
 from numpy import append
 
 # Sub functions
-def auto_rename_file():
-    print()
-
-def auto_rename_folder():
-    print()
-
-def duplicate_check():
-    print()
-
 def filter_file():
     print()
 
 def filter_folder():
     print()
 
+def duplicate_check():
+    print()
+
 def disk_size_check():
+    print()
+
+def auto_rename_file():
+    print()
+
+def auto_rename_folder():
     print()
 
 def sum_file_size(size_list):

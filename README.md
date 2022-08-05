@@ -4,13 +4,8 @@
 This repo aims to create a less complex version of backup softwares, but with the ability to automate the entire process. Archive and unpack functionalities are also provided.</br>
 This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 ## Undergoing Work
-1. [x] Add unpack function
-2. [x] Finish backup functions (3)
-3. [x] Finish archieve functions (3)
-4. [x] Finish unpack functions (3)
-5. [ ] Add file filter inside get_file_info() function
-6. [ ] Change the entire fully tested code into a function and move it to lib file
-7. [ ] Add a read and write set_process functionality to the main file
+1. [ ] Change the entire fully tested code into a function and move it to lib file
+2. [ ] Add a read and write set_process functionality to the main file
 ```
 lfb_process_processname.lfbp
 ===========================================================
@@ -48,31 +43,38 @@ unpack_single_process||D:/||E:/||test||zip                  (path||path||filenam
 unpack_multi_process||D:/||E:/||test||zip                   (path||path||Original/Auto||zip/tar/gztar/bztar/xztar)  (src path till folder||dst path till folder||foldername/Autonaming||archive filetype)   Unpack the sub folders in given archive file and save them in the given destination folder.
 ===========================================================
 ```
-5. [ ] Add GUI
+3. [ ] Add GUI
 
 ## Functionality
-1. File Backup
+1. [x] File Backup
    1. [x] Single file copy
    2. [x] Single folder copy
    3. [x] Multi folder copy
-2. File Archive
+2. [x] File Archive
    1. [x] Single file archive
    2. [x] Single folder archive
    3. [x] Multi folder archive
-3. File Unpack
+3. [x] File Unpack
    1. [x] Single file unpack
    2. [x] Single folder unpack
    3. [x] Multi folder unpack
-4. File Filter
+4. [ ] File Filter
    1. [ ] File type
    2. [ ] Date Created
    3. [ ] File name
-   4. [ ] Replication check
-5. Folder Filter
-6. Duplication Check
-7. Generate Execution Log</br>
+5. [ ] Folder Filter
+   1. [ ] Folder name
+   2. [ ] Date Created 
+6. [ ] Duplication Check
+   1. [ ] Filename
+   2. [ ] Folder name
+7. [ ] Disk size check
+8. [ ] Auto rename
+   1. [ ] Filename
+   2. [ ] Folder name
+9. [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
-8. Generate Set Backup Process (Personal)</br>
+10. [ ] Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
@@ -85,24 +87,24 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 	6. [ ] Minecraft saves Backup
 	7. [ ] Minecraft saves Backup zip
 ## GUI
-1. Select source and destination.
+1. [ ] Select source and destination.
 	1. [ ] Source Directory
 	2. [ ] Destination Directory
 	3. [ ] src and dst set selection.
-2. View all copying files.
+2. [ ] View all copying files.
 	1. [ ] Filtering
 	2. [ ] Check and uncheck files
 	3. [ ] View file list
 	4. [ ] View process states
-3. Backup.
-    1. Set Backup Process generation.</br>
+3. [ ] Backup.
+    1. [ ] Set Backup Process generation.</br>
    		generate .py file and .csv file for routine execution.
        1. [ ] Show generated .py file
        2. [ ] Show generated .csv file
-	2. Estimation Run.</br>
+	2. [ ] Estimation Run.</br>
        1. [ ] Show rogress bar
        2. [ ] Show realtime log
-	3. Backup.</br>
+	3. [ ] Backup.</br>
        1. [ ] Show progress bar
        2. [ ] Show realtime log
        3. [ ] Store log in csv file
