@@ -1,14 +1,15 @@
 from concurrent.futures import process
 from logging import root
-from shutil import disk_usage, copy2, make_archive, unpack_archive, move
-from os import system, listdir, stat, walk, chdir, getcwd, sep
-from os.path import isfile, join, isdir, basename, dirname
+from shutil import disk_usage, copy2, make_archive, unpack_archive, move, rmtree
+from os import system, listdir, stat, walk, chdir, getcwd, sep, mkdir
+from os.path import isfile, join, isdir, basename, dirname, exists
 from pathlib import Path
 from timeit import default_timer
 from time import strftime, localtime
 from datetime import date, datetime
 from sys import argv
 from multiprocessing import Process
+from unittest import skip
 from numpy import append
 
 def get_file_info(src_path, dst_path):
@@ -248,6 +249,30 @@ def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     t_2 = default_timer()
     log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
     print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    return log
+
+def archive_single_file(archive_name, src_path, dst_path, archive_format, log):
+    '''
+    Args:
+        archive_name: (str) archive name
+        src_path: (str) source path (file path)
+        dst_path: (str) destination path (folder path)
+        format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+        log: (list) list to be filled with log messages
+    Returns:
+        log: (list) log messages
+    Description:
+        This function archives a single file and provide archive duplication protection. It's achived by creating a folder and archive the file based on the folder, and later delete the folder.
+    '''
+    src_path_base = dirname(src_path)
+    temp_path = join(src_path_base, archive_name + '_temp')
+    if exists(temp_path):
+        skip
+    else:
+        mkdir(temp_path)
+    copy2(src_path, temp_path)
+    archive_folder(archive_name, temp_path, dst_path, archive_format, log)
+    rmtree(temp_path, ignore_errors=True)
     return log
 
 def unpack_file(archive_name, src_path, dst_path, archive_format, log):

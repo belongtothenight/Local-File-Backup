@@ -5,7 +5,7 @@ This repo aims to create a less complex version of backup softwares, but with th
 This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 ## Undergoing Work
 1. [x] Add unpack function
-2. [ ] Finish backup functions (3)
+2. [x] Finish backup functions (3)
 3. [ ] Finish archieve functions (3)
 4. [ ] Finish unpack functions (3)
 5. [ ] Add file filter inside get_file_info() function
@@ -53,10 +53,10 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 ## Functionality
 1. File Backup
    1. [x] Single file copy
-   2. [ ] Single folder copy
+   2. [x] Single folder copy
    3. [x] Multi folder copy
 2. File Archive
-   1. [ ] Single file archive
+   1. [x] Single file archive
    2. [x] Single folder archive
    3. [ ] Multi folder archive
 3. File Unpack

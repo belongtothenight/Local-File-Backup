@@ -3,7 +3,7 @@ from os import system
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
-from lfb_lib import get_file_info, get_folder_info, copy_file, archive_folder, unpack_file, export_log
+from lfb_lib import archive_single_file, get_file_info, get_folder_info, copy_file, archive_single_file, archive_folder, unpack_file, export_log
 
 # Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -35,6 +35,18 @@ log = []
 # del file_info[:]
 
 '''single_folder_copy'''
+# file_info = get_file_info(src_8, dst_2)
+# progress = [0, len(file_info[0])]
+# for i in range(len(file_info[0])):
+#     log = copy_file(
+#         fd_src=file_info[0][i], size_src=file_info[2][i], 
+#         atime_src=file_info[3][i], mtime_src=file_info[4][i], 
+#         fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8], 
+#         atime_dst=file_info[9], mtime_dst=file_info[10], log=log
+#         )
+#     progress[0] += 1
+#     print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+# del file_info[:]
 
 '''multi_folder_copy'''
 # file_info = get_file_info(src_8, dst_2)
@@ -51,6 +63,11 @@ log = []
 # del file_info[:]
 
 '''single_file_archive'''
+# log = archive_single_file('test_ffc', src_1, dst_2, 'zip', log)
+# log = archive_single_file('test_ffc', src_1, dst_2, 'tar', log)
+# log = archive_single_file('test_ffc', src_1, dst_2, 'gztar', log)
+# log = archive_single_file('test_ffc', src_1, dst_2, 'bztar', log)
+# log = archive_single_file('test_ffc', src_1, dst_2, 'xztar', log)
 
 '''single_folder_archive'''
 # file_info = get_file_info(src_8, dst_2)
