@@ -99,14 +99,14 @@ log = []
 # del file_info[:]
 
 '''single_folder_unpack'''
-file_info = get_file_info(dst_2, dst_2)
-progress = [0, len(file_info[0].endswith('.zip'))]
-for i in range(progress[1]):
-    if file_info[0][i].endswith('.zip'):
-        log = unpack_file(basename(file_info[0][i]), file_info[0][i], file_info[25], 'zip', log)
-        progress[0] += 1
-        print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
-del file_info[:]
+# file_info = get_file_info(dst_2, dst_2)
+# progress = [0, len(file_info[0])]
+# for i in range(progress[1]):
+#     if file_info[0][i].endswith('.zip'):
+#         log = unpack_file(basename(file_info[0][i]).rstrip('.zip'), file_info[24], file_info[25], 'zip', log)
+#         progress[0] += 1
+#         print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+# del file_info[:]
 
 '''multi_folder_unpack'''
 # folder_info = get_folder_info(src_3, dst_2)

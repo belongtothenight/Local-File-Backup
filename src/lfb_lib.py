@@ -358,7 +358,12 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log):
 
     # Unpack archive
     t_1 = default_timer()
-    unpack_archive(join(src_path, archive_name + archive_ext), join(dst_path, archive_name), archive_format)
+    try:
+        unpack_archive(join(src_path, archive_name + archive_ext), join(dst_path, archive_name), archive_format)
+    except Exception as e:
+        log.append("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
+        print("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
+        return log
     t_2 = default_timer()
     log.append("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
     print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))

@@ -61,7 +61,7 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
    3. [x] Multi folder archive
 3. File Unpack
    1. [x] Single file unpack
-   2. [ ] Single folder unpack
+   2. [x] Single folder unpack
    3. [ ] Multi folder unpack
 4. File Filter
    1. [ ] File type
