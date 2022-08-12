@@ -4,6 +4,7 @@ from shutil import disk_usage, copy2, make_archive, unpack_archive, move, rmtree
 from os import system, listdir, stat, walk, chdir, getcwd, sep, mkdir
 from os.path import isfile, join, isdir, basename, dirname, exists
 from pathlib import Path
+from telnetlib import STATUS
 from timeit import default_timer
 from time import strftime, localtime
 from datetime import date, datetime
@@ -13,35 +14,163 @@ from unittest import skip
 from numpy import append
 
 # Sub functions
-def filter_file():
-    print()
+
+
+def filter_file(file, filter):
+    '''
+    Args:
+        file:   (str)   Full path of the file
+        ---------- Filter ----------
+        filter[0]:      (bool)      True if the file is to be filtered.
+        ---------- File type ----------
+        filter[1]:      (list/str)  File type   Extension       Exclude all files with these extension                              ['.txt', '.py']
+        ---------- File name ----------
+        filter[2][0]:   (list/str)  File name   Included words  Exclude all files with these words included in the name             ['te', 'st']
+        filter[2][1]:   (list/str)  File name   Fullname        Exclude all files with these words excatly the same with the name   ['text.txt']
+        ---------- File size ----------
+        filter[3][0]:   (int)       File size   Min size        Exclude all files with size smaller than this value
+        filter[3][1]:   (int)       File size   Max size        Exclude all files with size bigger than this value
+        ---------- File atime ----------
+        filter[4][0]:   (int)       File atime  Min atime       Exclude all files with atime smaller than this value
+        filter[4][1]:   (int)       File atime  Max atime       Exclude all files with atime bigger than this value
+        ---------- File mtime ----------
+        filter[5][0]:   (int)       File mtime  Min mtime       Exclude all files with mtime smaller than this value
+        filter[5][1]:   (int)       File mtime  Max mtime       Exclude all files with mtime bigger than this value
+        ---------- File ctime ----------
+        filter[6][0]:   (int)       File ctime  Min ctime       Exclude all files with ctime smaller than this value
+        filter[6][1]:   (int)       File ctime  Max ctime       Exclude all files with ctime bigger than this value
+    Returns:
+        filter_flag: (bool) True if the file is filtered(excluded).
+        filter_type: (str)  Filter type ('filter', 'type', 'name', 'size', 'atime', 'mtime', 'ctime')
+    Description:
+        This function filters the file with provided filter.
+    '''
+    filter_flag = False
+    filter_type = ''
+    # ---------- Filter ----------
+    if filter[0] != True:
+        filter_type = 'filter' + ' >> ' + str(filter[0])
+        return filter_flag, filter_type
+    # ---------- File type ----------
+    if filter[1][0] != None:
+        print('trigger file type')
+        for element in filter[1]:
+            if file.endswith(element):
+                filter_flag = True
+                filter_type = 'type' + ' >> ' + element
+                return filter_flag, filter_type
+    # ---------- File name ----------
+    if filter[2][0][0] != None:
+        for element in filter[2][0]:
+            if basename(file).find(element) >= 0:
+                filter_flag = True
+                filter_type = 'name' + ' >> ' + element
+                return filter_flag, filter_type
+    if filter[2][1][0] != None:
+        for element in filter[2][1]:
+            if basename(file) == element:
+                filter_flag = True
+                filter_type = 'name' + ' >> ' + element
+                return filter_flag, filter_type
+    # ---------- File size ----------
+    if filter[3][0] != None and filter[3][1] != None:
+        if stat(file).st_size < filter[3][0] or stat(file).st_size > filter[3][1]:
+            filter_flag = True
+            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            return filter_flag, filter_type
+    elif filter[3][0] != None:
+        if stat(file).st_size < filter[3][0]:
+            filter_flag = True
+            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            return filter_flag, filter_type
+    elif filter[3][1] != None:
+        if stat(file).st_size > filter[3][1]:
+            filter_flag = True
+            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            return filter_flag, filter_type
+    # ---------- File atime ----------
+    if filter[4][0] != None and filter[4][1] != None:
+        if stat(file).st_atime < filter[4][0] or stat(file).st_atime > filter[4][1]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(file).st_atime)
+            return filter_flag, filter_type
+    elif filter[4][0] != None:
+        if stat(file).st_atime < filter[4][0]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(file).st_atime)
+            return filter_flag, filter_type
+    elif filter[4][1] != None:
+        if stat(file).st_atime > filter[4][1]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(file).st_atime)
+            return filter_flag, filter_type
+    # ---------- File mtime ----------
+    if filter[5][0] != None and filter[5][1] != None:
+        if stat(file).st_mtime < filter[5][0] or stat(file).st_mtime > filter[5][1]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(file).st_mtime)
+            return filter_flag, filter_type
+    elif filter[5][0] != None:
+        if stat(file).st_mtime < filter[5][0]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(file).st_mtime)
+            return filter_flag, filter_type
+    elif filter[5][1] != None:
+        if stat(file).st_mtime > filter[5][1]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(file).st_mtime)
+            return filter_flag, filter_type
+    # ---------- File ctime ----------
+    if filter[6][0] != None and filter[6][1] != None:
+        if stat(file).st_ctime < filter[6][0] or stat(file).st_ctime > filter[6][1]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(file).st_ctime)
+            return filter_flag, filter_type
+    elif filter[6][0] != None:
+        if stat(file).st_ctime < filter[6][0]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(file).st_ctime)
+            return filter_flag, filter_type
+    elif filter[6][1] != None:
+        if stat(file).st_ctime > filter[6][1]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(file).st_ctime)
+            return filter_flag, filter_type
+    return filter_flag, filter_type
+
 
 def filter_folder():
     print()
 
+
 def duplicate_check():
     print()
+
 
 def disk_size_check():
     print()
 
+
 def auto_rename_file():
     print()
+
 
 def auto_rename_folder():
     print()
 
+
 def sum_file_size(size_list):
-        '''
-        Args:
-            size_list: (list) file size list
-        Returns:
-            total_size: (int) total file size
-        '''
-        total_size = 0
-        for size in size_list:
-            total_size += size
-        return total_size
+    '''
+    Args:
+        size_list: (list) file size list
+    Returns:
+        total_size: (int) total file size
+    '''
+    total_size = 0
+    for size in size_list:
+        total_size += size
+    return total_size
+
 
 def archive_extension(archive_format):
     '''
@@ -66,11 +195,15 @@ def archive_extension(archive_format):
     return archive_extension
 
 # Main functions
-def get_file_info(src_path, dst_path):
+
+
+def get_file_info(src_path, dst_path, log, filter):
     '''
     Args:
         src_path: (str) source path
         dst_path: (str) destination path
+        log: (list) log list
+        filter: (list) filter list
     Returns:
         values[0] fd_src:       (list)  source file         directory
         values[1] err_src:      (list)  source file         error
@@ -118,7 +251,7 @@ def get_file_info(src_path, dst_path):
         f = []
         return a, b, c, d, e, f
 
-    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime):
+    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime, filter):
         '''
         Args:
             path: (str) path to be processed
@@ -141,29 +274,47 @@ def get_file_info(src_path, dst_path):
         try:
             for f in listdir(path):
                 if isfile(join(path, f)):
-                    file_directory.append(join(path, f))
-                    file_size.append(stat(join(path, f)).st_size)
-                    atime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_atime)))
-                    mtime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_mtime)))
-                    ctime.append(datetime.fromtimestamp(int(stat(join(path, f)).st_ctime)))
+                    flag, type = filter_file(join(path, f), filter)
+                    if flag != True:
+                        file_directory.append(join(path, f))
+                        file_size.append(stat(join(path, f)).st_size)
+                        atime.append(datetime.fromtimestamp(
+                            int(stat(join(path, f)).st_atime)))
+                        mtime.append(datetime.fromtimestamp(
+                            int(stat(join(path, f)).st_mtime)))
+                        ctime.append(datetime.fromtimestamp(
+                            int(stat(join(path, f)).st_ctime)))
+                    else:
+                        # print("[LOG] Skipping file: " +
+                        #       join(path, f) + "\t\t[FILTER] " + type)
+                        log.append("[LOG] Skipping file: " +
+                                   join(path, f) + "\t\t[FILTER] " + type)
                 elif isdir(join(path, f)):
-                    list_all_files(join(path, f), file_directory, error_message, file_size, atime, mtime, ctime)# recursive call
+                    list_all_files(join(path, f), file_directory, error_message,
+                                   file_size, atime, mtime, ctime, filter)  # recursive call
                 else:
-                    print("[LOG] Unknown file type: " + join(path, f))
+                    # print("[LOG] Unknown file type: " + join(path, f))
+                    log.append("[LOG] Unknown file type: " + join(path, f))
         except Exception as e:
             error_message.append(str(e))
-            print("[LOG] Error: " + str(e))
+            # print("[LOG] Error: " + str(e) +
+            #       " when processing " + join(path, f))
+            log.append("[LOG] Error: " + str(e) +
+                       " when processing " + join(path, f))
         return file_directory, error_message, file_size, atime, mtime, ctime
 
-    fd, err, size, atime, mtime, ctime = create() # create empty lists
-    fd_src, err_src, size_src, atime_src, mtime_src, ctime_src = list_all_files(src_path, fd, err, size, atime, mtime, ctime)
-    fd, err, size, atime, mtime, ctime = create() # reset
-    fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst = list_all_files(dst_path, fd, err, size, atime, mtime, ctime)
-    fd, err, size, atime, mtime, ctime = create() # reset
+    fd, err, size, atime, mtime, ctime = create()  # create empty lists
+    fd_src, err_src, size_src, atime_src, mtime_src, ctime_src = list_all_files(
+        src_path, fd, err, size, atime, mtime, ctime, filter)
+    fd, err, size, atime, mtime, ctime = create()  # reset
+    fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst = list_all_files(
+        dst_path, fd, err, size, atime, mtime, ctime, filter)
+    fd, err, size, atime, mtime, ctime = create()  # reset
     tfs_src = sum_file_size(size_src)
     tfs_dst = sum_file_size(size_dst)
     tfs = tfs_src + tfs_dst
-    del fd[:], err[:], size[:], atime[:], mtime[:], ctime[:] # this delete the variables
+    # this delete the variables
+    del fd[:], err[:], size[:], atime[:], mtime[:], ctime[:]
 
     # Gather disk usge info
     total_src, used_src, free_src = disk_usage(src_path)
@@ -178,14 +329,16 @@ def get_file_info(src_path, dst_path):
 
     # Return values
     values = [
-        fd_src, err_src, size_src, atime_src, mtime_src, ctime_src, fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst, 
+        fd_src, err_src, size_src, atime_src, mtime_src, ctime_src, fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst,
         tfs_src, tfs_dst, tfs, total_src, used_src, free_src, total_dst, used_dst, free_dst, total, used, free,
         root_fd_src, root_fd_dst
-        ]
-    return values
+    ]
+    return values, log
+
 
 '''Add folder atime, mtime, ctime'''
-'''Change it so that it only archives the 2nd layer of the folder structure'''
+
+
 def get_folder_info(src_path, dst_path):
     '''
     Args:
@@ -193,21 +346,24 @@ def get_folder_info(src_path, dst_path):
         dst_path: (str) destination path
     Returns:
         values[0]   file_d_src:     (list) source file      file directory
-        values[1]   folder_d_src:   (list) source file      folder directory
-        values[2]   err_src:        (list) source file      error message
-        values[3]   size_src:       (list) source file      size
-        values[4]   tfs_src:        (int)  source file      total file size accessed (bytes)
-        values[5]   total_src:      (int)  source file      total file size (bytes)
-        values[6]   used_src:       (int)  source file      used space (bytes)
-        values[7]   free_src:       (int)  source file      free space (bytes)
-        values[8]   total_dst:      (int)  destination file total file size (bytes)
-        values[9]   used_dst:       (int)  destination file used space (bytes)
-        values[10]   free_dst:       (int)  destination file free space (bytes)
-        values[11]  total:          (int)                   total file size  (bytes)
-        values[12]  used:           (int)                   used space (bytes)
-        values[13]  free:           (int)                   free space (bytes)
-        values[14]  root_fd_src:    (str) source path       root directory
-        values[15]  root_fd_dst:    (str) destination path  root directory
+        values[1]   folder_d_src:   (list) source folder    folder directory
+        values[2]   err_src:        (list) source folder    error message
+        values[3]   size_src:       (list) source folder    size
+        values[4]   atime_src:      (list) source folder    access time
+        values[5]   mtime_src:      (list) source folder    modification time
+        values[6]   ctime_src:      (list) source folder    change time
+        values[7]   tfs_src:        (int)  source file      total file size accessed (bytes)
+        values[8]   total_src:      (int)  source file      total file size (bytes)
+        values[9]   used_src:       (int)  source file      used space (bytes)
+        values[10]  free_src:       (int)  source file      free space (bytes)
+        values[11]  total_dst:      (int)  destination file total file size (bytes)
+        values[12]  used_dst:       (int)  destination file used space (bytes)
+        values[13]  free_dst:       (int)  destination file free space (bytes)
+        values[14]  total:          (int)                   total file size  (bytes)
+        values[15]  used:           (int)                   used space (bytes)
+        values[16]  free:           (int)                   free space (bytes)
+        values[17]  root_fd_src:    (str) source path       root directory
+        values[18]  root_fd_dst:    (str) destination path  root directory
     Description:
         This function gets the folder information of the source and destination path.
     '''
@@ -215,22 +371,36 @@ def get_folder_info(src_path, dst_path):
     folder_d = []
     err = []
     size = []
-    def get_folder_info(path, file_d, folder_d, err, size):
+    atime = []
+    mtime = []
+    ctime = []
+
+    def get_folder_info(path, file_d, err, size, atime, mtime, ctime):
         try:
             for f in listdir(path):
                 if isfile(join(path, f)):
                     file_d.append(join(path, f))
                     size.append(stat(join(path, f)).st_size)
+                    atime.append(stat(join(path, f)).st_atime)
+                    mtime.append(stat(join(path, f)).st_mtime)
+                    ctime.append(stat(join(path, f)).st_ctime)
                 elif isdir(join(path, f)):
-                    folder_d.append(join(path, f))
-                    get_folder_info(join(path, f), file_d, folder_d, err, size)
+                    get_folder_info(join(path, f), file_d, err,
+                                    size, atime, mtime, ctime)
                 else:
                     print("[LOG] Unknown file type: " + join(path, f))
         except Exception as e:
             err.append(str(e))
             print("[LOG] Error: " + str(e))
-        return file_d, folder_d, err, size
-    file_d, folder_d, err, size = get_folder_info(src_path, file_d, folder_d, err, size)
+        return file_d, err, size, atime, mtime, ctime
+    try:
+        for f in listdir(src_path):
+            if isdir(join(src_path, f)):
+                folder_d.append(join(src_path, f))
+    except Exception as e:
+        print("[LOG] Error: " + str(e))
+    file_d, err, size, atime, mtime, ctime = get_folder_info(
+        src_path, file_d, err, size, atime, mtime, ctime)
     tfs_src = sum_file_size(size)
     total_src, used_src, free_src = disk_usage(src_path)
     total_dst, used_dst, free_dst = disk_usage(dst_path)
@@ -240,10 +410,11 @@ def get_folder_info(src_path, dst_path):
     root_fd_src = src_path
     root_fd_dst = dst_path
     values = [
-        file_d, folder_d, err, size, tfs_src, total_src, used_src, free_src, 
+        file_d, folder_d, err, size, atime, mtime, ctime, tfs_src, total_src, used_src, free_src,
         total_dst, used_dst, free_dst, total, used, free, root_fd_src, root_fd_dst
-        ]
+    ]
     return values
+
 
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
     '''
@@ -264,12 +435,12 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
     Description:
         This function copies a file from the source path to the destination path. It also logs the actions performed.
     '''
-    ## Add duplication to this function
+    # Add duplication to this function
     try:
         # File with same name in dst
         j = fd_dst_l.index(join(fd_dst, Path(fd_src).name))
         # print("[LOG] Find file: " + fd_src)
-        if size_src==size_dst[j] and atime_src==atime_dst[j] and mtime_src==mtime_dst[j]:
+        if size_src == size_dst[j] and atime_src == atime_dst[j] and mtime_src == mtime_dst[j]:
             # File has the same metadata beside creation time
             print("[LOG] File is the same, skip " + fd_src)
             log.append("[LOG] File is the same, skip copy\t\t" + fd_src)
@@ -284,6 +455,7 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
     return log
+
 
 def archive_folder(archive_name, src_path, dst_path, archive_format, log):
     '''
@@ -307,20 +479,26 @@ def archive_folder(archive_name, src_path, dst_path, archive_format, log):
         files.extend(filenames)
         break
     if archive_name + archive_ext in files:
-        log.append("[LOG] Archive already exists, skip archiving\t" + dst_path + archive_name + archive_ext)
-        print("[LOG] Archive already exists, skip archiving\t" + dst_path + archive_name + archive_ext)
+        log.append("[LOG] Archive already exists, skip archiving\t" +
+                   dst_path + archive_name + archive_ext)
+        print("[LOG] Archive already exists, skip archiving\t" +
+              dst_path + archive_name + archive_ext)
         return log
 
     # Create archive
     t_1 = default_timer()
     dir = getcwd()
     chdir(src_path)
-    make_archive(base_name=join(dst_path, archive_name), format=archive_format, root_dir=src_path, base_dir='./')
+    make_archive(base_name=join(dst_path, archive_name),
+                 format=archive_format, root_dir=src_path, base_dir='./')
     chdir(dir)
     t_2 = default_timer()
-    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
-    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
+        archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
+        archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
     return log
+
 
 def archive_single_file(archive_name, src_path, dst_path, archive_format, log):
     '''
@@ -346,6 +524,7 @@ def archive_single_file(archive_name, src_path, dst_path, archive_format, log):
     rmtree(temp_path, ignore_errors=True)
     return log
 
+
 def unpack_file(archive_name, src_path, dst_path, archive_format, log):
     '''
     Args:
@@ -364,22 +543,28 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log):
         folders.extend(dirnames)
         break
     if archive_name in folders:
-        log.append("[LOG] Folder already exists, skip unpacking\t" + dst_path + archive_name)
-        print("[LOG] Folder already exists, skip unpacking\t" + dst_path + archive_name)
+        log.append("[LOG] Folder already exists, skip unpacking\t" +
+                   dst_path + archive_name)
+        print("[LOG] Folder already exists, skip unpacking\t" +
+              dst_path + archive_name)
         return log
 
     # Unpack archive
     t_1 = default_timer()
     try:
-        unpack_archive(join(src_path, archive_name + archive_ext), join(dst_path, archive_name), archive_format)
+        unpack_archive(join(src_path, archive_name + archive_ext),
+                       join(dst_path, archive_name), archive_format)
     except Exception as e:
         log.append("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
         print("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
         return log
     t_2 = default_timer()
-    log.append("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
-    print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
+    log.append("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(
+        archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
+    print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(
+        archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
     return log
+
 
 def export_log(log, dst_path):
     '''
@@ -419,10 +604,13 @@ def export_log(log, dst_path):
     except:
         fcnt = 1
     # Write to log file
-    f = open(join(dst_path, 'log_{0}_{1}.txt'.format(str(date.today()), str(fcnt))), 'w', encoding='utf-8')
+    f = open(join(dst_path, 'log_{0}_{1}.txt'.format(
+        str(date.today()), str(fcnt))), 'w', encoding='utf-8')
     for element in log:
-        f.write(str(date.today()) + " " + strftime("%H:%M:%S", localtime()) + " " + element + "\n")
+        f.write(str(date.today()) + " " + strftime("%H:%M:%S",
+                localtime()) + " " + element + "\n")
     f.close()
+
 
 # Execution Warning
 if __name__ == "__main__":

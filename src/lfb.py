@@ -6,7 +6,7 @@ from timeit import default_timer
 from sys import argv
 from lfb_lib import archive_single_file, get_file_info, get_folder_info, copy_file, archive_single_file, archive_folder, unpack_file, export_log
 
-# Variables
+# Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
 src_2 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/'
 src_3 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/'
@@ -17,6 +17,17 @@ src_7 = 'f:/'
 src_8 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/'
 dst_2 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/dst/'
 
+# Filter Array
+filter = [
+    True,
+    [None],  # ['.txt'],
+    [['07-31'], ['log_2022-07-31_1.txt']],
+    [16000, 48000],
+    [None, None],  # use time.mktime(9-tuple) to generate time code
+    [None, None],  # use time.mktime(9-tuple) to generate time code
+    [None, None]  # use time.mktime(9-tuple) to generate time code
+]
+
 # Startup
 start = default_timer()
 system('cls')
@@ -25,24 +36,24 @@ log = []
 
 # Main
 '''single_file_copy'''
-# file_info = get_file_info(src_8, dst_2)
+# file_info, log = get_file_info(src_8, dst_2, log, filter)
 # i = file_info[0].index('D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/all_accessible_files_CD.txt')
 # log = copy_file(
-#     fd_src=file_info[0][i], size_src=file_info[2][i], 
-#     atime_src=file_info[3][i], mtime_src=file_info[4][i], 
-#     fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8], 
+#     fd_src=file_info[0][i], size_src=file_info[2][i],
+#     atime_src=file_info[3][i], mtime_src=file_info[4][i],
+#     fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
 #     atime_dst=file_info[9], mtime_dst=file_info[10], log=log
 #     )
 # del file_info[:]
 
 '''single_folder_copy'''
-# file_info = get_file_info(src_8, dst_2)
+# file_info, log = get_file_info(src_8, dst_2, log, filter)
 # progress = [0, len(file_info[0])]
 # for i in range(len(file_info[0])):
 #     log = copy_file(
-#         fd_src=file_info[0][i], size_src=file_info[2][i], 
-#         atime_src=file_info[3][i], mtime_src=file_info[4][i], 
-#         fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8], 
+#         fd_src=file_info[0][i], size_src=file_info[2][i],
+#         atime_src=file_info[3][i], mtime_src=file_info[4][i],
+#         fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
 #         atime_dst=file_info[9], mtime_dst=file_info[10], log=log
 #         )
 #     progress[0] += 1
@@ -50,13 +61,13 @@ log = []
 # del file_info[:]
 
 '''multi_folder_copy'''
-# file_info = get_file_info(src_8, dst_2)
+# file_info, log = get_file_info(src_8, dst_2, log, filter)
 # progress = [0, len(file_info[0])]
 # for i in range(len(file_info[0])):
 #     log = copy_file(
-#         fd_src=file_info[0][i], size_src=file_info[2][i], 
-#         atime_src=file_info[3][i], mtime_src=file_info[4][i], 
-#         fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8], 
+#         fd_src=file_info[0][i], size_src=file_info[2][i],
+#         atime_src=file_info[3][i], mtime_src=file_info[4][i],
+#         fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
 #         atime_dst=file_info[9], mtime_dst=file_info[10], log=log
 #         )
 #     progress[0] += 1
@@ -71,7 +82,7 @@ log = []
 # log = archive_single_file('test_ffc', src_1, dst_2, 'xztar', log)
 
 '''single_folder_archive'''
-# file_info = get_file_info(src_8, dst_2)
+# file_info, log = get_file_info(src_8, dst_2, log, filter)
 # log = archive_folder('test', file_info[24], file_info[25], 'zip', log)
 # log = archive_folder('test', file_info[24], file_info[25], 'tar', log)
 # log = archive_folder('test', file_info[24], file_info[25], 'gztar', log)
@@ -83,14 +94,15 @@ log = []
 # folder_info = get_folder_info(src_3, dst_2)
 # progress = [0, len(folder_info[1])]
 # for i in range(len(folder_info[1])):
-#     log = archive_folder(basename(folder_info[1][i]), folder_info[1][i], folder_info[15], 'zip', log)
+#     log = archive_folder(
+#         basename(folder_info[1][i]), folder_info[1][i], folder_info[18], 'zip', log)
 #     progress[0] += 1
 #     print("Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
 # del folder_info[:]
 
 
 '''single_file_unpack'''
-# file_info = get_file_info(dst_2, dst_2)
+# file_info, log = get_file_info(dst_2, dst_2, log, filter)
 # log = unpack_file('test', file_info[24], file_info[25], 'zip', log)
 # log = unpack_file('test', file_info[24], file_info[25], 'tar', log)
 # log = unpack_file('test', file_info[24], file_info[25], 'gztar', log)
@@ -99,7 +111,7 @@ log = []
 # del file_info[:]
 
 '''single_folder_unpack'''
-# file_info = get_file_info(dst_2, dst_2)
+# file_info, log = get_file_info(dst_2, dst_2, log, filter)
 # progress = [0, len(file_info[0])]
 # for i in range(progress[1]):
 #     if file_info[0][i].endswith('.zip'):
@@ -109,7 +121,7 @@ log = []
 # del file_info[:]
 
 '''multi_folder_unpack'''
-# file_info = get_file_info(dst_2, dst_2)
+# file_info, log = get_file_info(dst_2, dst_2, log, filter)
 # progress = [0, len(file_info[0])]
 # for i in range(progress[1]):
 #     if file_info[0][i].endswith('.zip'):

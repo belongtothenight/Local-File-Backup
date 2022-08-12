@@ -58,10 +58,11 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
    1. [x] Single file unpack
    2. [x] Single folder unpack
    3. [x] Multi folder unpack
-4. [ ] File Filter
-   1. [ ] File type
-   2. [ ] Date Created
-   3. [ ] File name
+4. [x] File Filter
+   1. [x] File type
+   2. [x] Date Created
+   3. [x] File name
+   4. [x] File size
 5. [ ] Folder Filter
    1. [ ] Folder name
    2. [ ] Date Created 
@@ -72,9 +73,10 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 8. [ ] Auto rename
    1. [ ] Filename
    2. [ ] Folder name
-9. [x] Generate Execution Log</br>
+9. [ ] Global print switch
+10. [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
-10. [ ] Generate Set Backup Process (Personal)</br>
+11. [ ] Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
