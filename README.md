@@ -76,7 +76,8 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 9. [ ] Global print switch
 10. [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
-11. [ ] Generate Set Backup Process (Personal)</br>
+11. [ ] Generate a list of file of a folder. (all accessible files)
+12. [ ] Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
