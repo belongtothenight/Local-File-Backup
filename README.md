@@ -65,14 +65,14 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
    4. [x] File size
 5. [x] Folder Filter
    1. [x] Folder name
-   2. [x] Date Created 
-6. [ ] Duplication Check
+   2. [x] Date Created
+6. [ ] Auto rename (user given/specific)
+   1. [ ] Filename
+   2. [ ] Folder name 
+7. [ ] Duplication Check
    1. [ ] Filename
    2. [ ] Folder name
-7. [ ] Disk size check
-8. [ ] Auto rename
-   1. [ ] Filename
-   2. [ ] Folder name
+8. [ ] Disk size check
 9. [ ] Global print switch
 10. [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
