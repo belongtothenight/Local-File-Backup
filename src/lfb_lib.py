@@ -139,8 +139,105 @@ def filter_file(file, filter):
     return filter_flag, filter_type
 
 
-def filter_folder():
-    print()
+def filter_folder(folder, filter):
+    '''
+    Args:
+        folder:     (str) Full path of the folder.
+        ---------- Filter ----------
+        filter[0]:      (bool)      True if the file is to be filtered.
+        ---------- Folder type ---------- (not implemented)
+        filter[1]:      (list/str)  Folder type   Extension       Exclude all folders with these extension                              ['.txt', '.py']
+        ---------- Folder name ----------
+        filter[2][0]:   (list/str)  Folder name   Included words  Exclude all folders with these words included in the name             ['te', 'st']
+        filter[2][1]:   (list/str)  Folder name   Fullname        Exclude all folders with these words excatly the same with the name   ['text.txt']
+        ---------- Folder size ---------- (not implemented)
+        filter[3][0]:   (int)       Folder size   Min size        Exclude all folders with size smaller than this value
+        filter[3][1]:   (int)       Folder size   Max size        Exclude all folders with size bigger than this value
+        ---------- Folder atime ----------
+        filter[4][0]:   (int)       Folder atime  Min atime       Exclude all folders with atime smaller than this value
+        filter[4][1]:   (int)       Folder atime  Max atime       Exclude all folders with atime bigger than this value
+        ---------- Folder mtime ----------
+        filter[5][0]:   (int)       Folder mtime  Min mtime       Exclude all folders with mtime smaller than this value
+        filter[5][1]:   (int)       Folder mtime  Max mtime       Exclude all folders with mtime bigger than this value
+        ---------- Folder ctime ----------
+        filter[6][0]:   (int)       Folder ctime  Min ctime       Exclude all folders with ctime smaller than this value
+        filter[6][1]:   (int)       Folder ctime  Max ctime       Exclude all folders with ctime bigger than this value
+    Returns:
+        filter_flag: (bool) True if the folder is filtered(excluded).
+        filter_type: (str)  Filter type ('filter', 'type', 'name', 'size', 'atime', 'mtime', 'ctime')
+    Description:
+        This function filters the folder.
+    '''
+    filter_flag = False
+    filter_type = ''
+    # ---------- Filter ----------
+    if filter[0] != True:
+        filter_type = 'filter' + ' >> ' + str(filter[0])
+        return filter_flag, filter_type
+    # ---------- Folder type ---------- (not implemented)
+    # ---------- Folder name ----------
+    if filter[2][0][0] != None:
+        for element in filter[2][0]:
+            if basename(folder).find(element) >= 0:
+                filter_flag = True
+                filter_type = 'name' + ' >> ' + element
+                return filter_flag, filter_type
+    if filter[2][1][0] != None:
+        for element in filter[2][1]:
+            if basename(folder) == element:
+                filter_flag = True
+                filter_type = 'name' + ' >> ' + element
+                return filter_flag, filter_type
+    # ---------- Folder size ---------- (not implemented)
+    # ---------- Folder atime ----------
+    if filter[4][0] != None and filter[4][1] != None:
+        if stat(folder).st_atime < filter[4][0] or stat(folder).st_atime > filter[4][1]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(folder).st_atime)
+            return filter_flag, filter_type
+    elif filter[4][0] != None:
+        if stat(folder).st_atime < filter[4][0]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(folder).st_atime)
+            return filter_flag, filter_type
+    elif filter[4][1] != None:
+        if stat(folder).st_atime > filter[4][1]:
+            filter_flag = True
+            filter_type = 'atime' + ' >> ' + str(stat(folder).st_atime)
+            return filter_flag, filter_type
+    # ---------- Folder mtime ----------
+    if filter[5][0] != None and filter[5][1] != None:
+        if stat(folder).st_mtime < filter[5][0] or stat(folder).st_mtime > filter[5][1]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(folder).st_mtime)
+            return filter_flag, filter_type
+    elif filter[5][0] != None:
+        if stat(folder).st_mtime < filter[5][0]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(folder).st_mtime)
+            return filter_flag, filter_type
+    elif filter[5][1] != None:
+        if stat(folder).st_mtime > filter[5][1]:
+            filter_flag = True
+            filter_type = 'mtime' + ' >> ' + str(stat(folder).st_mtime)
+            return filter_flag, filter_type
+    # ---------- Folder ctime ----------
+    if filter[6][0] != None and filter[6][1] != None:
+        if stat(folder).st_ctime < filter[6][0] or stat(folder).st_ctime > filter[6][1]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(folder).st_ctime)
+            return filter_flag, filter_type
+    elif filter[6][0] != None:
+        if stat(folder).st_ctime < filter[6][0]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(folder).st_ctime)
+            return filter_flag, filter_type
+    elif filter[6][1] != None:
+        if stat(folder).st_ctime > filter[6][1]:
+            filter_flag = True
+            filter_type = 'ctime' + ' >> ' + str(stat(folder).st_ctime)
+            return filter_flag, filter_type
+    return filter_flag, filter_type
 
 
 def duplicate_check():
@@ -336,10 +433,7 @@ def get_file_info(src_path, dst_path, log, filter):
     return values, log
 
 
-'''Add folder atime, mtime, ctime'''
-
-
-def get_folder_info(src_path, dst_path):
+def get_folder_info(src_path, dst_path, log, filter):
     '''
     Args:
         src_path: (str) source path
@@ -374,33 +468,51 @@ def get_folder_info(src_path, dst_path):
     atime = []
     mtime = []
     ctime = []
+    # Get file info
 
-    def get_folder_info(path, file_d, err, size, atime, mtime, ctime):
+    def get_folder_info(path, file_d, err, size):
         try:
             for f in listdir(path):
                 if isfile(join(path, f)):
                     file_d.append(join(path, f))
                     size.append(stat(join(path, f)).st_size)
-                    atime.append(stat(join(path, f)).st_atime)
-                    mtime.append(stat(join(path, f)).st_mtime)
-                    ctime.append(stat(join(path, f)).st_ctime)
                 elif isdir(join(path, f)):
                     get_folder_info(join(path, f), file_d, err,
-                                    size, atime, mtime, ctime)
+                                    size)
                 else:
                     print("[LOG] Unknown file type: " + join(path, f))
+                    log.append("[LOG] Unknown file type: " + join(path, f))
         except Exception as e:
             err.append(str(e))
-            print("[LOG] Error: " + str(e))
-        return file_d, err, size, atime, mtime, ctime
+            print("[LOG] Error: " + str(e) +
+                  " when processing " + join(path, f))
+            log.append("[LOG] Error: " + str(e) +
+                       " when processing " + join(path, f))
+        return file_d, err, size
+    # Get folder info
     try:
         for f in listdir(src_path):
             if isdir(join(src_path, f)):
-                folder_d.append(join(src_path, f))
+                flag, type = filter_folder(join(src_path, f), filter)
+                if flag != True:
+                    folder_d.append(join(src_path, f))
+                    atime.append(stat(join(src_path, f)).st_atime)
+                    mtime.append(stat(join(src_path, f)).st_mtime)
+                    ctime.append(stat(join(src_path, f)).st_ctime)
+                    file_d, err, size = get_folder_info(
+                        join(src_path, f), file_d, err, size)
+                else:
+                    # print("[LOG] Skipping folder: " +
+                    #       join(path, f) + "\t\t[FILTER] " + type)
+                    log.append("[LOG] Skipping folder: " +
+                               join(src_path, f) + "\t\t[FILTER] " + type)
     except Exception as e:
-        print("[LOG] Error: " + str(e))
-    file_d, err, size, atime, mtime, ctime = get_folder_info(
-        src_path, file_d, err, size, atime, mtime, ctime)
+        # print("[LOG] Error: " + str(e) +
+        #       " when processing " + join(path, f))
+        log.append("[LOG] Error: " + str(e) +
+                   " when processing " + join(src_path, f))
+    # file_d, err, size = get_folder_info(
+    #     src_path, file_d, err, size)
     tfs_src = sum_file_size(size)
     total_src, used_src, free_src = disk_usage(src_path)
     total_dst, used_dst, free_dst = disk_usage(dst_path)
@@ -413,7 +525,7 @@ def get_folder_info(src_path, dst_path):
         file_d, folder_d, err, size, atime, mtime, ctime, tfs_src, total_src, used_src, free_src,
         total_dst, used_dst, free_dst, total, used, free, root_fd_src, root_fd_dst
     ]
-    return values
+    return values, log
 
 
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):

@@ -63,9 +63,9 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
    2. [x] Date Created
    3. [x] File name
    4. [x] File size
-5. [ ] Folder Filter
-   1. [ ] Folder name
-   2. [ ] Date Created 
+5. [x] Folder Filter
+   1. [x] Folder name
+   2. [x] Date Created 
 6. [ ] Duplication Check
    1. [ ] Filename
    2. [ ] Folder name
