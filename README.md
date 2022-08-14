@@ -73,7 +73,7 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 8. [x] Global print switch
 9.  [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
-10. [ ] Generate a list of file of a folder. (all accessible files)
+10. [x] Generate a list of file of a folder. (all accessible files)
 11. [ ] Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
@@ -87,17 +87,17 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 	6. [ ] Minecraft saves Backup
 	7. [ ] Minecraft saves Backup zip
 
-| Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress |
-| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: |
-|     Copy      | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
-|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
-|    Archive    | Single File       |                 |                   |   $\checkmark$    |                 |               |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
-|      \|       | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
-|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
-|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
+| Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress | Generate File Log |
+| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: | :---------------: |
+|     Copy      | Single File       |                 |                   |   $\checkmark$    |                 |               |                   |
+|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
+|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|    Archive    | Single File       |                 |                   |                   |                 |               |                   |
+|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
+|      \|       | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
+|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
+|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
 
 ## GUI
 1. [ ] Select source and destination.

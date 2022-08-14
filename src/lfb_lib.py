@@ -13,7 +13,7 @@ from multiprocessing import Process
 from unittest import skip
 from numpy import append
 
-# Sub functions
+'''Sub functions'''
 
 
 def filter_file(file, filter):
@@ -274,7 +274,8 @@ def archive_extension(archive_format):
             archive_extension = '.tar.xz'
     return archive_extension
 
-# Main functions
+
+'''Main functions'''
 
 
 def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
@@ -383,7 +384,7 @@ def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
                 print("[LOG] Error: " + str(e) +
                       " when processing " + join(path, f))
             log.append("[LOG] Error: " + str(e) +
-                       " when processing " + join(path, f))
+                       " when processing " + path)
         return file_directory, error_message, file_size, atime, mtime, ctime
 
     fd, err, size, atime, mtime, ctime = create()  # create empty lists
