@@ -89,15 +89,15 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 
 | Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check |
 | ------------- | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: |
-| Copy          | Single File       |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
-|               | Multi File        |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
+| Copy          | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 | Archive       | Single File       |                 |                   |   $\checkmark$    |                 |
-|               | Multi File        |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
-|               | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |   $\triangle$   |
-| Unpack        | Single File       |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
-|               | Multi File        |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
-|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |   $\triangle$   |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+|               | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   |
+| Unpack        | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 
 ## GUI
 1. [ ] Select source and destination.
