@@ -87,17 +87,17 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 	6. [ ] Minecraft saves Backup
 	7. [ ] Minecraft saves Backup zip
 
-| Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check |   Progress   |
-| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :----------: |
-|     Copy      | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |              |
-|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$ |
-|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$ |
-|    Archive    | Single File       |                 |                   |   $\checkmark$    |                 |              |
-|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |              |
-|               | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$ |
-|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |              |
-|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$ |
-|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$ |
+| Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress |
+| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: |
+|     Copy      | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
+|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
+|    Archive    | Single File       |                 |                   |   $\checkmark$    |                 |               |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
+|               | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
+|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |
+|               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
+|               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |
 
 ## GUI
 1. [ ] Select source and destination.
