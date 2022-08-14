@@ -66,18 +66,15 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 5. [x] Folder Filter
    1. [x] Folder name
    2. [x] Date Created
-6. [ ] Auto rename (user given/specific)
-   1. [ ] Filename
-   2. [ ] Folder name 
-7. [ ] Duplication Check
-   1. [ ] Filename
-   2. [ ] Folder name
-8. [ ] Disk size check
-9. [ ] Global print switch
-10. [x] Generate Execution Log</br>
+6. [x] Duplication Check (automatically skipped)
+   1. [x] Filename
+   2. [x] Folder name
+7. [ ] Disk size check
+8. [ ] Global print switch
+9.  [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
-11. [ ] Generate a list of file of a folder. (all accessible files)
-12. [ ] Generate Set Backup Process (Personal)</br>
+10. [ ] Generate a list of file of a folder. (all accessible files)
+11. [ ] Generate Set Backup Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
@@ -89,6 +86,13 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 	5. [ ] CF Backup My Passport
 	6. [ ] Minecraft saves Backup
 	7. [ ] Minecraft saves Backup zip
+
+| Functionality | Single File       | Multi File | Multi Folder |
+| ------------- | ----------------- | ---------- | ------------ |
+| Copy          | :heavy_check_mark |
+| Archive       |
+| Unpack        |
+
 ## GUI
 1. [ ] Select source and destination.
 	1. [ ] Source Directory

@@ -528,6 +528,26 @@ def get_folder_info(src_path, dst_path, log, filter):
     return values, log
 
 
+def disk_size_check(src_size, free_dst_disk_size, log):
+    '''
+    Args:
+        src_size: (int) source file size (bytes)
+        free_dst_disk_size: (int) destination free disk size (bytes)
+    Returns:
+        flag: (bool) True if the source file size is less than the free disk size
+    Description:
+        This function checks if the source file size is more than the free disk size of the destination.
+    '''
+    flag = True
+    if src_size > free_dst_disk_size:
+        flag = False
+        log.append(
+            "[LOG] Error: File size is larger than free disk size of the destination")
+    else:
+        log.append("[LOG] Passed disk size check!")
+    return flag, log
+
+
 def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
     '''
     Args:
