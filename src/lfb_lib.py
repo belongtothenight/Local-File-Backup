@@ -53,7 +53,6 @@ def filter_file(file, filter):
         return filter_flag, filter_type
     # ---------- File type ----------
     if filter[1][0] != None:
-        print('trigger file type')
         for element in filter[1]:
             if file.endswith(element):
                 filter_flag = True
@@ -240,22 +239,6 @@ def filter_folder(folder, filter):
     return filter_flag, filter_type
 
 
-def duplicate_check():
-    print()
-
-
-def disk_size_check():
-    print()
-
-
-def auto_rename_file():
-    print()
-
-
-def auto_rename_folder():
-    print()
-
-
 def sum_file_size(size_list):
     '''
     Args:
@@ -294,7 +277,7 @@ def archive_extension(archive_format):
 # Main functions
 
 
-def get_file_info(src_path, dst_path, log, filter):
+def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
     '''
     Args:
         src_path: (str) source path
@@ -348,7 +331,7 @@ def get_file_info(src_path, dst_path, log, filter):
         f = []
         return a, b, c, d, e, f
 
-    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime, filter):
+    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime, filter, print_sub_flag):
         '''
         Args:
             path: (str) path to be processed
@@ -382,30 +365,33 @@ def get_file_info(src_path, dst_path, log, filter):
                         ctime.append(datetime.fromtimestamp(
                             int(stat(join(path, f)).st_ctime)))
                     else:
-                        # print("[LOG] Skipping file: " +
-                        #       join(path, f) + "\t\t[FILTER] " + type)
+                        if print_sub_flag:
+                            print("[LOG] Skipping file: " +
+                                  join(path, f) + "\t\t[FILTER] " + type)
                         log.append("[LOG] Skipping file: " +
                                    join(path, f) + "\t\t[FILTER] " + type)
                 elif isdir(join(path, f)):
                     list_all_files(join(path, f), file_directory, error_message,
                                    file_size, atime, mtime, ctime, filter)  # recursive call
                 else:
-                    # print("[LOG] Unknown file type: " + join(path, f))
+                    if print_sub_flag:
+                        print("[LOG] Unknown file type: " + join(path, f))
                     log.append("[LOG] Unknown file type: " + join(path, f))
         except Exception as e:
             error_message.append(str(e))
-            # print("[LOG] Error: " + str(e) +
-            #       " when processing " + join(path, f))
+            if print_sub_flag:
+                print("[LOG] Error: " + str(e) +
+                      " when processing " + join(path, f))
             log.append("[LOG] Error: " + str(e) +
                        " when processing " + join(path, f))
         return file_directory, error_message, file_size, atime, mtime, ctime
 
     fd, err, size, atime, mtime, ctime = create()  # create empty lists
     fd_src, err_src, size_src, atime_src, mtime_src, ctime_src = list_all_files(
-        src_path, fd, err, size, atime, mtime, ctime, filter)
+        src_path, fd, err, size, atime, mtime, ctime, filter, print_sub_flag)
     fd, err, size, atime, mtime, ctime = create()  # reset
     fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst = list_all_files(
-        dst_path, fd, err, size, atime, mtime, ctime, filter)
+        dst_path, fd, err, size, atime, mtime, ctime, filter, print_sub_flag)
     fd, err, size, atime, mtime, ctime = create()  # reset
     tfs_src = sum_file_size(size_src)
     tfs_dst = sum_file_size(size_dst)
@@ -433,7 +419,7 @@ def get_file_info(src_path, dst_path, log, filter):
     return values, log
 
 
-def get_folder_info(src_path, dst_path, log, filter):
+def get_folder_info(src_path, dst_path, log, filter, print_sub_flag):
     '''
     Args:
         src_path: (str) source path
@@ -480,12 +466,14 @@ def get_folder_info(src_path, dst_path, log, filter):
                     get_folder_info(join(path, f), file_d, err,
                                     size)
                 else:
-                    print("[LOG] Unknown file type: " + join(path, f))
+                    if print_sub_flag:
+                        print("[LOG] Unknown file type: " + join(path, f))
                     log.append("[LOG] Unknown file type: " + join(path, f))
         except Exception as e:
             err.append(str(e))
-            print("[LOG] Error: " + str(e) +
-                  " when processing " + join(path, f))
+            if print_sub_flag:
+                print("[LOG] Error: " + str(e) +
+                      " when processing " + join(path, f))
             log.append("[LOG] Error: " + str(e) +
                        " when processing " + join(path, f))
         return file_d, err, size
@@ -502,17 +490,17 @@ def get_folder_info(src_path, dst_path, log, filter):
                     file_d, err, size = get_folder_info(
                         join(src_path, f), file_d, err, size)
                 else:
-                    # print("[LOG] Skipping folder: " +
-                    #       join(path, f) + "\t\t[FILTER] " + type)
+                    if print_sub_flag:
+                        print("[LOG] Skipping folder: " +
+                              join(src_path, f) + "\t\t[FILTER] " + type)
                     log.append("[LOG] Skipping folder: " +
                                join(src_path, f) + "\t\t[FILTER] " + type)
     except Exception as e:
-        # print("[LOG] Error: " + str(e) +
-        #       " when processing " + join(path, f))
+        if print_sub_flag:
+            print("[LOG] Error: " + str(e) +
+                  " when processing " + join(src_path, f))
         log.append("[LOG] Error: " + str(e) +
                    " when processing " + join(src_path, f))
-    # file_d, err, size = get_folder_info(
-    #     src_path, file_d, err, size)
     tfs_src = sum_file_size(size)
     total_src, used_src, free_src = disk_usage(src_path)
     total_dst, used_dst, free_dst = disk_usage(dst_path)
@@ -528,7 +516,7 @@ def get_folder_info(src_path, dst_path, log, filter):
     return values, log
 
 
-def disk_size_check(src_size, free_dst_disk_size, log):
+def disk_size_check(src_size, free_dst_disk_size, log, print_sub_flag):
     '''
     Args:
         src_size: (int) source file size (bytes)
@@ -541,14 +529,19 @@ def disk_size_check(src_size, free_dst_disk_size, log):
     flag = True
     if src_size > free_dst_disk_size:
         flag = False
+        if print_sub_flag:
+            print(
+                "[LOG] Source file size is more than the free disk size of the destination.")
         log.append(
             "[LOG] Error: File size is larger than free disk size of the destination")
     else:
+        if print_sub_flag:
+            print("[LOG] Passed disk size check!.")
         log.append("[LOG] Passed disk size check!")
     return flag, log
 
 
-def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log):
+def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log, print_sub_flag):
     '''
     Args:
         fd_src: (str) file directory
@@ -571,64 +564,25 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
     try:
         # File with same name in dst
         j = fd_dst_l.index(join(fd_dst, Path(fd_src).name))
-        # print("[LOG] Find file: " + fd_src)
+        if print_sub_flag:
+            print("[LOG] Find file: " + fd_src)
         if size_src == size_dst[j] and atime_src == atime_dst[j] and mtime_src == mtime_dst[j]:
             # File has the same metadata beside creation time
-            print("[LOG] File is the same, skip " + fd_src)
+            if print_sub_flag:
+                print("[LOG] File is the same, skip " + fd_src)
             log.append("[LOG] File is the same, skip copy\t\t" + fd_src)
         else:
             # File has different metadata
-            print("[LOG] File is different, copy " + fd_src)
+            if print_sub_flag:
+                print("[LOG] File is different, copy " + fd_src)
             log.append("[LOG] File is different, copy\t\t" + fd_src)
             copy2(fd_src, fd_dst)
     except Exception as e:
         # File is not found in dst
-        print("[LOG] File is not found in dst, copy" + fd_src)
+        if print_sub_flag:
+            print("[LOG] File is not found in dst, copy" + fd_src)
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
         copy2(fd_src, fd_dst)
-    return log
-
-
-def archive_folder(archive_name, src_path, dst_path, archive_format, log):
-    '''
-    Args:
-        archive_name: (str) archive name
-        src_path: (str) source path
-        dst_path: (str) destination path
-        format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
-        log: (list) list to be filled with log messages
-    Returns:
-        log: (list) log messages
-    Description:
-        This function archives the folder and provide archive duplication protection.
-    '''
-    # Format
-    archive_ext = archive_extension(archive_format)
-
-    # Replication protection
-    files = []
-    for (dirpath, dirnames, filenames) in walk(dst_path):
-        files.extend(filenames)
-        break
-    if archive_name + archive_ext in files:
-        log.append("[LOG] Archive already exists, skip archiving\t" +
-                   dst_path + archive_name + archive_ext)
-        print("[LOG] Archive already exists, skip archiving\t" +
-              dst_path + archive_name + archive_ext)
-        return log
-
-    # Create archive
-    t_1 = default_timer()
-    dir = getcwd()
-    chdir(src_path)
-    make_archive(base_name=join(dst_path, archive_name),
-                 format=archive_format, root_dir=src_path, base_dir='./')
-    chdir(dir)
-    t_2 = default_timer()
-    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
-        archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
-    print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
-        archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
     return log
 
 
@@ -657,7 +611,52 @@ def archive_single_file(archive_name, src_path, dst_path, archive_format, log):
     return log
 
 
-def unpack_file(archive_name, src_path, dst_path, archive_format, log):
+def archive_folder(archive_name, src_path, dst_path, archive_format, log, print_sub_flag):
+    '''
+    Args:
+        archive_name: (str) archive name
+        src_path: (str) source path
+        dst_path: (str) destination path
+        format: (str) archive format ('zip', 'tar', 'gztar', 'bztar', 'xztar')
+        log: (list) list to be filled with log messages
+    Returns:
+        log: (list) log messages
+    Description:
+        This function archives the folder and provide archive duplication protection.
+    '''
+    # Format
+    archive_ext = archive_extension(archive_format)
+
+    # Replication protection
+    files = []
+    for (dirpath, dirnames, filenames) in walk(dst_path):
+        files.extend(filenames)
+        break
+    if archive_name + archive_ext in files:
+        log.append("[LOG] Archive already exists, skip archiving\t" +
+                   dst_path + archive_name + archive_ext)
+        if print_sub_flag:
+            print("[LOG] Archive already exists, skip archiving\t" +
+                  dst_path + archive_name + archive_ext)
+        return log
+
+    # Create archive
+    t_1 = default_timer()
+    dir = getcwd()
+    chdir(src_path)
+    make_archive(base_name=join(dst_path, archive_name),
+                 format=archive_format, root_dir=src_path, base_dir='./')
+    chdir(dir)
+    t_2 = default_timer()
+    log.append("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
+        archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    if print_sub_flag:
+        print("[LOG] Archive {0}{1} created.\t\t\tTakes {2} seconds.\t{3}".format(
+            archive_name, archive_ext, t_2-t_1, dst_path + archive_name + archive_ext))
+    return log
+
+
+def unpack_file(archive_name, src_path, dst_path, archive_format, log, print_sub_flag):
     '''
     Args:
         archive_name: (str) archive name
@@ -677,8 +676,9 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log):
     if archive_name in folders:
         log.append("[LOG] Folder already exists, skip unpacking\t" +
                    dst_path + archive_name)
-        print("[LOG] Folder already exists, skip unpacking\t" +
-              dst_path + archive_name)
+        if print_sub_flag:
+            print("[LOG] Folder already exists, skip unpacking\t" +
+                  dst_path + archive_name)
         return log
 
     # Unpack archive
@@ -688,13 +688,15 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log):
                        join(dst_path, archive_name), archive_format)
     except Exception as e:
         log.append("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
-        print("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
+        if print_sub_flag:
+            print("[LOG] Unpack archive failed\t\t\t" + "\t" + str(e))
         return log
     t_2 = default_timer()
     log.append("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(
         archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
-    print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(
-        archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
+    if print_sub_flag:
+        print("[LOG] Archive {0}{1} unpacked.\t\t\tTakes {2} seconds.\t{3}".format(
+            archive_name, archive_ext, t_2-t_1, dst_path + archive_name))
     return log
 
 
