@@ -45,8 +45,8 @@ print_flag = [
     True  # print in sub-functions of lib file
 ]
 file_log_flag = [
-    False,  # src file log flag
-    False,  # dst file log flag
+    False,  # src file log flag associate with functions
+    False,  # file log file of random location
     True,  # execution log flag
 ]
 
@@ -102,8 +102,6 @@ log = []
 #     src_path, dst_path, log, filter_1, print_flag[2])
 # if file_log_flag[0]:
 #     export_log(basename(src_path), file_info[0], dst_path)
-# if file_log_flag[1]:
-#     export_log(basename(dst_path), file_info[6], dst_path)
 # flag, log = disk_size_check(
 #     file_info[12], file_info[20], log, print_flag[2])
 # if flag:
@@ -150,6 +148,8 @@ log = []
 # type = 'zip'  # zip, tar, gztar, bztar, xztar
 # folder_info, log = get_folder_info(
 #     src_path, dst_path, log, filter_2, print_flag[2])
+# if file_log_flag[0]:
+#     export_log(basename(src_path), folder_info[1], dst_path)
 # flag, log = disk_size_check(
 #     folder_info[7], folder_info[13], log, print_flag[2])
 # if flag:
@@ -163,49 +163,64 @@ log = []
 #                 "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
 # del folder_info[:], src_path, dst_path, type
 
-
-'''single_file_unpack'''  # (function update)
-filename = 'test'
-src_path = dst_2
-dst_path = dst_2
-type = 'zip'  # zip, tar, gztar, bztar, xztar
-file_info, log = get_file_info(
-    src_path, dst_path, log, filter_1, print_flag[2])
-flag, log = disk_size_check(file_info[12], file_info[20], log, print_flag[2])
-if flag:
-    log = unpack_file(filename, file_info[24],
-                      file_info[25], type, log, print_flag[2])
-del file_info[:]
+'''single_file_unpack'''
+# filename = 'test'
+# src_path = dst_2
+# dst_path = dst_2
+# type = 'zip'  # zip, tar, gztar, bztar, xztar
+# file_info, log = get_file_info(
+#     src_path, dst_path, log, filter_1, print_flag[2])
+# flag, log = disk_size_check(file_info[12], file_info[20], log, print_flag[2])
+# if flag:
+#     log = unpack_file(filename, file_info[24],
+#                       file_info[25], type, log, print_flag[2])
+# del file_info[:], filename, src_path, dst_path, type
 
 '''single_folder_unpack'''
-# file_info, log = get_file_info(dst_2, dst_2, log, filter_1, print_sub_flag)
-# flag, log = disk_size_check(file_info[12], file_info[20], log, print_sub_flag)
+# src_path = dst_2
+# dst_path = dst_2
+# type = 'zip'  # zip, tar, gztar, bztar, xztar
+# file_info, log = get_file_info(
+#     src_path, dst_path, log, filter_1, print_flag[2])
+# flag, log = disk_size_check(file_info[12], file_info[20], log, print_flag[2])
 # if flag:
 #     progress = [0, len(file_info[0])]
 #     for i in range(progress[1]):
-#         if file_info[0][i].endswith('.zip'):
+#         if file_info[0][i].endswith(type):
 #             log = unpack_file(basename(file_info[0][i]).rstrip(
-#                 '.zip'), file_info[24], file_info[25], 'zip', log, print_sub_flag)
+#                 type), file_info[24], file_info[25], type, log, print_flag[2])
 #             progress[0] += 1
-#             if print_main_flag:
+#             if print_flag[1]:
+#                 print(
+#                     "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+# del file_info[:], src_path, dst_path, type
+
+'''multi_folder_unpack'''
+# src_path = dst_2
+# dst_path = dst_2
+# type = 'zip'  # zㄋip, tar, gztar, bztar, xztar
+# file_info, log = get_file_info(src_path, dst_path, log, filter_1, print_flag[2])
+# if file_log_flag[0]:
+#     export_log(basename(src_path), file_info[0], dst_path)
+# flag, log = disk_size_check(file_info[12], file_info[20], log, print_flag[2])
+# if flag:
+#     progress = [0, len(file_info[0])]
+#     for i in range(progress[1]):
+#         if file_info[0][i].endswith(type):
+#             log = unpack_file(basename(file_info[0][i]).rstrip(
+#                 type), dirname(file_info[0][i]), file_info[25], type, log, print_flag[2])
+#             progress[0] += 1
+#             if print_flag[1]:
 #                 print(
 #                     "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
 # del file_info[:]
 
-'''multi_folder_unpack'''
-# file_info, log = get_file_info(dst_2, dst_2, log, filter_1, print_sub_flag)
-# flag, log = disk_size_check(file_info[12], file_info[20], log, print_sub_flag)
-# if flag:
-#     progress = [0, len(file_info[0])]
-#     for i in range(progress[1]):
-#         if file_info[0][i].endswith('.zip'):
-#             log = unpack_file(basename(file_info[0][i]).rstrip(
-#                 '.zip'), dirname(file_info[0][i]), file_info[25], 'zip', log, print_sub_flag)
-#             progress[0] += 1
-#             if print_main_flag:
-#                 print(
-#                     "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
-# del file_info[:]
+'''file_log'''
+filename = 'test'
+location = src_3
+dst_path = dst_2
+if file_log_flag[1]:
+    export_log(filename, location, dst_path)
 
 # End
 stop = default_timer()
