@@ -82,6 +82,7 @@ log = []
 
 '''multi_folder_copy'''
 file_info, log = get_file_info(src_8, dst_2, log, filter_1, print_sub_flag)
+export_log('file_log', file_info[0], dst_2)
 flag, log = disk_size_check(file_info[12], file_info[20], log, print_sub_flag)
 if flag:
     progress = [0, len(file_info[0])]
@@ -176,7 +177,7 @@ del file_info[:]
 stop = default_timer()
 log.append("[LOG] Total Operation Time: " + str(stop - start) + " seconds\n")
 if log_flag:
-    export_log(log, src_8)
+    export_log('log', log, src_8)
 print("[LOG] Total Operation Time: " + str(stop - start) + " seconds\n")
 print("[LOG] End executing {0}\n".format(Path(argv[0]).name))
 

@@ -331,7 +331,7 @@ def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
         f = []
         return a, b, c, d, e, f
 
-    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime, filter, print_sub_flag):
+    def list_all_files(path, file_directory, error_message, file_size, atime, mtime, ctime, filter):
         '''
         Args:
             path: (str) path to be processed
@@ -388,10 +388,10 @@ def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
 
     fd, err, size, atime, mtime, ctime = create()  # create empty lists
     fd_src, err_src, size_src, atime_src, mtime_src, ctime_src = list_all_files(
-        src_path, fd, err, size, atime, mtime, ctime, filter, print_sub_flag)
+        src_path, fd, err, size, atime, mtime, ctime, filter)
     fd, err, size, atime, mtime, ctime = create()  # reset
     fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst = list_all_files(
-        dst_path, fd, err, size, atime, mtime, ctime, filter, print_sub_flag)
+        dst_path, fd, err, size, atime, mtime, ctime, filter)
     fd, err, size, atime, mtime, ctime = create()  # reset
     tfs_src = sum_file_size(size_src)
     tfs_dst = sum_file_size(size_dst)
@@ -700,15 +700,16 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log, print_sub
     return log
 
 
-def export_log(log, dst_path):
+def export_log(filename, message, dst_path):
     '''
     Args:
-        log: (list) log messages
+        filename: (str) filename
+        message: (list) messages to be exported
         dst_path: (str) destination path
     Returns:
         None
     Description:
-        Export log messages with file duplication protection
+        Export messages with file duplication protection
     '''
     # Filename duplication protection and generation
     files = []
@@ -737,10 +738,10 @@ def export_log(log, dst_path):
         fcnt = fcnt[-1]+1
     except:
         fcnt = 1
-    # Write to log file
-    f = open(join(dst_path, 'log_{0}_{1}.txt'.format(
-        str(date.today()), str(fcnt))), 'w', encoding='utf-8')
-    for element in log:
+    # Write to message file
+    f = open(join(dst_path, '{0}_{1}_{2}.txt'.format(
+        filename, str(date.today()), str(fcnt))), 'w', encoding='utf-8')
+    for element in message:
         f.write(str(date.today()) + " " + strftime("%H:%M:%S",
                 localtime()) + " " + element + "\n")
     f.close()
