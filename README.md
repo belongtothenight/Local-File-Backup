@@ -69,7 +69,7 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 6. [x] Duplication Check (automatically skipped)
    1. [x] Filename
    2. [x] Folder name
-7. [ ] Disk size check
+7. [x] Disk size check
 8. [ ] Global print switch
 9.  [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
@@ -88,14 +88,14 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 	7. [ ] Minecraft saves Backup zip
 
 | Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check |
-| ------------- | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: |
-| Copy          | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: |
+|     Copy      | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
-| Archive       | Single File       |                 |                   |   $\checkmark$    |                 |
+|    Archive    | Single File       |                 |                   |   $\checkmark$    |                 |
 |               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   |
-| Unpack        | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
+|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 |               | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |
 
