@@ -4,7 +4,7 @@ from os.path import basename, dirname
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
-from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, single_file_copy, unpack_file, export_log
+from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_log
 
 # Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -46,7 +46,7 @@ print_flag = [
 ]
 file_log_flag = [
     False,  # src file log flag associate with functions
-    False,  # file log file of random location
+    True,  # file log file of random location
     True,  # execution log flag
 ]
 
@@ -198,7 +198,7 @@ log = []
 '''multi_folder_unpack'''
 # src_path = dst_2
 # dst_path = dst_2
-# type = 'zip'  # zㄋip, tar, gztar, bztar, xztar
+# type = 'zip'  # zip, tar, gztar, bztar, xztar
 # file_info, log = get_file_info(src_path, dst_path, log, filter_1, print_flag[2])
 # if file_log_flag[0]:
 #     export_log(basename(src_path), file_info[0], dst_path)
@@ -216,11 +216,12 @@ log = []
 # del file_info[:]
 
 '''file_log'''
-filename = 'test'
-location = src_3
-dst_path = dst_2
-if file_log_flag[1]:
-    export_log(filename, location, dst_path)
+# filename = 'test'
+# location = src_3
+# dst_path = dst_2
+# file_info, log = get_file_info(location, dst_path, log, [None], print_flag[2])
+# if file_log_flag[1]:
+#     export_log(filename, file_info[0], dst_path)
 
 # End
 stop = default_timer()
