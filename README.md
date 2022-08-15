@@ -7,19 +7,19 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 ## Functionality
 
 |            Functionality            | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress | Generate File |
-| :---------------------------------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: | :-----------: |
-|                Copy                 | Single File       |                 |                   |   $\checkmark$    |                 |               |               |
-|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
-|                 \|                  | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  | $\checkmark$  |
-|               Archive               | Single File       |                 |                   |                   |                 |               |               |
-|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |               |
-|                 \|                  | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
-|               Unpack                | Single File       |                 |                   |   $\checkmark$    |  $\checkmark$   |               |               |
-|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
-|                 \|                  | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  | $\checkmark$  |
-|         File Log Generation         |                   |                 |                   |                   |                 |               | $\checkmark$  |
-|       Process File Generation       |                   |                 |                   |                   |                 |               | $\checkmark$  |
-| Routine Execution Script Generation |
+| :---------------------------------: | :---------------: | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: | :-----------: |
+|                Copy                 |    Single File    |                 |                   |   $\checkmark$    |                 |               |               |
+|                 \|                  |   Single Folder   |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
+|                 \|                  |   Multi Folder    |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  | $\checkmark$  |
+|               Archive               |    Single File    |                 |                   |                   |                 |               |               |
+|                 \|                  |   Single Folder   |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |               |
+|                 \|                  |   Multi Folder    |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
+|               Unpack                |    Single File    |                 |                   |   $\checkmark$    |  $\checkmark$   |               |               |
+|                 \|                  |   Single Folder   |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |               |
+|                 \|                  |   Multi Folder    |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  | $\checkmark$  |
+|         File Log Generation         |     $\times$      |                 |                   |                   |                 |               | $\checkmark$  |
+|       Process File Generation       |     $\times$      |                 |                   |                   |                 |               | $\checkmark$  |
+| Routine Execution Script Generation |     $\times$      |
 
 1. [x] File Backup
    1. [x] Single file copy
