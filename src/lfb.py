@@ -167,6 +167,7 @@ log = []
 # filename = 'test'
 # src_path = dst_2
 # dst_path = dst_2
+# filter_1[2][1] = src_path
 # type = 'zip'  # zip, tar, gztar, bztar, xztar
 # file_info, log = get_file_info(
 #     src_path, dst_path, log, filter_1, print_flag[2])

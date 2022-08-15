@@ -14,7 +14,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 |    Archive    | Single File       |                 |                   |                   |                 |               |                   |
 |      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
 |      \|       | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
-|    Unpack     | Single File       |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
+|    Unpack     | Single File       |                 |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
 |      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
 |      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
 
