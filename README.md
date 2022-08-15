@@ -6,17 +6,20 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 
 ## Functionality
 
-| Functionality | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress | Generate File Log |
-| :-----------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: | :---------------: |
-|     Copy      | Single File       |                 |                   |   $\checkmark$    |                 |               |                   |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
-|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
-|    Archive    | Single File       |                 |                   |                   |                 |               |                   |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
-|      \|       | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
-|    Unpack     | Single File       |                 |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
-|      \|       | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
-|      \|       | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|            Functionality            | Sub-Functionality | Filename Filter | Foldername Filter | Duplication Check | Disk Size Check | Show Progress | Generate File Log |
+| :---------------------------------: | ----------------- | :-------------: | :---------------: | :---------------: | :-------------: | :-----------: | :---------------: |
+|                Copy                 | Single File       |                 |                   |   $\checkmark$    |                 |               |                   |
+|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
+|                 \|                  | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|               Archive               | Single File       |                 |                   |                   |                 |               |                   |
+|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
+|                 \|                  | Multi Folder      |                 |   $\checkmark$    |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|               Unpack                | Single File       |                 |                   |   $\checkmark$    |  $\checkmark$   |               |                   |
+|                 \|                  | Single Folder     |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |                   |
+|                 \|                  | Multi Folder      |  $\checkmark$   |                   |   $\checkmark$    |  $\checkmark$   | $\checkmark$  |   $\checkmark$    |
+|         File Log Generation         |                   |                 |                   |                   |                 |               |   $\checkmark$    |
+|       Process File Generation       |
+| Routine Execution Script Generation |
 
 1. [x] File Backup
    1. [x] Single file copy
@@ -46,7 +49,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 9.  [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
 10. [x] Generate a list of file of a folder. (all accessible files)
-11. [ ] Generate Set Backup Process (Personal)</br>
+11. [ ] Generate Set Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
@@ -58,6 +61,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 	5. [ ] CF Backup My Passport
 	6. [ ] Minecraft saves Backup
 	7. [ ] Minecraft saves Backup zip
+12. [ ] Routine process
 
 ## GUI
 1. [ ] Select source and destination.
