@@ -7,7 +7,9 @@ from sys import argv
 from lfb_lib import archive_single_file, get_file_info, get_folder_info, copy_file, archive_single_file, archive_folder, unpack_file, export_log
 
 # Function
-def multi_folder_copy(src,dst, size_src, size_dst, filecount_src, filecount_dst):
+
+
+def multi_folder_copy(src, dst, size_src, size_dst, filecount_src, filecount_dst):
     file_info = get_file_info(src, dst)
     size_src.append(file_info[12])
     size_dst.append(file_info[13])
@@ -16,21 +18,22 @@ def multi_folder_copy(src,dst, size_src, size_dst, filecount_src, filecount_dst)
     del file_info[:]
     return size_src, size_dst, filecount_src, filecount_dst
 
+
 # Variables
 log_path = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/'
-src_1 = 'D:/Computer File/'
-src_2 = 'D:/Note_Database/'
-dst_1 = 'E:/Computer File/'
-dst_2 = 'F:/Computer File/'
-dst_3 = 'F:/N_D BackUp/Partial Copy of ND 20220805/'
-dst_4 = 'E:/N_D BackUp/Partial Copy of ND 20220805/'
-dst_5 = 'F:/Note_Database/'
+src_a = 'D:/Computer File/'
+src_b = 'D:/Note_Database/'
+dst_a = 'E:/Computer File/'
+dst_b = 'F:/Computer File/'
+dst_c = 'F:/N_D BackUp/Partial Copy of ND 20220805/'
+dst_d = 'E:/N_D BackUp/Partial Copy of ND 20220805/'
+dst_e = 'F:/Note_Database/'
 profile = [
-    ['CF Backup My Passport', src_1, dst_2],
-    ['CF Backup Transend', src_1, dst_1],
-    ['ND Backup My Passport', src_2, dst_3],
-    ['ND Backup Transend', src_2, dst_4],
-    ['ND Full Backup My Passport', src_2, dst_5]
+    ['CF Backup My Passport', src_a, dst_b],
+    ['CF Backup Transend', src_a, dst_a],
+    ['ND Backup My Passport', src_b, dst_c],
+    ['ND Backup Transend', src_b, dst_d],
+    ['ND Full Backup My Passport', src_b, dst_e]
 ]
 
 # Startup
@@ -45,15 +48,20 @@ filecount_dst = []
 
 # Main
 '''CF Backup My Passport'''
-size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(profile[0][1], profile[0][2], size_src, size_dst, filecount_src, filecount_dst)
+size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(
+    profile[0][1], profile[0][2], size_src, size_dst, filecount_src, filecount_dst)
 '''CF Backup Transend'''
-size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(profile[1][1], profile[1][2], size_src, size_dst, filecount_src, filecount_dst)
+size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(
+    profile[1][1], profile[1][2], size_src, size_dst, filecount_src, filecount_dst)
 '''ND Backup My Passport'''
-size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(profile[2][1], profile[2][2], size_src, size_dst, filecount_src, filecount_dst)
+size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(
+    profile[2][1], profile[2][2], size_src, size_dst, filecount_src, filecount_dst)
 '''ND Backup Transend'''
-size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(profile[3][1], profile[3][2], size_src, size_dst, filecount_src, filecount_dst)
+size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(
+    profile[3][1], profile[3][2], size_src, size_dst, filecount_src, filecount_dst)
 '''ND Full Backup My Passport'''
-size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(profile[4][1], profile[4][2], size_src, size_dst, filecount_src, filecount_dst)
+size_src, size_dst, filecount_src, filecount_dst = multi_folder_copy(
+    profile[4][1], profile[4][2], size_src, size_dst, filecount_src, filecount_dst)
 
 # Write Test Results to Log
 log.append('Test Results:')
@@ -62,8 +70,10 @@ for i in range(len(profile)):
     log.append('Profile: {0}'.format(profile[i][0]))
     log.append('Source:\t\t\t\t\t\t{0}'.format(profile[i][1]))
     log.append('Destination:\t\t\t\t{0}'.format(profile[i][2]))
-    log.append('Source Size(GB):\t\t{:>12}'.format(str(size_src[i]//1024//1024//1024)))
-    log.append('Destination Size(GB):\t{:>12}'.format(str(size_dst[i]//1024//1024//1024)))
+    log.append('Source Size(GB):\t\t{:>12}'.format(
+        str(size_src[i]//1024//1024//1024)))
+    log.append('Destination Size(GB):\t{:>12}'.format(
+        str(size_dst[i]//1024//1024//1024)))
     log.append('Source File Count:\t\t{:>12}'.format(str(filecount_src[i])))
     log.append('Destination File Count:\t{:>12}'.format(str(filecount_dst[i])))
     log.append('\n')

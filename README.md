@@ -49,18 +49,18 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 9.  [x] Generate Execution Log</br>
 	1. [x] Record every file transfer.
 10. [x] Generate a list of file of a folder. (all accessible files)
-11. [ ] Generate Set Process (Personal)</br>
+11. [x] Generate Set Process (Personal)</br>
 	Can execute backup process without any manual operation needed with pre-specified directory set.</br>
 	Routinely run by windows task scheduler. </br>
 	File structure: .py(set in task scheduler) + .csv(record the backup exceptions)</br>
 	https://www.youtube.com/watch?v=Q6aV0ra1Z5A
-	1. [ ] Full ND Backup My Passport
-	2. [ ] ND Backup Transend
-	3. [ ] ND Backup My Passport
-	4. [ ] CF Backup Transend
-	5. [ ] CF Backup My Passport
-	6. [ ] Minecraft saves Backup
-	7. [ ] Minecraft saves Backup zip
+	1. [x] Full ND Backup My Passport
+	2. [x] ND Backup Transend
+	3. [x] ND Backup My Passport
+	4. [x] CF Backup Transend
+	5. [x] CF Backup My Passport
+	6. [x] Minecraft saves Backup
+	7. [x] Minecraft saves Backup zip
 12. [ ] Routine process
 
 ## GUI

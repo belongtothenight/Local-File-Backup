@@ -748,6 +748,56 @@ def export_log(filename, message, dst_path):
     f.close()
 
 
+def generate_process_file(filename, filetype, dst_path, content, log):
+    '''
+    Args:
+        filename: (str) filename
+        filetype: (str) file type
+        dst_path: (str) destination path
+        log: (list) list to be filled with log messages
+    Returns:
+        None
+    Description:
+        Generate process file
+    '''
+    # Filename duplication protection and generation
+    files = []
+    buf_1 = []
+    buf_2 = []
+    fcnt = []
+    # Get all file name and generate new file number to avoid overwriting
+    for (dirpath, dirnames, filenames) in walk(dst_path):
+        files.extend(filenames)
+        break
+    for i in range(len(files)):
+        buf_1 = files[i].split('_')
+        buf_1 = list(buf_1[-1])
+        for j in range(len(buf_1)):
+            try:
+                buf_2.append(int(buf_1[j]))
+            except:
+                continue
+            buf_2 = [str(k) for k in buf_2]
+            buf2 = ''.join(buf_2)
+            fcnt.append(buf2)
+        buf_2.clear()
+    fcnt = [int(i) for i in fcnt]
+    fcnt.sort()
+    try:
+        fcnt = fcnt[-1]+1
+    except:
+        fcnt = 1
+    # Write to message file
+    f = open(join(dst_path, '{0}_{1}_{2}.{3}'.format(
+        filename, str(date.today()), str(fcnt), filetype)), 'w', encoding='utf-8')
+    for element in content:
+        f.write(element + "\n")
+    f.close()
+    log.append("[LOG] Process file {0}_{1}_{2}.{3} created.\t\t\t{4}".format(filename, str(date.today()), str(
+        fcnt), filetype, dst_path + filename + '_' + str(date.today()) + '_' + str(fcnt) + '.' + filetype))
+    return log
+
+
 # Execution Warning
 if __name__ == "__main__":
     system('cls')

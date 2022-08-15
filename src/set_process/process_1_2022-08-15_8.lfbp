@@ -1,0 +1,56 @@
+process_1
+===========================================================
+<<Output Settings>>
+Print_Main||True
+Print_Process||True
+Print_Sub_Function||True
+Export_SRC_File_Log||False
+Export_File_Log||True
+Export_Execution_Log||True
+===========================================================
+<<Filter File Settings>>
+Filter_file||True
+Filter_File_Extension||None
+Filter_File_Included_Words||07-31
+Filter_File_Fullname||log_2022-07-31_1.txt
+Filter_File_Min_Size||16000
+Filter_File_Max_Size||48000
+Filter_File_Min_ATime||None
+Filter_File_Max_ATime||None
+Filter_File_Min_MTime||None
+Filter_File_Max_MTime||None
+Filter_File_Min_CTime||None
+Filter_File_Max_CTime||None
+===========================================================
+<<Filter Folder Settings>>
+Filter_Folder||True
+Filter_Folder_Extension||Not Implemented
+Filter_Folder_Included_Words||None
+Filter_Folder_Fullname||src
+Filter_Folder_Min_Size||Not Implemented
+Filter_Folder_Max_Size||Not Implemented
+Filter_Folder_Min_ATime||None
+Filter_Folder_Max_ATime||None
+Filter_Folder_Min_MTime||None
+Filter_Folder_Max_MTime||None
+Filter_Folder_Min_CTime||None
+Filter_Folder_Max_CTime||None
+===========================================================
+<<Process Settings>>
+Single_file_copy||True
+Single_folder_copy||True
+Multi_folder_copy||True
+Single_file_archive||True
+Single_folder_archive||True
+Multi_folder_archive||True
+Single_file_unpack||True
+Single_folder_unpack||True
+Multi_folder_unpack||True
+===========================================================
+<<Process List>>
+Multi_folder_copy||CF Backup My Passport||D:/Computer File/||F:/Computer File/
+Multi_folder_copy||CF Backup Transend||D:/Computer File/||E:/Computer File/
+Multi_folder_copy||ND Backup My Passport||D:/Note_Database/||F:/N_D BackUp/Partial Copy of ND 20220805/
+Multi_folder_copy||ND Backup Transend||D:/Note_Database/||E:/N_D BackUp/Partial Copy of ND 20220805/
+Multi_folder_copy||ND Full Backup My Passport||D:/Note_Database/||F:/Note_Database/
+===========================================================

@@ -4,7 +4,7 @@ from os.path import basename, dirname
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
-from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_log
+from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_log, generate_process_file
 
 # Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -17,6 +17,7 @@ src_7 = 'f:/'
 src_8 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/'
 src_9 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/all_accessible_files_CD.txt'
 dst_2 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/dst/'
+dst_3 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/set_process/'
 
 # Filter Array
 filter_1 = [
@@ -48,6 +49,36 @@ file_log_flag = [
     False,  # src file log flag associate with functions
     True,  # file log file of random location
     True,  # execution log flag
+]
+
+# Function Enable Array
+function_enable = [
+    ['Single_file_copy', True],  # single file copy
+    ['Single_folder_copy', True],  # single folder copy
+    ['Multi_folder_copy', True],  # multi file copy
+    ['Single_file_archive', True],  # single file archive
+    ['Single_folder_archive', True],  # single folder archive
+    ['Multi_folder_archive', True],  # multi file archive
+    ['Single_file_unpack', True],  # single file unpack
+    ['Single_folder_unpack', True],  # single folder unpack
+    ['Multi_folder_unpack', True]  # multi file unpack
+]
+
+# Process Array
+log_path = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/log/'
+src_a = 'D:/Computer File/'
+src_b = 'D:/Note_Database/'
+dst_a = 'E:/Computer File/'
+dst_b = 'F:/Computer File/'
+dst_c = 'F:/N_D BackUp/Partial Copy of ND 20220805/'
+dst_d = 'E:/N_D BackUp/Partial Copy of ND 20220805/'
+dst_e = 'F:/Note_Database/'
+process = [
+    [2, 'CF Backup My Passport', src_a, dst_b],
+    [2, 'CF Backup Transend', src_a, dst_a],
+    [2, 'ND Backup My Passport', src_b, dst_c],
+    [2, 'ND Backup Transend', src_b, dst_d],
+    [2, 'ND Full Backup My Passport', src_b, dst_e]
 ]
 
 # Startup
@@ -196,12 +227,6 @@ log = []
 #                     "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
 # del file_info[:], src_path, dst_path, type
 
-'''Process File Generation'''
-
-
-'''Routine Execution Script Generation'''
-
-
 '''multi_folder_unpack'''
 # src_path = dst_2
 # dst_path = dst_2
@@ -229,6 +254,81 @@ log = []
 # file_info, log = get_file_info(location, dst_path, log, [None], print_flag[2])
 # if file_log_flag[1]:
 #     export_log(filename, file_info[0], dst_path)
+
+'''Process File Generation'''
+filename = 'process_1'
+filetype = 'lfbp'
+dst_path = dst_3
+
+content = ['process_1']
+content.append('===========================================================')
+content.append('<<Output Settings>>')
+content.append('Print_Main||{0}'.format(print_flag[0]))
+content.append('Print_Process||{0}'.format(print_flag[1]))
+content.append('Print_Sub_Function||{0}'.format(print_flag[2]))
+content.append('Export_SRC_File_Log||{0}'.format(file_log_flag[0]))
+content.append('Export_File_Log||{0}'.format(file_log_flag[1]))
+content.append('Export_Execution_Log||{0}'.format(file_log_flag[2]))
+content.append('===========================================================')
+content.append('<<Filter File Settings>>')
+content.append('Filter_file||{0}'.format(filter_1[0]))
+filter_str = ''
+for i in filter_1[1]:
+    filter_str += '||{0}'.format(i)
+content.append('Filter_File_Extension{0}'.format(filter_str))
+filter_str = ''
+for i in filter_1[2][0]:
+    filter_str += '||{0}'.format(i)
+content.append('Filter_File_Included_Words{0}'.format(filter_str))
+filter_str = ''
+for i in filter_1[2][1]:
+    filter_str += '||{0}'.format(i)
+content.append('Filter_File_Fullname{0}'.format(filter_str))
+content.append('Filter_File_Min_Size||{0}'.format(filter_1[3][0]))
+content.append('Filter_File_Max_Size||{0}'.format(filter_1[3][1]))
+content.append('Filter_File_Min_ATime||{0}'.format(filter_1[4][0]))
+content.append('Filter_File_Max_ATime||{0}'.format(filter_1[4][1]))
+content.append('Filter_File_Min_MTime||{0}'.format(filter_1[5][0]))
+content.append('Filter_File_Max_MTime||{0}'.format(filter_1[5][1]))
+content.append('Filter_File_Min_CTime||{0}'.format(filter_1[6][0]))
+content.append('Filter_File_Max_CTime||{0}'.format(filter_1[6][1]))
+content.append('===========================================================')
+content.append('<<Filter Folder Settings>>')
+content.append('Filter_Folder||{0}'.format(filter_2[0]))
+content.append('Filter_Folder_Extension||Not Implemented')
+filter_str = ''
+for i in filter_2[2][0]:
+    filter_str += '||{0}'.format(i)
+content.append('Filter_Folder_Included_Words{0}'.format(filter_str))
+filter_str = ''
+for i in filter_2[2][1]:
+    filter_str += '||{0}'.format(i)
+content.append('Filter_Folder_Fullname{0}'.format(filter_str))
+content.append('Filter_Folder_Min_Size||Not Implemented')
+content.append('Filter_Folder_Max_Size||Not Implemented')
+content.append('Filter_Folder_Min_ATime||{0}'.format(filter_2[4][0]))
+content.append('Filter_Folder_Max_ATime||{0}'.format(filter_2[4][1]))
+content.append('Filter_Folder_Min_MTime||{0}'.format(filter_2[5][0]))
+content.append('Filter_Folder_Max_MTime||{0}'.format(filter_2[5][1]))
+content.append('Filter_Folder_Min_CTime||{0}'.format(filter_2[6][0]))
+content.append('Filter_Folder_Max_CTime||{0}'.format(filter_2[6][1]))
+content.append('===========================================================')
+content.append('<<Process Settings>>')
+for i in function_enable:
+    content.append('{0}||{1}'.format(
+        i[0], i[1]))
+content.append('===========================================================')
+content.append('<<Process List>>')
+for i in process:
+    j = i[0]
+    content.append('{0}||{1}||{2}||{3}'.format(
+        function_enable[j][0], i[1], i[2], i[3]))
+content.append('===========================================================')
+
+log = generate_process_file(filename, filetype, dst_path, content, log)
+
+'''Routine Execution Script Generation'''
+
 
 # End
 stop = default_timer()
