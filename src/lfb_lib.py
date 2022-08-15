@@ -12,6 +12,7 @@ from sys import argv
 from multiprocessing import Process
 from unittest import skip
 from numpy import append
+import pandas as pd
 
 '''Sub functions'''
 
@@ -701,16 +702,16 @@ def unpack_file(archive_name, src_path, dst_path, archive_format, log, print_sub
     return log
 
 
-def export_log(filename, message, dst_path):
+def export_file_log(filename, file_list, dst_path):
     '''
     Args:
         filename: (str) filename
-        message: (list) messages to be exported
+        files: (list) list of files
         dst_path: (str) destination path
     Returns:
-        None
+        log: (list) log messages
     Description:
-        Export messages with file duplication protection
+        This function exports the log messages to a file.
     '''
     # Filename duplication protection and generation
     files = []
@@ -739,13 +740,22 @@ def export_log(filename, message, dst_path):
         fcnt = fcnt[-1]+1
     except:
         fcnt = 1
-    # Write to message file
-    f = open(join(dst_path, '{0}_{1}_{2}.txt'.format(
-        filename, str(date.today()), str(fcnt))), 'w', encoding='utf-8')
-    for element in message:
-        f.write(str(date.today()) + " " + strftime("%H:%M:%S",
-                localtime()) + " " + element + "\n")
-    f.close()
+    # file size conversion
+    size_B = [round(x/(2**3), 1) for x in file_list[2]]
+    size_MB = [round(x/(2**6), 2) for x in file_list[2]]
+    size_GB = [round(x/(2**9), 3) for x in file_list[2]]
+    # Write to csv file
+    df = pd.DataFrame({
+        'file': file_list[0],
+        'size(byte)': file_list[2],
+        'size(B)': size_B,
+        'size(MB)': size_MB,
+        'size(GB)': size_GB,
+        'atime': file_list[3],
+        'mtime': file_list[4],
+        'ctime': file_list[5]
+    })
+    df.to_csv(join(dst_path, filename) + '_' + str(fcnt) + '.csv', index=True)
 
 
 def generate_process_file(filename, filetype, dst_path, content, log):
@@ -796,6 +806,53 @@ def generate_process_file(filename, filetype, dst_path, content, log):
     log.append("[LOG] Process file {0}_{1}_{2}.{3} created.\t\t\t{4}".format(filename, str(date.today()), str(
         fcnt), filetype, dst_path + filename + '_' + str(date.today()) + '_' + str(fcnt) + '.' + filetype))
     return log
+
+
+def export_log(filename, message, dst_path):
+    '''
+    Args:
+        filename: (str) filename
+        message: (list) messages to be exported
+        dst_path: (str) destination path
+    Returns:
+        None
+    Description:
+        Export messages with file duplication protection
+    '''
+    # Filename duplication protection and generation
+    files = []
+    buf_1 = []
+    buf_2 = []
+    fcnt = []
+    # Get all file name and generate new file number to avoid overwriting
+    for (dirpath, dirnames, filenames) in walk(dst_path):
+        files.extend(filenames)
+        break
+    for i in range(len(files)):
+        buf_1 = files[i].split('_')
+        buf_1 = list(buf_1[-1])
+        for j in range(len(buf_1)):
+            try:
+                buf_2.append(int(buf_1[j]))
+            except:
+                continue
+            buf_2 = [str(k) for k in buf_2]
+            buf2 = ''.join(buf_2)
+            fcnt.append(buf2)
+        buf_2.clear()
+    fcnt = [int(i) for i in fcnt]
+    fcnt.sort()
+    try:
+        fcnt = fcnt[-1]+1
+    except:
+        fcnt = 1
+    # Write to message file
+    f = open(join(dst_path, '{0}_{1}_{2}.txt'.format(
+        filename, str(date.today()), str(fcnt))), 'w', encoding='utf-8')
+    for element in message:
+        f.write(str(date.today()) + " " + strftime("%H:%M:%S",
+                localtime()) + " " + element + "\n")
+    f.close()
 
 
 # Execution Warning

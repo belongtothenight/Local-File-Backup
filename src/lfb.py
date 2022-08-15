@@ -4,7 +4,7 @@ from os.path import basename, dirname
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
-from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_log, generate_process_file
+from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_file_log, export_log, generate_process_file
 
 # Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -46,7 +46,7 @@ print_flag = [
     True  # print in sub-functions of lib file
 ]
 file_log_flag = [
-    False,  # src file log flag associate with functions
+    True,  # src file log flag associate with functions
     True,  # file log file of random location
     True,  # execution log flag
 ]
@@ -127,12 +127,13 @@ log = []
 # del file_info[:], src_path, dst_path
 
 '''multi_folder_copy'''
+# filename = function_enable[2][0]
 # src_path = src_8
 # dst_path = dst_2
 # file_info, log = get_file_info(
 #     src_path, dst_path, log, filter_1, print_flag[2])
 # if file_log_flag[0]:
-#     export_log(basename(src_path), file_info[0], dst_path)
+#     export_file_log(filename, file_info, dst_path)
 # flag, log = disk_size_check(
 #     file_info[12], file_info[20], log, print_flag[2])
 # if flag:
@@ -179,8 +180,6 @@ log = []
 # type = 'zip'  # zip, tar, gztar, bztar, xztar
 # folder_info, log = get_folder_info(
 #     src_path, dst_path, log, filter_2, print_flag[2])
-# if file_log_flag[0]:
-#     export_log(basename(src_path), folder_info[1], dst_path)
 # flag, log = disk_size_check(
 #     folder_info[7], folder_info[13], log, print_flag[2])
 # if flag:
@@ -228,12 +227,13 @@ log = []
 # del file_info[:], src_path, dst_path, type
 
 '''multi_folder_unpack'''
+# filename = function_enable[8][0]
 # src_path = dst_2
 # dst_path = dst_2
 # type = 'zip'  # zip, tar, gztar, bztar, xztar
 # file_info, log = get_file_info(src_path, dst_path, log, filter_1, print_flag[2])
 # if file_log_flag[0]:
-#     export_log(basename(src_path), file_info[0], dst_path)
+#     export_file_log(filename, file_info, dst_path)
 # flag, log = disk_size_check(file_info[12], file_info[20], log, print_flag[2])
 # if flag:
 #     progress = [0, len(file_info[0])]
@@ -253,79 +253,77 @@ log = []
 # dst_path = dst_2
 # file_info, log = get_file_info(location, dst_path, log, [None], print_flag[2])
 # if file_log_flag[1]:
-#     export_log(filename, file_info[0], dst_path)
+#     export_file_log(filename, file_info, dst_path)
 
 '''Process File Generation'''
-filename = 'process_1'
-filetype = 'lfbp'
-dst_path = dst_3
-
-content = ['process_1']
-content.append('===========================================================')
-content.append('<<Output Settings>>')
-content.append('Print_Main||{0}'.format(print_flag[0]))
-content.append('Print_Process||{0}'.format(print_flag[1]))
-content.append('Print_Sub_Function||{0}'.format(print_flag[2]))
-content.append('Export_SRC_File_Log||{0}'.format(file_log_flag[0]))
-content.append('Export_File_Log||{0}'.format(file_log_flag[1]))
-content.append('Export_Execution_Log||{0}'.format(file_log_flag[2]))
-content.append('===========================================================')
-content.append('<<Filter File Settings>>')
-content.append('Filter_file||{0}'.format(filter_1[0]))
-filter_str = ''
-for i in filter_1[1]:
-    filter_str += '||{0}'.format(i)
-content.append('Filter_File_Extension{0}'.format(filter_str))
-filter_str = ''
-for i in filter_1[2][0]:
-    filter_str += '||{0}'.format(i)
-content.append('Filter_File_Included_Words{0}'.format(filter_str))
-filter_str = ''
-for i in filter_1[2][1]:
-    filter_str += '||{0}'.format(i)
-content.append('Filter_File_Fullname{0}'.format(filter_str))
-content.append('Filter_File_Min_Size||{0}'.format(filter_1[3][0]))
-content.append('Filter_File_Max_Size||{0}'.format(filter_1[3][1]))
-content.append('Filter_File_Min_ATime||{0}'.format(filter_1[4][0]))
-content.append('Filter_File_Max_ATime||{0}'.format(filter_1[4][1]))
-content.append('Filter_File_Min_MTime||{0}'.format(filter_1[5][0]))
-content.append('Filter_File_Max_MTime||{0}'.format(filter_1[5][1]))
-content.append('Filter_File_Min_CTime||{0}'.format(filter_1[6][0]))
-content.append('Filter_File_Max_CTime||{0}'.format(filter_1[6][1]))
-content.append('===========================================================')
-content.append('<<Filter Folder Settings>>')
-content.append('Filter_Folder||{0}'.format(filter_2[0]))
-content.append('Filter_Folder_Extension||Not Implemented')
-filter_str = ''
-for i in filter_2[2][0]:
-    filter_str += '||{0}'.format(i)
-content.append('Filter_Folder_Included_Words{0}'.format(filter_str))
-filter_str = ''
-for i in filter_2[2][1]:
-    filter_str += '||{0}'.format(i)
-content.append('Filter_Folder_Fullname{0}'.format(filter_str))
-content.append('Filter_Folder_Min_Size||Not Implemented')
-content.append('Filter_Folder_Max_Size||Not Implemented')
-content.append('Filter_Folder_Min_ATime||{0}'.format(filter_2[4][0]))
-content.append('Filter_Folder_Max_ATime||{0}'.format(filter_2[4][1]))
-content.append('Filter_Folder_Min_MTime||{0}'.format(filter_2[5][0]))
-content.append('Filter_Folder_Max_MTime||{0}'.format(filter_2[5][1]))
-content.append('Filter_Folder_Min_CTime||{0}'.format(filter_2[6][0]))
-content.append('Filter_Folder_Max_CTime||{0}'.format(filter_2[6][1]))
-content.append('===========================================================')
-content.append('<<Process Settings>>')
-for i in function_enable:
-    content.append('{0}||{1}'.format(
-        i[0], i[1]))
-content.append('===========================================================')
-content.append('<<Process List>>')
-for i in process:
-    j = i[0]
-    content.append('{0}||{1}||{2}||{3}'.format(
-        function_enable[j][0], i[1], i[2], i[3]))
-content.append('===========================================================')
-
-log = generate_process_file(filename, filetype, dst_path, content, log)
+# filename = 'process_1'
+# filetype = 'lfbp'
+# dst_path = dst_3
+# content = ['process_1']
+# content.append('===========================================================')
+# content.append('<<Output Settings>>')
+# content.append('Print_Main||{0}'.format(print_flag[0]))
+# content.append('Print_Process||{0}'.format(print_flag[1]))
+# content.append('Print_Sub_Function||{0}'.format(print_flag[2]))
+# content.append('Export_SRC_File_Log||{0}'.format(file_log_flag[0]))
+# content.append('Export_File_Log||{0}'.format(file_log_flag[1]))
+# content.append('Export_Execution_Log||{0}'.format(file_log_flag[2]))
+# content.append('===========================================================')
+# content.append('<<Filter File Settings>>')
+# content.append('Filter_file||{0}'.format(filter_1[0]))
+# filter_str = ''
+# for i in filter_1[1]:
+#     filter_str += '||{0}'.format(i)
+# content.append('Filter_File_Extension{0}'.format(filter_str))
+# filter_str = ''
+# for i in filter_1[2][0]:
+#     filter_str += '||{0}'.format(i)
+# content.append('Filter_File_Included_Words{0}'.format(filter_str))
+# filter_str = ''
+# for i in filter_1[2][1]:
+#     filter_str += '||{0}'.format(i)
+# content.append('Filter_File_Fullname{0}'.format(filter_str))
+# content.append('Filter_File_Min_Size||{0}'.format(filter_1[3][0]))
+# content.append('Filter_File_Max_Size||{0}'.format(filter_1[3][1]))
+# content.append('Filter_File_Min_ATime||{0}'.format(filter_1[4][0]))
+# content.append('Filter_File_Max_ATime||{0}'.format(filter_1[4][1]))
+# content.append('Filter_File_Min_MTime||{0}'.format(filter_1[5][0]))
+# content.append('Filter_File_Max_MTime||{0}'.format(filter_1[5][1]))
+# content.append('Filter_File_Min_CTime||{0}'.format(filter_1[6][0]))
+# content.append('Filter_File_Max_CTime||{0}'.format(filter_1[6][1]))
+# content.append('===========================================================')
+# content.append('<<Filter Folder Settings>>')
+# content.append('Filter_Folder||{0}'.format(filter_2[0]))
+# content.append('Filter_Folder_Extension||Not Implemented')
+# filter_str = ''
+# for i in filter_2[2][0]:
+#     filter_str += '||{0}'.format(i)
+# content.append('Filter_Folder_Included_Words{0}'.format(filter_str))
+# filter_str = ''
+# for i in filter_2[2][1]:
+#     filter_str += '||{0}'.format(i)
+# content.append('Filter_Folder_Fullname{0}'.format(filter_str))
+# content.append('Filter_Folder_Min_Size||Not Implemented')
+# content.append('Filter_Folder_Max_Size||Not Implemented')
+# content.append('Filter_Folder_Min_ATime||{0}'.format(filter_2[4][0]))
+# content.append('Filter_Folder_Max_ATime||{0}'.format(filter_2[4][1]))
+# content.append('Filter_Folder_Min_MTime||{0}'.format(filter_2[5][0]))
+# content.append('Filter_Folder_Max_MTime||{0}'.format(filter_2[5][1]))
+# content.append('Filter_Folder_Min_CTime||{0}'.format(filter_2[6][0]))
+# content.append('Filter_Folder_Max_CTime||{0}'.format(filter_2[6][1]))
+# content.append('===========================================================')
+# content.append('<<Process Settings>>')
+# for i in function_enable:
+#     content.append('{0}||{1}'.format(
+#         i[0], i[1]))
+# content.append('===========================================================')
+# content.append('<<Process List>>')
+# for i in process:
+#     j = i[0]
+#     content.append('{0}||{1}||{2}||{3}'.format(
+#         function_enable[j][0], i[1], i[2], i[3]))
+# content.append('===========================================================')
+# log = generate_process_file(filename, filetype, dst_path, content, log)
 
 '''Routine Execution Script Generation'''
 
