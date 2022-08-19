@@ -61,7 +61,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 	5. [x] CF Backup My Passport
 	6. [x] Minecraft saves Backup
 	7. [x] Minecraft saves Backup zip
-12. [ ] Routine process
+12. [x] Routine process
 
 ## GUI
 1. [ ] Select source and destination.

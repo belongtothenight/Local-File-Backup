@@ -327,29 +327,45 @@ log = []
 # log = generate_process_file(filename, filetype, dst_path, encoding, content, log)
 
 '''Routine Execution Script Generation'''
-try:
-    if argv[1] == 'routine_execution':
-        print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
-except IndexError:
-    print('Python Script: {0} Executed'.format(argv[0]))
-    filename = 'routine_execution_script'
-    filetype = 'py'
-    dst_path = dst_3
-    encoding = None
-    py_dir = join(getcwd(), 'src\\')
-    content = [
-        '# This is a Python Script in order to trigger program executed in routine mode\n']
-    '''Routine Execution Script'''
-    content.append('from os import system, chdir')
-    content.append('p = \"{0}\"'.format(py_dir.replace('\\', '/')))
-    content.append('fn = \"{0}\"'.format(basename(argv[0])))
-    content.append('arg1 = \"routine_execution\"')
-    content.append('system(\"cls\")')
-    content.append('chdir(p)')
-    content.append('system(\"python \" + fn + \" \" + arg1)')
-    log = generate_process_file(
-        filename, filetype, dst_path, None, content, log)
+'''
+Description:
+    Generate a script file to execute the process file.
+# '''
+# filename = 'routine_execution_script'
+# filetype = 'py'
+# dst_path = dst_3
+# encoding = None
+# py_dir = join(getcwd(), 'src\\')
+# content = [
+#     '# This is a Python Script in order to trigger program executed in routine mode\n']
+# '''Routine Execution Script'''
+# content.append('from os import system, chdir')
+# content.append('p = \"{0}\"'.format(py_dir.replace('\\', '/')))
+# content.append('fn = \"{0}\"'.format(basename(argv[0])))
+# content.append('arg1 = \"routine_execution\"')
+# content.append('system(\"cls\")')
+# content.append('chdir(p)')
+# content.append('system(\"python \" + fn + \" \" + arg1)')
+# log = generate_process_file(
+#     filename, filetype, dst_path, None, content, log)
 
+
+def routine_execution():
+    print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
+
+
+def normal_execution():
+    print('Python Script: {0} Executed'.format(argv[0]))
+
+
+if __name__ == '__main__':
+    try:
+        if argv[1] == 'routine_execution':
+            # Executed with routine_execution argument
+            routine_execution()
+    except IndexError:
+        # Normal Execution
+        normal_execution()
 
 # End
 stop = default_timer()
