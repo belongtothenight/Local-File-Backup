@@ -1,6 +1,6 @@
 from logging import root
-from os import system
-from os.path import basename, dirname
+from os import system, getcwd
+from os.path import basename, dirname, join
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
@@ -259,6 +259,7 @@ log = []
 # filename = 'process_1'
 # filetype = 'lfbp'
 # dst_path = dst_3
+# encoding = 'utf-8'
 # content = ['process_1']
 # content.append('===========================================================')
 # content.append('<<Output Settings>>')
@@ -323,14 +324,32 @@ log = []
 #     content.append('{0}||{1}||{2}||{3}'.format(
 #         function_enable[j][0], i[1], i[2], i[3]))
 # content.append('===========================================================')
-# log = generate_process_file(filename, filetype, dst_path, content, log)
+# log = generate_process_file(filename, filetype, dst_path, encoding, content, log)
 
 '''Routine Execution Script Generation'''
-filename = 'routine_execution_script'
-filetype = 'py'
-dst_path = dst_3
-content = ['print("Hello World")']
-log = generate_process_file(filename, filetype, dst_path, content, log)
+try:
+    if argv[1] == 'routine_execution':
+        print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
+except IndexError:
+    print('Python Script: {0} Executed'.format(argv[0]))
+    filename = 'routine_execution_script'
+    filetype = 'py'
+    dst_path = dst_3
+    encoding = None
+    py_dir = join(getcwd(), 'src\\')
+    content = [
+        '# This is a Python Script in order to trigger program executed in routine mode\n']
+    '''Routine Execution Script'''
+    content.append('from os import system, chdir')
+    content.append('p = \"{0}\"'.format(py_dir.replace('\\', '/')))
+    content.append('fn = \"{0}\"'.format(basename(argv[0])))
+    content.append('arg1 = \"routine_execution\"')
+    content.append('system(\"cls\")')
+    content.append('chdir(p)')
+    content.append('system(\"python \" + fn + \" \" + arg1)')
+    log = generate_process_file(
+        filename, filetype, dst_path, None, content, log)
+
 
 # End
 stop = default_timer()
@@ -340,6 +359,7 @@ if file_log_flag[2]:
 if print_flag[0]:
     print("[LOG] Total Operation Time: " + str(stop - start) + " seconds\n")
 print("[LOG] End executing {0}\n".format(Path(argv[0]).name))
+system('cmd /k')
 
 '''
 https://github.com/bnot elongtothenight/Local-File-Backup

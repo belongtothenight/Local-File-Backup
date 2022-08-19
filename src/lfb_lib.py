@@ -758,7 +758,7 @@ def export_file_log(filename, file_list, dst_path):
     df.to_csv(join(dst_path, filename) + '_' + str(fcnt) + '.csv', index=True)
 
 
-def generate_process_file(filename, filetype, dst_path, content, log):
+def generate_process_file(filename, filetype, dst_path, encoding, content, log):
     '''
     Args:
         filename: (str) filename
@@ -799,7 +799,7 @@ def generate_process_file(filename, filetype, dst_path, content, log):
         fcnt = 1
     # Write to message file
     f = open(join(dst_path, '{0}_{1}_{2}.{3}'.format(
-        filename, str(date.today()), str(fcnt), filetype)), 'w', encoding='utf-8')
+        filename, str(date.today()), str(fcnt), filetype)), 'w', encoding=encoding)
     for element in content:
         f.write(element + "\n")
     f.close()
