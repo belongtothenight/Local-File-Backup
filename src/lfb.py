@@ -326,7 +326,11 @@ log = []
 # log = generate_process_file(filename, filetype, dst_path, content, log)
 
 '''Routine Execution Script Generation'''
-
+filename = 'routine_execution_script'
+filetype = 'py'
+dst_path = dst_3
+content = ['print("Hello World")']
+log = generate_process_file(filename, filetype, dst_path, content, log)
 
 # End
 stop = default_timer()
