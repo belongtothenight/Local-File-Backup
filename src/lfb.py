@@ -353,6 +353,8 @@ Description:
 def routine_execution():
     print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
     # Can include multiprocessing here
+    # Dynamic variable for progress updating (local variable/object returned value from library)
+    # tk.StringVar()
 
 
 def normal_execution():
