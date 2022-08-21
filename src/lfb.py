@@ -5,6 +5,7 @@ from pathlib import Path
 from timeit import default_timer
 from sys import argv
 from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_file_log, export_log, generate_process_file
+from tkinter import *
 
 # Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -81,11 +82,6 @@ process = [
     [2, 'ND Full Backup My Passport', src_b, dst_e]
 ]
 
-# Startup
-start = default_timer()
-system('cls')
-print("[LOG] Start executing {0}\n".format(Path(argv[0]).name))
-log = []
 
 # Main
 '''single_file_copy'''
@@ -358,7 +354,177 @@ def routine_execution():
 
 
 def normal_execution():
-    print('Python Script: {0} Executed'.format(argv[0]))
+    print('[LOG] Python Script: {0} Executed'.format(argv[0]))
+    '''Entry Window Setting'''
+    entry_window = Tk()
+    entry_window.geometry('960x540')
+    entry_window.title('Local-File-Processor: Functionality Selection')
+    # icon = PhotoImage(file='icon.png')
+    # entry_window.iconphoto(True, icon)
+    entry_window.config(background='#002EA4')
+    entry_window.resizable(False, False)
+    '''Entry Window Variable'''
+    functionality_list = ['Copy', 'Archive', 'Unpack',
+                          'File List Generator', 'Routine Execution Script Generator', 'Exit']
+    '''Entry Window Function'''
+    def set_functionality(value):
+        # 1: Copy, 2: Archive, 3: Unpack, 4: File List Generator, 5: Routine Execution Script Generator
+        global functionality
+        functionality = value
+        if print_flag[0]:
+            print('[LOG] Choosed Functionality: {0}'.format(
+                functionality_list[value-1]))
+            entry_window.destroy()
+    '''Widget'''
+    canvas = Canvas(
+        entry_window,
+        bg="#002EA4",
+        height=540,
+        width=960,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+    canvas.place(x=0, y=0)
+    canvas.create_text(
+        180,
+        20,
+        anchor="nw",
+        text="Functionality Selection",
+        fill="#FFFFFF",
+        font=("ABeeZee", 40)
+    )
+    button_1 = Button(
+        entry_window,
+        text='COPY',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(1)
+    )
+    button_1.place(
+        x=480,
+        y=120,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_2 = Button(
+        entry_window,
+        text='ARCHIVE',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(2)
+    )
+    button_2.place(
+        x=480,
+        y=170,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_3 = Button(
+        entry_window,
+        text='UNPACK',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(3)
+    )
+    button_3.place(
+        x=480,
+        y=230,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_4 = Button(
+        entry_window,
+        text='FILE LIST GENERATOR',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(4)
+    )
+    button_4.place(
+        x=480,
+        y=290,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_5 = Button(
+        entry_window,
+        text='ROUTINE EXECUTION SCRIPT GENERATOR',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(5)
+    )
+    button_5.place(
+        x=480,
+        y=350,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_6 = Button(
+        entry_window,
+        text='EXIT',
+        font=("Consolas", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(6)
+    )
+    button_6.place(
+        x=480,
+        y=480,
+        width=500.0,
+        height=50.0,
+        anchor="center"
+    )
+    '''Entry Window Display'''
+    entry_window.mainloop()
+    '''Function Windows'''
+    # if functionality == 1:
+    #     copy()
+    # elif functionality == 2:
+    #     archive()
+    # elif functionality == 3:
+    #     unpack()
+    # elif functionality == 4:
+    #     file_list_generator()
+    # elif functionality == 5:
+    #     routine_execution_script_generator()
+    # elif functionality == 6:
+    #     exit()
+    # else:
+    #     print('[ERROR] Functionality not selected')
 
 
 if __name__ == '__main__':
@@ -366,19 +532,23 @@ if __name__ == '__main__':
         if argv[1] == 'routine_execution':
             # Executed with routine_execution argument
             routine_execution()
+            # system('cmd /k')
     except IndexError:
-        # Normal Execution
+        start = default_timer()
+        system('cls')
+        print("[LOG] Start executing {0}\n".format(Path(argv[0]).name))
+        log = []
         normal_execution()
+        stop = default_timer()
+        log.append("[LOG] Total Operation Time: " +
+                   str(stop - start) + " seconds\n")
+        if file_log_flag[2]:
+            export_log('log', log, src_8)
+        if print_flag[0]:
+            print("[LOG] Total Operation Time: " +
+                  str(stop - start) + " seconds\n")
+        print("[LOG] End executing {0}\n".format(Path(argv[0]).name))
 
-# End
-stop = default_timer()
-log.append("[LOG] Total Operation Time: " + str(stop - start) + " seconds\n")
-if file_log_flag[2]:
-    export_log('log', log, src_8)
-if print_flag[0]:
-    print("[LOG] Total Operation Time: " + str(stop - start) + " seconds\n")
-print("[LOG] End executing {0}\n".format(Path(argv[0]).name))
-system('cmd /k')
 
 '''
 https://github.com/bnot elongtothenight/Local-File-Backup

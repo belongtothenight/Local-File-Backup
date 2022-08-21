@@ -85,6 +85,7 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
        1. [ ] Show progress bar
        2. [ ] Show realtime log
        3. [ ] Store log in csv file
+ 4. [ ] Inform custom fonts can be installed
 
 ## Undergoing Work
 1. [ ] Change the entire fully tested code into a function and move it to lib file
