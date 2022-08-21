@@ -128,3 +128,9 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 ===========================================================
 ```
 3. [ ] Add GUI
+
+
+```
+Currently working on making button turn on and off into orange when clicked, and triggering different browse functions.
+In copy_window function.
+```

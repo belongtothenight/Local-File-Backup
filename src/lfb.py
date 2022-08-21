@@ -1,9 +1,15 @@
+from cgitb import text
+from glob import glob
+from importlib.resources import path
 from logging import root
 from os import system, getcwd
 from os.path import basename, dirname, join
 from pathlib import Path
 from timeit import default_timer
 from sys import argv
+from tkinter import filedialog
+from turtle import color
+from unittest import skip
 from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_file_log, export_log, generate_process_file
 from tkinter import *
 
@@ -346,18 +352,10 @@ Description:
 #     filename, filetype, dst_path, None, content, log)
 
 
-def routine_execution():
-    print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
-    # Can include multiprocessing here
-    # Dynamic variable for progress updating (local variable/object returned value from library)
-    # tk.StringVar()
-
-
-def normal_execution():
-    print('[LOG] Python Script: {0} Executed'.format(argv[0]))
+def entry_window():
     '''Entry Window Setting'''
     entry_window = Tk()
-    entry_window.geometry('960x540')
+    entry_window.geometry('960x540+480+270')
     entry_window.title('Local-File-Processor: Functionality Selection')
     # icon = PhotoImage(file='icon.png')
     # entry_window.iconphoto(True, icon)
@@ -368,14 +366,18 @@ def normal_execution():
                           'File List Generator', 'Routine Execution Script Generator', 'Exit']
     '''Entry Window Function'''
     def set_functionality(value):
-        # 1: Copy, 2: Archive, 3: Unpack, 4: File List Generator, 5: Routine Execution Script Generator
-        global functionality
-        functionality = value
+        # 1: Copy
+        # 2: Archive
+        # 3: Unpack
+        # 4: File List Generator
+        # 5: Routine Execution Script Generator
+        global entry_button
+        entry_button = value
         if print_flag[0]:
-            print('[LOG] Choosed Functionality: {0}'.format(
+            print('[LOG] Clicked: {0}'.format(
                 functionality_list[value-1]))
             entry_window.destroy()
-    '''Widget'''
+    '''Entry Window Widget'''
     canvas = Canvas(
         entry_window,
         bg="#002EA4",
@@ -387,9 +389,9 @@ def normal_execution():
     )
     canvas.place(x=0, y=0)
     canvas.create_text(
-        180,
-        20,
-        anchor="nw",
+        480,
+        60,
+        anchor="center",
         text="Functionality Selection",
         fill="#FFFFFF",
         font=("ABeeZee", 40)
@@ -408,7 +410,7 @@ def normal_execution():
     )
     button_1.place(
         x=480,
-        y=120,
+        y=140,
         width=500.0,
         height=50.0,
         anchor="center"
@@ -427,7 +429,7 @@ def normal_execution():
     )
     button_2.place(
         x=480,
-        y=170,
+        y=200,
         width=500.0,
         height=50.0,
         anchor="center"
@@ -446,7 +448,7 @@ def normal_execution():
     )
     button_3.place(
         x=480,
-        y=230,
+        y=260,
         width=500.0,
         height=50.0,
         anchor="center"
@@ -465,7 +467,7 @@ def normal_execution():
     )
     button_4.place(
         x=480,
-        y=290,
+        y=320,
         width=500.0,
         height=50.0,
         anchor="center"
@@ -484,7 +486,7 @@ def normal_execution():
     )
     button_5.place(
         x=480,
-        y=350,
+        y=380,
         width=500.0,
         height=50.0,
         anchor="center"
@@ -508,23 +510,308 @@ def normal_execution():
         height=50.0,
         anchor="center"
     )
-    '''Entry Window Display'''
+    entry_window.focus_force()
     entry_window.mainloop()
-    '''Function Windows'''
-    # if functionality == 1:
-    #     copy()
-    # elif functionality == 2:
-    #     archive()
-    # elif functionality == 3:
-    #     unpack()
-    # elif functionality == 4:
-    #     file_list_generator()
-    # elif functionality == 5:
-    #     routine_execution_script_generator()
-    # elif functionality == 6:
-    #     exit()
-    # else:
-    #     print('[ERROR] Functionality not selected')
+
+
+def copy_window():
+    copy_window = Tk()
+    copy_window.geometry('960x540+480+270')
+    copy_window.title('Local-File-Processor: Copy')
+    # icon = PhotoImage(file='icon.png')
+    # copy_window.iconphoto(True, icon)
+    copy_window.config(background='#002EA4')
+    copy_window.resizable(False, False)
+    '''Copy Window Variable'''
+    functionality_list = ['Single File',
+                          'Single Folder', 'Multiple Files', 'Confirm', 'Back', 'Exit']
+    src = None
+    dst = None
+    button_1_click = 0
+    '''Copy Window Function'''
+    def set_functionality(value, button_1_click):
+        # 1: Single File
+        # 2: Single Folder
+        # 3: Multiple Files
+        # 4: Confirm
+        # 5: Back
+        # 6: Exit
+        global copy_button
+        copy_button = value
+        if print_flag[0]:
+            print('[LOG] Clicked: {0}'.format(
+                functionality_list[value-1]))
+            if copy_button == 1:
+                button_1_click += 1
+                print(button_1_click)
+                if button_1_click // 2 == 1:
+                    button_1.config(bg='#FFA216')
+                else:
+                    button_1.config(bg='#002EA4')
+            elif copy_button == 2:
+                skip
+            elif copy_button == 3:
+                skip
+            elif copy_button == 4:
+                skip
+            elif copy_button == 5:
+                copy_window.destroy()
+            elif copy_button == 6:
+                copy_window.destroy()
+
+    def get_file_path(value):
+        # 1: Single File SRC
+        # 2: Single Folder SRC
+        # 3: Multi Folder SRC
+        # 4: DST
+        if value == 1:
+            src = filedialog.askopenfile(
+                initialdir=getcwd(),
+                title='Local-File-Processor: Select File',
+                filetypes=(('All Files', '*.*'), ('Text Files', '*.txt'))
+            )
+            entry_1.insert(0, src.name)
+        if value == 2 or value == 3:
+            src = filedialog.askdirectory(
+                initialdir=getcwd(),
+                title='Local-File-Processor: Select Folder'
+            )
+            entry_1.insert(0, src.name)
+        return src
+    '''Copy Window Widget'''
+    canvas = Canvas(
+        copy_window,
+        bg="#002EA4",
+        height=540,
+        width=960,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+    canvas.place(x=0, y=0)
+    canvas.create_text(
+        480,
+        60,
+        anchor="center",
+        text="File Copying",
+        fill="#FFFFFF",
+        font=("ABeeZee", 40)
+    )
+    canvas.create_text(
+        110,
+        240,
+        anchor="center",
+        text="SRC",
+        fill="#FFFFFF",
+        font=("Consolas", 25, 'bold')
+    )
+    canvas.create_text(
+        110,
+        340,
+        anchor="center",
+        text="DST",
+        fill="#FFFFFF",
+        font=("Consolas", 25, 'bold')
+    )
+    button_1 = Button(
+        copy_window,
+        text='Single File',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(1, button_1_click)
+    )
+    button_1.place(
+        x=130,
+        y=120,
+        width=200.0,
+        height=50.0,
+        anchor="nw"
+    )
+    button_2 = Button(
+        copy_window,
+        text='Single Folder',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(2, button_1_click)
+    )
+    button_2.place(
+        x=380,
+        y=120,
+        width=200.0,
+        height=50.0,
+        anchor="nw"
+    )
+    button_3 = Button(
+        copy_window,
+        text='Multi Folder',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(3, button_1_click)
+    )
+    button_3.place(
+        x=630,
+        y=120,
+        width=200.0,
+        height=50.0,
+        anchor="nw"
+    )
+    button_4 = Button(
+        copy_window,
+        text='Confirm',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(4, button_1_click)
+    )
+    button_4.place(
+        x=660,
+        y=480,
+        width=200.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_5 = Button(
+        copy_window,
+        text='Back',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(5, button_1_click)
+    )
+    button_5.place(
+        x=260,
+        y=480,
+        width=200.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_6 = Button(
+        copy_window,
+        text='Exit',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#002EA4',
+        activeforeground='#002EA4',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: set_functionality(6, button_1_click)
+    )
+    button_6.place(
+        x=460,
+        y=480,
+        width=200.0,
+        height=50.0,
+        anchor="center"
+    )
+    button_7 = Button(
+        copy_window,
+        text='Browse',
+        font=("Carlito", 25, 'bold'),
+        fg='#FFFFFF',
+        bg='#FFA216',
+        borderwidth=0,
+        highlightthickness=0,
+        relief="flat",
+        command=lambda: get_file_path()
+    )
+    button_7.place(
+        x=835,
+        y=240,
+        width=150.0,
+        height=50.0,
+        anchor="center"
+    )
+    entry_1 = Entry(
+        copy_window,
+        font=("Cascadia Code", 15),
+        textvariable=src
+    )
+    entry_1.place(
+        x=460,
+        y=240,
+        width=600.0,
+        height=50.0,
+        anchor="center"
+    )
+    entry_2 = Entry(
+        font=("Cascadia Code", 15),
+        textvariable=dst
+    )
+    entry_2.place(
+        x=460,
+        y=340,
+        width=600.0,
+        height=50.0,
+        anchor="center"
+    )
+    copy_window.focus_force()
+    copy_window.mainloop()
+
+
+def routine_execution():
+    print('Python Script: {0} Executed in Routine Mode'.format(argv[0]))
+    # Can include multiprocessing here
+    # Dynamic variable for progress updating (local variable/object returned value from library)
+    # tk.StringVar()
+
+
+def normal_execution():
+    print('[LOG] Python Script: {0} Executed'.format(argv[0]))
+
+    def main():
+        '''entry_button'''
+        # 1: Copy
+        # 2: Archive
+        # 3: Unpack
+        # 4: File List Generator
+        # 5: Routine Execution Script Generator
+        '''copy_button'''
+        # 1: Single File
+        # 2: Single Folder
+        # 3: Multiple Files
+        # 4: Confirm
+        # 5: Back
+        # 6: Exit
+        entry_window()
+        if entry_button == 1:
+            copy_window()
+            if copy_button == 5:
+                main()
+        elif entry_button == 2:
+            print('archive')
+        elif entry_button == 3:
+            print('unpack')
+        elif entry_button == 4:
+            print('file list generator')
+        elif entry_button == 5:
+            print('routine execution script generator')
+        else:
+            return
+    main()
 
 
 if __name__ == '__main__':
