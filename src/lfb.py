@@ -812,6 +812,7 @@ def normal_execution():
         else:
             return
     main()
+    system('cmd /k') # disable if not executed in cmd
 
 
 if __name__ == '__main__':

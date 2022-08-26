@@ -404,15 +404,34 @@ class Window(tk.Tk):
     '''widget operation'''
 
     def button_action(self):
-        # Actions inside GUI
+        # Handling actions inside GUI
         print("[LOG] Clicked Window/Button/Window Name/Button Name: "
               + str(self.status[0]) + "/" + str(self.status[1]) + "/"
               + str(canvas_title[self.status[0]]) + "/" + str(button_text[self.status[0]][self.status[1]-1]))
         if self.status[0] == 0:
+            if self.status[1] in [1, 2, 3, 4, 5, 6]:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+        elif self.status[0] == 1:
             if self.status[1] == 1:
-                print("[LOG] 123456789")
+                print("[LOG] 1")
             elif self.status[1] == 2:
-                print("[LOG] 123456789")
+                print("[LOG] 2")
+            elif self.status[1] == 3:
+                print("[LOG] 3")
+            elif self.status[1] == 4:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+            elif self.status[1] == 5:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+            elif self.status[1] == 6:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+            elif self.status[1] == 7:
+                print("[LOG] 7")
+            elif self.status[1] == 8:
+                print("[LOG] 8")
 
     def button_click(self, num):
         self.status[1] = num
@@ -430,22 +449,46 @@ class Window(tk.Tk):
         self.destroy()
 
 
-Window.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-entry_window = Window(window_size, background_color)
-# entry_window.status[0] = 0
-entry_window.set_entry_window_element()
-entry_window.show_window()
+class WindowsProcess():
+    status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-# print(1)
-# print(Window.status)
-# print(2)
-# print(entry_window.status)
+    def __init__(self):
+        pass
 
-Window.status = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-copy_window = Window(window_size, background_color)
-# entry_window.status[0] = 1
-copy_window.set_copy_window_element()
-copy_window.show_window()
+    def show_status(self):
+        print("[LOG] Status: " + str(self.status))
+
+    def entry_process(self):
+        Window.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        entry_window = Window(window_size, background_color)
+        entry_window.set_entry_window_element()
+        entry_window.show_window()
+        self.status = entry_window.status
+
+    def copy_process(self):
+        Window.status = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        copy_window = Window(window_size, background_color)
+        copy_window.set_copy_window_element()
+        copy_window.show_window()
+        self.status = copy_window.status
+
+
+def main():
+    wp = WindowsProcess()
+    wp.entry_process()
+    wp.show_status()
+    if wp.status[1] == 1:
+        wp.copy_process()
+        wp.show_status()
+        while wp.status[1] == 4:
+            # back button of copy window
+            main()
+            break
+
+
+if __name__ == '__main__':
+    main()
+    system('cmd /k')  # disable if not executed in cmd
 
 '''
 https://stackoverflow.com/questions/10039485/tkinter-runtimeerror-maximum-recursion-depth-exceeded
