@@ -88,7 +88,6 @@ process = [
     [2, 'ND Full Backup My Passport', src_b, dst_e]
 ]
 
-
 # Main
 '''single_file_copy'''
 # src_path_file = src_8
@@ -527,9 +526,9 @@ def copy_window():
                           'Single Folder', 'Multiple Files', 'Confirm', 'Back', 'Exit']
     src = None
     dst = None
-    button_1_click = 0
+    button_click = [0, 0, 0, 0, 0, 0, 0]
     '''Copy Window Function'''
-    def set_functionality(value, button_1_click):
+    def set_functionality(value):
         # 1: Single File
         # 2: Single Folder
         # 3: Multiple Files
@@ -542,9 +541,9 @@ def copy_window():
             print('[LOG] Clicked: {0}'.format(
                 functionality_list[value-1]))
             if copy_button == 1:
-                button_1_click += 1
-                print(button_1_click)
-                if button_1_click // 2 == 1:
+                button_click[0].set(button_click[0].get()+1)
+                print(button_click[0].get())
+                if button_click[0].get() % 2 == 1:
                     button_1.config(bg='#FFA216')
                 else:
                     button_1.config(bg='#002EA4')
@@ -558,6 +557,7 @@ def copy_window():
                 copy_window.destroy()
             elif copy_button == 6:
                 copy_window.destroy()
+            return button_click
 
     def get_file_path(value):
         # 1: Single File SRC
@@ -623,7 +623,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(1, button_1_click)
+        command=lambda: set_functionality(1)
     )
     button_1.place(
         x=130,
@@ -642,7 +642,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(2, button_1_click)
+        command=lambda: set_functionality(2)
     )
     button_2.place(
         x=380,
@@ -661,7 +661,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(3, button_1_click)
+        command=lambda: set_functionality(3)
     )
     button_3.place(
         x=630,
@@ -680,7 +680,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(4, button_1_click)
+        command=lambda: set_functionality(4)
     )
     button_4.place(
         x=660,
@@ -699,7 +699,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(5, button_1_click)
+        command=lambda: set_functionality(5)
     )
     button_5.place(
         x=260,
@@ -718,7 +718,7 @@ def copy_window():
         borderwidth=0,
         highlightthickness=0,
         relief="flat",
-        command=lambda: set_functionality(6, button_1_click)
+        command=lambda: set_functionality(6)
     )
     button_6.place(
         x=460,
