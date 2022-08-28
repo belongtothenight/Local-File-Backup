@@ -43,8 +43,8 @@ button_text = [[
     'Back',
     'Exit',
     'Confirm',
-    'Browse SRC',
-    'Browse DST'
+    'Browse',
+    'Browse'
 ]
 ]
 
@@ -286,68 +286,68 @@ class Window(tk.Tk):
         )
         self.button_1 = tk.Button(
             self,
-            text='Single File',
+            text=button_text[1][0],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(1)
         )
         self.button_1.place(
-            x=130,
-            y=120,
-            width=200.0,
+            x=wwh-250,
+            y=150,
+            width=250.0,
             height=50.0,
-            anchor="nw"
+            anchor='center'
         )
         self.button_2 = tk.Button(
             self,
-            text='Single Folder',
+            text=button_text[1][1],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(2)
         )
         self.button_2.place(
-            x=380,
-            y=120,
-            width=200.0,
+            x=wwh,
+            y=150,
+            width=250.0,
             height=50.0,
-            anchor="nw"
+            anchor='center'
         )
         self.button_3 = tk.Button(
             self,
-            text='Multi Folder',
+            text=button_text[1][2],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(3)
         )
         self.button_3.place(
-            x=630,
-            y=120,
-            width=200.0,
+            x=wwh+250,
+            y=150,
+            width=250.0,
             height=50.0,
-            anchor="nw"
+            anchor='center'
         )
         self.button_4 = tk.Button(
             self,
-            text='Back',
+            text=button_text[1][3],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
@@ -362,11 +362,11 @@ class Window(tk.Tk):
         )
         self.button_5 = tk.Button(
             self,
-            text='Exit',
+            text=button_text[1][4],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
@@ -381,11 +381,11 @@ class Window(tk.Tk):
         )
         self.button_6 = tk.Button(
             self,
-            text='Confirm',
+            text=button_text[1][5],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
@@ -400,10 +400,10 @@ class Window(tk.Tk):
         )
         self.button_7 = tk.Button(
             self,
-            text='Browse',
+            text=button_text[1][6],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#FFA216',
+            fg=white_color,
+            bg=orange_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
@@ -418,10 +418,10 @@ class Window(tk.Tk):
         )
         self.button_8 = tk.Button(
             self,
-            text='Browse',
+            text=button_text[1][7],
             font=("Carlito", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#FFA216',
+            fg=white_color,
+            bg=orange_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
@@ -459,7 +459,214 @@ class Window(tk.Tk):
         )
 
     def set_archive_window_element(self):
-        pass
+        self.update()
+        self.canvas = tk.Canvas(
+            self,
+            bg=background_color,
+            height=window_hight,
+            width=window_width,
+            bd=0,
+            highlightthickness=0,
+            relief="ridge"
+        )
+        self.canvas.place(x=0, y=0)
+        self.canvas.create_text(
+            wwh,
+            60,
+            anchor="center",
+            text=canvas_title[2],
+            fill=white_color,
+            font=("ABeeZee", 40)
+        )
+        self.canvas.create_text(
+            110,
+            240,
+            anchor="center",
+            text="SRC",
+            fill=white_color,
+            font=("Consolas", 25, 'bold')
+        )
+        self.canvas.create_text(
+            110,
+            340,
+            anchor="center",
+            text="DST",
+            fill=white_color,
+            font=("Consolas", 25, 'bold')
+        )
+        self.button_1 = tk.Button(
+            self,
+            text=button_text[1][0],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(1)
+        )
+        self.button_1.place(
+            x=wwh-250,
+            y=150,
+            width=250.0,
+            height=50.0,
+            anchor='center'
+        )
+        self.button_2 = tk.Button(
+            self,
+            text=button_text[1][1],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(2)
+        )
+        self.button_2.place(
+            x=wwh,
+            y=150,
+            width=250.0,
+            height=50.0,
+            anchor='center'
+        )
+        self.button_3 = tk.Button(
+            self,
+            text=button_text[1][2],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(3)
+        )
+        self.button_3.place(
+            x=wwh+250,
+            y=150,
+            width=250.0,
+            height=50.0,
+            anchor='center'
+        )
+        self.button_4 = tk.Button(
+            self,
+            text=button_text[1][3],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(4)
+        )
+        self.button_4.place(
+            x=260,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_5 = tk.Button(
+            self,
+            text=button_text[1][4],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(5)
+        )
+        self.button_5.place(
+            x=460,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_6 = tk.Button(
+            self,
+            text=button_text[1][5],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(6)
+        )
+        self.button_6.place(
+            x=660,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_7 = tk.Button(
+            self,
+            text=button_text[1][6],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=orange_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(7)
+        )
+        self.button_7.place(
+            x=835,
+            y=240,
+            width=150.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_8 = tk.Button(
+            self,
+            text=button_text[1][7],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=orange_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(8)
+        )
+        self.button_8.place(
+            x=835,
+            y=340,
+            width=150.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.entry_1 = tk.Entry(
+            self,
+            font=("Cascadia Code", 15),
+            textvariable=self.src
+        )
+        self.entry_1.place(
+            x=460,
+            y=240,
+            width=600.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.entry_2 = tk.Entry(
+            font=("Cascadia Code", 15),
+            textvariable=self.dst
+        )
+        self.entry_2.place(
+            x=460,
+            y=340,
+            width=600.0,
+            height=50.0,
+            anchor="center"
+        )
 
     def set_unpack_window_element(self):
         pass
@@ -500,7 +707,7 @@ class Window(tk.Tk):
         # Handling actions inside GUI
         print("[LOG] Clicked Window/Button/Window Name/Button Name: "
               + str(self.status[0]) + "/" + str(self.status[1]) + "/"
-              + str(canvas_title[self.status[0]]) + "/" + str(button_text[self.status[0]][self.status[1]-1]))
+              + str(canvas_title[self.status[0]]) + "/" + str(button_text[self.status[0]-1][self.status[1]-1]))
         if self.status[0] == 0:
             # entry window
             if self.status[1] in [1, 2, 3, 4, 5, 6]:
@@ -570,7 +777,68 @@ class Window(tk.Tk):
             elif self.status[1] == 8:
                 self.path_selection(2, 1)
         elif self.status[0] == 2:
-            pass
+            # archive window
+            if self.status[1] == 1:
+                if self.status[2] % 2 == 1:
+                    self.button_1.config(bg=orange_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 1
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
+            elif self.status[1] == 2:
+                if self.status[3] % 2 == 1:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=orange_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 2
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
+            elif self.status[1] == 3:
+                if self.status[4] % 2 == 1:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=orange_color)
+                    self.mode_selection = 3
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
+            elif self.status[1] == 4:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+            elif self.status[1] == 5:
+                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                self.destroy()
+            elif self.status[1] == 6:
+                try:
+                    a = exists(self.src)
+                except:
+                    a = False
+                try:
+                    b = exists(self.dst)
+                except:
+                    b = False
+                if a and b:
+                    self.destroy()
+            elif self.status[1] == 7:
+                if self.mode_selection == 0:
+                    pass
+                elif self.mode_selection == 1:
+                    self.path_selection(1, 1)
+                elif self.mode_selection == 2:
+                    self.path_selection(1, 2)
+                elif self.mode_selection == 3:
+                    self.path_selection(1, 3)
+            elif self.status[1] == 8:
+                self.path_selection(2, 1)
         elif self.status[0] == 3:
             pass
         elif self.status[0] == 4:
