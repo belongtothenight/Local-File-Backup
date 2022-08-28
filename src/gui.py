@@ -1,18 +1,29 @@
 import tkinter as tk
-from os import system
+from tkinter import filedialog
+from os import system, getcwd
+from os.path import isfile, isdir, exists
 from time import sleep
 
 system('cls')
 
 window_size = '960x540+480+270'
 background_color = '#002EA4'
+orange_color = '#FFA216'
 window_title = [
     'Local-File-Processor: Functionality Selection',
     'Local-File-Processor: File Copying'
+    'Local-File-Processor: File Archiving'
+    'Local-File-Processor: File Unpacking'
+    'Local-File-Processor: File List Generator'
+    'Local-File-Processor: Routine Execution Script Generator'
 ]
 canvas_title = [
     'Functionality Selection',
     'File Copying'
+    'File Archiving'
+    'File Unpacking'
+    'File List Generator'
+    'Routine Execution Script Generator'
 ]
 button_text = [[
     'COPY',
@@ -34,12 +45,53 @@ button_text = [[
 ]
 
 
+class MainProcess():
+    progress = 0
+
+    def single_file_copy(self):
+        pass
+
+    def single_folder_copy(self):
+        pass
+
+    def multi_folder_copy(self):
+        pass
+
+    def single_file_archive(self):
+        pass
+
+    def single_folder_archive(self):
+        pass
+
+    def multi_folder_archive(self):
+        pass
+
+    def single_file_unpack(self):
+        pass
+
+    def single_folder_unpack(self):
+        pass
+
+    def multi_folder_unpack(self):
+        pass
+
+    def file_log_generation(self):
+        pass
+
+    def process_file_generation(self):
+        pass
+
+    def routine_execution_script_generation(self):
+        pass
+
+
 class Window(tk.Tk):
     status = [
         0,  # window number
         0,  # status number
         0, 0, 0, 0, 0, 0, 0, 0  # status count
     ]
+    mode_selection = 3  # 1: single file, 2: single folder, 3: multiple folders
 
     def __init__(self, size, color):
         '''Window Restart Refresh'''
@@ -54,11 +106,13 @@ class Window(tk.Tk):
         # iconphoto(True, icon)
         self.config(background=color)
         self.resizable(False, False)
+        self.src = tk.StringVar()
+        self.dst = tk.StringVar()
 
     '''window element'''
 
     def set_entry_window_element(self):
-        canvas = tk.Canvas(
+        self.canvas = tk.Canvas(
             self,
             bg=background_color,
             height=540,
@@ -67,8 +121,8 @@ class Window(tk.Tk):
             highlightthickness=0,
             relief="ridge"
         )
-        canvas.place(x=0, y=0)
-        canvas.create_text(
+        self.canvas.place(x=0, y=0)
+        self.canvas.create_text(
             480,
             60,
             anchor="center",
@@ -76,7 +130,7 @@ class Window(tk.Tk):
             fill="#FFFFFF",
             font=("ABeeZee", 40)
         )
-        button_1 = tk.Button(
+        self.button_1 = tk.Button(
             self,
             text='COPY',
             font=("Consolas", 25, 'bold'),
@@ -88,14 +142,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(1)
         )
-        button_1.place(
+        self.button_1.place(
             x=480,
             y=140,
             width=800.0,
             height=50.0,
             anchor="center"
         )
-        button_2 = tk.Button(
+        self.button_2 = tk.Button(
             self,
             text='ARCHIVE',
             font=("Consolas", 25, 'bold'),
@@ -107,14 +161,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(2)
         )
-        button_2.place(
+        self.button_2.place(
             x=480,
             y=200,
             width=800.0,
             height=50.0,
             anchor="center"
         )
-        button_3 = tk.Button(
+        self.button_3 = tk.Button(
             self,
             text='UNPACK',
             font=("Consolas", 25, 'bold'),
@@ -126,14 +180,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(3)
         )
-        button_3.place(
+        self.button_3.place(
             x=480,
             y=260,
             width=800.0,
             height=50.0,
             anchor="center"
         )
-        button_4 = tk.Button(
+        self.button_4 = tk.Button(
             self,
             text='FILE LIST GENERATOR',
             font=("Consolas", 25, 'bold'),
@@ -145,14 +199,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(4)
         )
-        button_4.place(
+        self.button_4.place(
             x=480,
             y=320,
             width=800.0,
             height=50.0,
             anchor="center"
         )
-        button_5 = tk.Button(
+        self.button_5 = tk.Button(
             self,
             text='ROUTINE EXECUTION SCRIPT GENERATOR',
             font=("Consolas", 25, 'bold'),
@@ -164,14 +218,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(5)
         )
-        button_5.place(
+        self.button_5.place(
             x=480,
             y=380,
             width=800.0,
             height=50.0,
             anchor="center"
         )
-        button_6 = tk.Button(
+        self.button_6 = tk.Button(
             self,
             text='EXIT',
             font=("Consolas", 25, 'bold'),
@@ -183,7 +237,7 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(6)
         )
-        button_6.place(
+        self.button_6.place(
             x=480,
             y=480,
             width=800.0,
@@ -193,7 +247,7 @@ class Window(tk.Tk):
 
     def set_copy_window_element(self):
         self.update()
-        canvas = tk.Canvas(
+        self.canvas = tk.Canvas(
             self,
             bg=background_color,
             height=540,
@@ -202,8 +256,8 @@ class Window(tk.Tk):
             highlightthickness=0,
             relief="ridge"
         )
-        canvas.place(x=0, y=0)
-        canvas.create_text(
+        self.canvas.place(x=0, y=0)
+        self.canvas.create_text(
             480,
             60,
             anchor="center",
@@ -211,7 +265,7 @@ class Window(tk.Tk):
             fill="#FFFFFF",
             font=("ABeeZee", 40)
         )
-        canvas.create_text(
+        self.canvas.create_text(
             110,
             240,
             anchor="center",
@@ -219,7 +273,7 @@ class Window(tk.Tk):
             fill="#FFFFFF",
             font=("Consolas", 25, 'bold')
         )
-        canvas.create_text(
+        self.canvas.create_text(
             110,
             340,
             anchor="center",
@@ -227,7 +281,7 @@ class Window(tk.Tk):
             fill="#FFFFFF",
             font=("Consolas", 25, 'bold')
         )
-        button_1 = tk.Button(
+        self.button_1 = tk.Button(
             self,
             text='Single File',
             font=("Carlito", 25, 'bold'),
@@ -239,14 +293,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(1)
         )
-        button_1.place(
+        self.button_1.place(
             x=130,
             y=120,
             width=200.0,
             height=50.0,
             anchor="nw"
         )
-        button_2 = tk.Button(
+        self.button_2 = tk.Button(
             self,
             text='Single Folder',
             font=("Carlito", 25, 'bold'),
@@ -258,14 +312,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(2)
         )
-        button_2.place(
+        self.button_2.place(
             x=380,
             y=120,
             width=200.0,
             height=50.0,
             anchor="nw"
         )
-        button_3 = tk.Button(
+        self.button_3 = tk.Button(
             self,
             text='Multi Folder',
             font=("Carlito", 25, 'bold'),
@@ -277,14 +331,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(3)
         )
-        button_3.place(
+        self.button_3.place(
             x=630,
             y=120,
             width=200.0,
             height=50.0,
             anchor="nw"
         )
-        button_4 = tk.Button(
+        self.button_4 = tk.Button(
             self,
             text='Back',
             font=("Carlito", 25, 'bold'),
@@ -296,14 +350,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(4)
         )
-        button_4.place(
+        self.button_4.place(
             x=260,
             y=480,
             width=200.0,
             height=50.0,
             anchor="center"
         )
-        button_5 = tk.Button(
+        self.button_5 = tk.Button(
             self,
             text='Exit',
             font=("Carlito", 25, 'bold'),
@@ -315,14 +369,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(5)
         )
-        button_5.place(
+        self.button_5.place(
             x=460,
             y=480,
             width=200.0,
             height=50.0,
             anchor="center"
         )
-        button_6 = tk.Button(
+        self.button_6 = tk.Button(
             self,
             text='Confirm',
             font=("Carlito", 25, 'bold'),
@@ -334,14 +388,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(6)
         )
-        button_6.place(
+        self.button_6.place(
             x=660,
             y=480,
             width=200.0,
             height=50.0,
             anchor="center"
         )
-        button_7 = tk.Button(
+        self.button_7 = tk.Button(
             self,
             text='Browse',
             font=("Carlito", 25, 'bold'),
@@ -352,14 +406,14 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(7)
         )
-        button_7.place(
+        self.button_7.place(
             x=835,
             y=240,
             width=150.0,
             height=50.0,
             anchor="center"
         )
-        button_8 = tk.Button(
+        self.button_8 = tk.Button(
             self,
             text='Browse',
             font=("Carlito", 25, 'bold'),
@@ -370,30 +424,30 @@ class Window(tk.Tk):
             relief="flat",
             command=lambda: self.button_click(8)
         )
-        button_8.place(
+        self.button_8.place(
             x=835,
             y=340,
             width=150.0,
             height=50.0,
             anchor="center"
         )
-        entry_1 = tk.Entry(
+        self.entry_1 = tk.Entry(
             self,
             font=("Cascadia Code", 15),
-            # textvariable=src
+            textvariable=self.src
         )
-        entry_1.place(
+        self.entry_1.place(
             x=460,
             y=240,
             width=600.0,
             height=50.0,
             anchor="center"
         )
-        entry_2 = tk.Entry(
+        self.entry_2 = tk.Entry(
             font=("Cascadia Code", 15),
-            # textvariable=dst
+            textvariable=self.dst
         )
-        entry_2.place(
+        self.entry_2.place(
             x=460,
             y=340,
             width=600.0,
@@ -401,7 +455,43 @@ class Window(tk.Tk):
             anchor="center"
         )
 
+    def set_archive_window_element(self):
+        pass
+
+    def set_unpack_window_element(self):
+        pass
+
+    def set_file_list_generator_window_element(self):
+        pass
+
+    def set_routine_execution_script_generator_window_element(self):
+        pass
+
     '''widget operation'''
+
+    def path_selection(self, value1, value2):
+        if value1 == 1 and value2 == 1:
+            self.src = filedialog.askopenfile(
+                initialdir=getcwd(),
+                title='Local-File-Processor: Select File',
+                filetypes=(('All Files', '*.*'), ('Text Files', '*.txt'))
+            )
+            self.src = self.src.name
+            self.entry_1.insert(0, self.src)
+        elif (value1 == 1 and value2 == 2) or (value1 == 1 and value2 == 3):
+            self.src = filedialog.askdirectory(
+                initialdir=getcwd(),
+                title='Local-File-Processor: Select Folder'
+            )
+            self.entry_1.insert(0, self.src)
+        elif value1 == 2 and value2 == 1:
+            self.dst = filedialog.askdirectory(
+                initialdir=getcwd(),
+                title='Local-File-Processor: Select Folder'
+            )
+            self.entry_2.insert(0, self.dst)
+        # print(self.src)
+        # print(self.dst)
 
     def button_action(self):
         # Handling actions inside GUI
@@ -409,16 +499,45 @@ class Window(tk.Tk):
               + str(self.status[0]) + "/" + str(self.status[1]) + "/"
               + str(canvas_title[self.status[0]]) + "/" + str(button_text[self.status[0]][self.status[1]-1]))
         if self.status[0] == 0:
+            # entry window
             if self.status[1] in [1, 2, 3, 4, 5, 6]:
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
         elif self.status[0] == 1:
+            # copy window
             if self.status[1] == 1:
-                print("[LOG] 1")
+                if self.status[2] % 2 == 1:
+                    self.button_1.config(bg=orange_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 1
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
             elif self.status[1] == 2:
-                print("[LOG] 2")
+                if self.status[3] % 2 == 1:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=orange_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 2
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
             elif self.status[1] == 3:
-                print("[LOG] 3")
+                if self.status[4] % 2 == 1:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=orange_color)
+                    self.mode_selection = 3
+                else:
+                    self.button_1.config(bg=background_color)
+                    self.button_2.config(bg=background_color)
+                    self.button_3.config(bg=background_color)
+                    self.mode_selection = 0
             elif self.status[1] == 4:
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
@@ -426,12 +545,35 @@ class Window(tk.Tk):
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
-                self.destroy()
+                try:
+                    a = exists(self.src)
+                except:
+                    a = False
+                try:
+                    b = exists(self.dst)
+                except:
+                    b = False
+                if a and b:
+                    self.destroy()
             elif self.status[1] == 7:
-                print("[LOG] 7")
+                if self.mode_selection == 0:
+                    pass
+                elif self.mode_selection == 1:
+                    self.path_selection(1, 1)
+                elif self.mode_selection == 2:
+                    self.path_selection(1, 2)
+                elif self.mode_selection == 3:
+                    self.path_selection(1, 3)
             elif self.status[1] == 8:
-                print("[LOG] 8")
+                self.path_selection(2, 1)
+        elif self.status[0] == 2:
+            pass
+        elif self.status[0] == 3:
+            pass
+        elif self.status[0] == 4:
+            pass
+        elif self.status[0] == 5:
+            pass
 
     def button_click(self, num):
         self.status[1] = num
@@ -445,18 +587,21 @@ class Window(tk.Tk):
         self.focus_force()
         self.mainloop()
 
-    def close_window(self):
-        self.destroy()
-
 
 class WindowsProcess():
     status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    src = None
+    dst = None
 
     def __init__(self):
         pass
 
     def show_status(self):
         print("[LOG] Status: " + str(self.status))
+
+    def show_path(self):
+        print("[LOG] Source: " + str(self.src))
+        print("[LOG] Destination: " + str(self.dst))
 
     def entry_process(self):
         Window.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -471,15 +616,55 @@ class WindowsProcess():
         copy_window.set_copy_window_element()
         copy_window.show_window()
         self.status = copy_window.status
+        self.src = copy_window.src
+        self.dst = copy_window.dst
+
+    def archive_process(self):
+        Window.status = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        archive_window = Window(window_size, background_color)
+        archive_window.set_archive_window_element()
+        archive_window.show_window()
+        self.status = archive_window.status
+        self.src = archive_window.src
+        self.dst = archive_window.dst
+
+    def unpack_process(self):
+        Window.status = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        unpack_window = Window(window_size, background_color)
+        unpack_window.set_unpack_window_element()
+        unpack_window.show_window()
+        self.status = unpack_window.status
+        self.src = unpack_window.src
+        self.dst = unpack_window.dst
+
+    def file_list_generator_process(self):
+        Window.status = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        file_list_generator_window = Window(window_size, background_color)
+        file_list_generator_window.set_file_list_generator_window_element()
+        file_list_generator_window.show_window()
+        self.status = file_list_generator_window.status
+        self.src = file_list_generator_window.src
+        self.dst = file_list_generator_window.dst
+
+    def routine_execution_script_generator_process(self):
+        Window.status = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        routine_execution_script_generator_window = Window(
+            window_size, background_color)
+        routine_execution_script_generator_window.set_routine_execution_script_generator_window_element()
+        routine_execution_script_generator_window.show_window()
+        self.status = routine_execution_script_generator_window.status
+        self.dst = routine_execution_script_generator_window.dst
 
 
 def main():
     wp = WindowsProcess()
     wp.entry_process()
     wp.show_status()
+    wp.show_path()
     if wp.status[1] == 1:
         wp.copy_process()
         wp.show_status()
+        wp.show_path()
         while wp.status[1] == 4:
             # back button of copy window
             main()
@@ -488,7 +673,7 @@ def main():
 
 if __name__ == '__main__':
     main()
-    system('cmd /k')  # disable if not executed in cmd
+    # system('cmd /k')  # disable if not executed in cmd
 
 '''
 https://stackoverflow.com/questions/10039485/tkinter-runtimeerror-maximum-recursion-depth-exceeded
