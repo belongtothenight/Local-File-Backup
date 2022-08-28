@@ -7,22 +7,26 @@ from time import sleep
 system('cls')
 
 window_size = '960x540+480+270'
+window_hight = 540
+window_width = 960
+wwh = window_width / 2  # 480
 background_color = '#002EA4'
 orange_color = '#FFA216'
+white_color = '#FFFFFF'
 window_title = [
     'Local-File-Processor: Functionality Selection',
-    'Local-File-Processor: File Copying'
-    'Local-File-Processor: File Archiving'
-    'Local-File-Processor: File Unpacking'
-    'Local-File-Processor: File List Generator'
+    'Local-File-Processor: File Copying',
+    'Local-File-Processor: File Archiving',
+    'Local-File-Processor: File Unpacking',
+    'Local-File-Processor: File List Generator',
     'Local-File-Processor: Routine Execution Script Generator'
 ]
 canvas_title = [
     'Functionality Selection',
-    'File Copying'
-    'File Archiving'
-    'File Unpacking'
-    'File List Generator'
+    'File Copying',
+    'File Archiving',
+    'File Unpacking',
+    'File List Generator',
     'Routine Execution Script Generator'
 ]
 button_text = [[
@@ -115,15 +119,14 @@ class Window(tk.Tk):
         self.canvas = tk.Canvas(
             self,
             bg=background_color,
-            height=540,
-            width=960,
-            bd=0,
+            height=window_hight,
+            width=window_width,
             highlightthickness=0,
             relief="ridge"
         )
         self.canvas.place(x=0, y=0)
         self.canvas.create_text(
-            480,
+            wwh,
             60,
             anchor="center",
             text=canvas_title[0],
@@ -132,18 +135,18 @@ class Window(tk.Tk):
         )
         self.button_1 = tk.Button(
             self,
-            text='COPY',
+            text=button_text[0][0],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(1)
         )
         self.button_1.place(
-            x=480,
+            x=wwh,
             y=140,
             width=800.0,
             height=50.0,
@@ -151,18 +154,18 @@ class Window(tk.Tk):
         )
         self.button_2 = tk.Button(
             self,
-            text='ARCHIVE',
+            text=button_text[0][1],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(2)
         )
         self.button_2.place(
-            x=480,
+            x=wwh,
             y=200,
             width=800.0,
             height=50.0,
@@ -170,18 +173,18 @@ class Window(tk.Tk):
         )
         self.button_3 = tk.Button(
             self,
-            text='UNPACK',
+            text=button_text[0][2],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(3)
         )
         self.button_3.place(
-            x=480,
+            x=wwh,
             y=260,
             width=800.0,
             height=50.0,
@@ -189,18 +192,18 @@ class Window(tk.Tk):
         )
         self.button_4 = tk.Button(
             self,
-            text='FILE LIST GENERATOR',
+            text=button_text[0][3],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(4)
         )
         self.button_4.place(
-            x=480,
+            x=wwh,
             y=320,
             width=800.0,
             height=50.0,
@@ -208,18 +211,18 @@ class Window(tk.Tk):
         )
         self.button_5 = tk.Button(
             self,
-            text='ROUTINE EXECUTION SCRIPT GENERATOR',
+            text=button_text[0][4],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(5)
         )
         self.button_5.place(
-            x=480,
+            x=wwh,
             y=380,
             width=800.0,
             height=50.0,
@@ -227,18 +230,18 @@ class Window(tk.Tk):
         )
         self.button_6 = tk.Button(
             self,
-            text='EXIT',
+            text=button_text[0][5],
             font=("Consolas", 25, 'bold'),
-            fg='#FFFFFF',
-            bg='#002EA4',
-            activeforeground='#002EA4',
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
             borderwidth=0,
             highlightthickness=0,
             relief="flat",
             command=lambda: self.button_click(6)
         )
         self.button_6.place(
-            x=480,
+            x=wwh,
             y=480,
             width=800.0,
             height=50.0,
@@ -250,19 +253,19 @@ class Window(tk.Tk):
         self.canvas = tk.Canvas(
             self,
             bg=background_color,
-            height=540,
-            width=960,
+            height=window_hight,
+            width=window_width,
             bd=0,
             highlightthickness=0,
             relief="ridge"
         )
         self.canvas.place(x=0, y=0)
         self.canvas.create_text(
-            480,
+            wwh,
             60,
             anchor="center",
             text=canvas_title[1],
-            fill="#FFFFFF",
+            fill=white_color,
             font=("ABeeZee", 40)
         )
         self.canvas.create_text(
@@ -270,7 +273,7 @@ class Window(tk.Tk):
             240,
             anchor="center",
             text="SRC",
-            fill="#FFFFFF",
+            fill=white_color,
             font=("Consolas", 25, 'bold')
         )
         self.canvas.create_text(
@@ -278,7 +281,7 @@ class Window(tk.Tk):
             340,
             anchor="center",
             text="DST",
-            fill="#FFFFFF",
+            fill=white_color,
             font=("Consolas", 25, 'bold')
         )
         self.button_1 = tk.Button(
@@ -593,9 +596,6 @@ class WindowsProcess():
     src = None
     dst = None
 
-    def __init__(self):
-        pass
-
     def show_status(self):
         print("[LOG] Status: " + str(self.status))
 
@@ -663,6 +663,38 @@ def main():
     wp.show_path()
     if wp.status[1] == 1:
         wp.copy_process()
+        wp.show_status()
+        wp.show_path()
+        while wp.status[1] == 4:
+            # back button of copy window
+            main()
+            break
+    elif wp.status[1] == 2:
+        wp.archive_process()
+        wp.show_status()
+        wp.show_path()
+        while wp.status[1] == 4:
+            # back button of copy window
+            main()
+            break
+    elif wp.status[1] == 3:
+        wp.unpack_process()
+        wp.show_status()
+        wp.show_path()
+        while wp.status[1] == 4:
+            # back button of copy window
+            main()
+            break
+    elif wp.status[1] == 4:
+        wp.file_list_generator_process()
+        wp.show_status()
+        wp.show_path()
+        while wp.status[1] == 4:
+            # back button of copy window
+            main()
+            break
+    elif wp.status[1] == 5:
+        wp.routine_execution_script_generator_process()
         wp.show_status()
         wp.show_path()
         while wp.status[1] == 4:
