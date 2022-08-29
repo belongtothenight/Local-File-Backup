@@ -131,6 +131,5 @@ unpack_multi_process||D:/||E:/||test||zip                   (path||path||Origina
 
 
 ```
-Currently working on making button turn on and off into orange when clicked, and triggering different browse functions.
-In copy_window function.
+Next will be making the "show processing files", "settings", and "routine execution script generator" windows. Also, the "show processing files" window links to copying, archiving, unpacking, and list generator windows and applies filter to it.
 ```
