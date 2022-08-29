@@ -1354,8 +1354,8 @@ class Window(tk.Tk, MainProcess):
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
-                self.src = self.entry_1.get()
-                self.dst = self.entry_2.get()
+                # self.src = self.entry_1.get()
+                # self.dst = self.entry_2.get()
                 self.filename = self.entry_3.get()
                 if self.filename == '':
                     c = False

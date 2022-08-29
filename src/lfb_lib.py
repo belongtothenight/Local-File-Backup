@@ -741,14 +741,12 @@ def export_file_log(filename, file_list, dst_path):
     except:
         fcnt = 1
     # file size conversion
-    size_B = [round(x/(2**3), 1) for x in file_list[2]]
-    size_MB = [round(x/(2**6), 2) for x in file_list[2]]
-    size_GB = [round(x/(2**9), 3) for x in file_list[2]]
+    size_MB = [round(x//(2**20), 2) for x in file_list[2]]  # wrong
+    size_GB = [round(x//(2**30), 3) for x in file_list[2]]  # wrong
     # Write to csv file
     df = pd.DataFrame({
         'file': file_list[0],
         'size(byte)': file_list[2],
-        'size(B)': size_B,
         'size(MB)': size_MB,
         'size(GB)': size_GB,
         'atime': file_list[3],
