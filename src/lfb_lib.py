@@ -76,17 +76,17 @@ def filter_file(file, filter):
     if filter[3][0] != None and filter[3][1] != None:
         if stat(file).st_size < filter[3][0] or stat(file).st_size > filter[3][1]:
             filter_flag = True
-            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            filter_type = 'size' + ' : ' + str(stat(file).st_size)
             return filter_flag, filter_type
     elif filter[3][0] != None:
         if stat(file).st_size < filter[3][0]:
             filter_flag = True
-            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            filter_type = 'size' + ' : ' + str(stat(file).st_size)
             return filter_flag, filter_type
     elif filter[3][1] != None:
         if stat(file).st_size > filter[3][1]:
             filter_flag = True
-            filter_type = 'size' + ' >> ' + str(stat(file).st_size)
+            filter_type = 'size' + ' : ' + str(stat(file).st_size)
             return filter_flag, filter_type
     # ---------- File atime ----------
     if filter[4][0] != None and filter[4][1] != None:
@@ -543,10 +543,11 @@ def disk_size_check(src_size, free_dst_disk_size, log, print_sub_flag):
     return flag, log
 
 
-def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log, print_sub_flag):
+def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst, atime_dst, mtime_dst, log, print_sub_flag):
     '''
     Args:
         fd_src: (str) file directory
+        fd_src_r: (str) file directory (root)
         size_src: (str) file size
         atime_src: (str) access time
         mtime_src: (str) modification time
@@ -578,7 +579,10 @@ def copy_file(fd_src, size_src, atime_src, mtime_src, fd_dst, fd_dst_l, size_dst
             if print_sub_flag:
                 print("[LOG] File is different, copy " + fd_src)
             log.append("[LOG] File is different, copy\t\t" + fd_src)
-            copy2(fd_src, fd_dst)
+            # need to copy folders as well
+            dst = join(fd_dst, (fd_src_r - fd_src))
+            print(dst)
+            copy2(fd_src, dst)
     except Exception as e:
         # File is not found in dst
         if print_sub_flag:

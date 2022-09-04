@@ -64,8 +64,8 @@ button_text = [[
 filter_1 = [
     True,
     [None],  # ['.txt'],
-    [['07-31'], ['log_2022-07-31_1.txt']],
-    [16000, 48000],
+    [[None], [None]],
+    [None, None],
     [None, None],  # use time.mktime(9-tuple) to generate time code
     [None, None],  # use time.mktime(9-tuple) to generate time code
     [None, None]  # use time.mktime(9-tuple) to generate time code
@@ -135,22 +135,65 @@ class MainProcess():
         print("[LOG] [FUNCTION] Single File Copying Ended") if print_flag[2] else None
         return log
 
-    def single_folder_copy(self, log):
+    def single_folder_copy(self, log, src, dst):
         log.append(
             "[LOG] [FUNCTION] Single Folder Copying Started") if file_log_flag[0] else None
         print(
             "[LOG] [FUNCTION] Single Folder Copying Started") if print_flag[2] else None
-
+        '''====================================================================================================='''
+        file_info, log = ll.get_file_info(
+            src, dst, log, filter_1, print_flag[2])
+        flag, log = ll.disk_size_check(
+            file_info[12], file_info[20], log, print_flag[2])
+        if flag:
+            progress = [0, len(file_info[0])]
+            for i in range(len(file_info[0])):
+                log = ll.copy_file(
+                    fd_src=file_info[0][i], size_src=file_info[2][i],
+                    atime_src=file_info[3][i], mtime_src=file_info[4][i],
+                    fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
+                    atime_dst=file_info[9], mtime_dst=file_info[10], log=log, print_sub_flag=print_flag[2]
+                )
+                progress[0] += 1
+                if print_flag[1]:
+                    print(
+                        "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+        del file_info[:], src, dst
+        '''====================================================================================================='''
         log.append(
             "[LOG] [FUNCTION] Single Folder Copying Ended") if file_log_flag[0] else None
         print("[LOG] [FUNCTION] Single Folder Copying Ended") if print_flag[2] else None
         return log
 
-    def multi_folder_copy(self, log):
+    def multi_folder_copy(self, log, src, dst):
         log.append(
             "[LOG] [FUNCTION] Multi Folder Copying Started") if file_log_flag[0] else None
         print("[LOG] [FUNCTION] Multi Folder Copying Started") if print_flag[2] else None
-
+        '''====================================================================================================='''
+        # folders are not copied
+        filename = function_enable[2][0]
+        file_info, log = ll.get_file_info(
+            src, dst, log, filter_1, print_flag[2])
+        ll.export_file_log(filename, file_info,
+                           dst) if file_log_flag[0] else None
+        flag, log = ll.disk_size_check(
+            file_info[12], file_info[20], log, print_flag[2])
+        if flag:
+            progress = [0, len(file_info[0])]
+            for i in range(len(file_info[0])):
+                log = ll.copy_file(
+                    fd_src=file_info[0][i], fd_src_r=file_info[24], size_src=file_info[2][i],
+                    atime_src=file_info[3][i], mtime_src=file_info[4][i],
+                    fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
+                    atime_dst=file_info[9], mtime_dst=file_info[10],
+                    log=log, print_sub_flag=print_flag[1]
+                )
+                progress[0] += 1
+                if print_flag[1]:
+                    print(
+                        "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
+        del file_info[:], src, dst
+        '''====================================================================================================='''
         log.append(
             "[LOG] [FUNCTION] Multi Folder Copying Ended") if file_log_flag[0] else None
         print("[LOG] [FUNCTION] Multi Folder Copying Ended") if print_flag[2] else None
@@ -1460,11 +1503,12 @@ class Window(tk.Tk, MainProcess):
                             self, self.log, self.src, self.dst)
                     elif self.mode_selection == 2:
                         self.log = MainProcess.single_folder_copy(
-                            self, self.log)
+                            self, self.log, self.src, self.dst)
                     elif self.mode_selection == 3:
                         self.log = MainProcess.multi_folder_copy(
-                            self, self.log)
+                            self, self.log, self.src, self.dst)
             elif self.status[1] == 7:
+                self.entry_1.delete(0, 'end')
                 if self.mode_selection == 0:
                     pass
                 elif self.mode_selection == 1:
@@ -1474,6 +1518,7 @@ class Window(tk.Tk, MainProcess):
                 elif self.mode_selection == 3:
                     self.path_selection(1, 3)
             elif self.status[1] == 8:
+                self.entry_2.delete(0, 'end')
                 self.path_selection(2, 1)
         elif self.status[0] == 2:
             # archive window
@@ -1544,6 +1589,7 @@ class Window(tk.Tk, MainProcess):
                         self.log = MainProcess.multi_folder_archive(
                             self, self.log)
             elif self.status[1] == 7:
+                self.entry_1.delete(0, 'end')
                 if self.mode_selection == 0:
                     pass
                 elif self.mode_selection == 1:
@@ -1553,6 +1599,7 @@ class Window(tk.Tk, MainProcess):
                 elif self.mode_selection == 3:
                     self.path_selection(1, 3)
             elif self.status[1] == 8:
+                self.entry_2.delete(0, 'end')
                 self.path_selection(2, 1)
         elif self.status[0] == 3:
             # archive window
@@ -1623,6 +1670,7 @@ class Window(tk.Tk, MainProcess):
                         self.log = MainProcess.multi_folder_unpack(
                             self, self.log)
             elif self.status[1] == 7:
+                self.entry_1.delete(0, 'end')
                 if self.mode_selection == 0:
                     pass
                 elif self.mode_selection == 1:
@@ -1632,6 +1680,7 @@ class Window(tk.Tk, MainProcess):
                 elif self.mode_selection == 3:
                     self.path_selection(1, 3)
             elif self.status[1] == 8:
+                self.entry_2.delete(0, 'end')
                 self.path_selection(2, 1)
         elif self.status[0] == 4:
             # file list generator window
