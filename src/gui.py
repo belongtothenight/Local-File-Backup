@@ -1,8 +1,9 @@
 import tkinter as tk
+from webbrowser import get
 import lfb_lib as ll
 from tkinter import filedialog
 from os import system, getcwd
-from os.path import isfile, isdir, exists
+from os.path import isfile, isdir, exists, dirname
 from time import sleep
 from timeit import default_timer
 
@@ -86,7 +87,7 @@ print_flag = [
     True  # print in sub-functions of lib file
 ]
 file_log_flag = [
-    True,  # src file log flag associate with functions
+    False,  # src file log flag associate with functions
     True,  # file log file of random location
     True,  # execution log flag
 ]
@@ -108,11 +109,27 @@ function_enable = [
 class MainProcess():
     progress = 0
 
-    def single_file_copy(self, log):
+    def single_file_copy(self, log, src, dst):
         log.append(
             "[LOG] [FUNCTION] Single File Copying Started") if file_log_flag[0] else None
         print("[LOG] [FUNCTION] Single File Copying Started") if print_flag[2] else None
-
+        '''====================================================================================================='''
+        # need improvement to not handeling all files
+        src_f = dirname(src)
+        filter_1[2][1] = src
+        file_info, log = ll.get_file_info(
+            src_f, dst, log, filter_1, print_flag[2])
+        flag, log = ll.disk_size_check(
+            file_info[12], file_info[20], log, print_flag[2])
+        if flag:
+            log = ll.copy_file(
+                fd_src=file_info[0][0], size_src=file_info[2][0],
+                atime_src=file_info[3][0], mtime_src=file_info[4][0],
+                fd_dst=file_info[25], fd_dst_l=file_info[6], size_dst=file_info[8],
+                atime_dst=file_info[9], mtime_dst=file_info[10], log=log, print_sub_flag=print_flag[2]
+            )
+        del file_info[:], src, dst
+        '''====================================================================================================='''
         log.append(
             "[LOG] [FUNCTION] Single File Copying Ended") if file_log_flag[0] else None
         print("[LOG] [FUNCTION] Single File Copying Ended") if print_flag[2] else None
@@ -207,7 +224,7 @@ class MainProcess():
         print("[LOG] [FUNCTION] Multi Folder Unpacking Ended") if print_flag[2] else None
         return log
 
-    def file_log_generation(self, filename, location, dst_path, log):
+    def file_log_generation(self, log, filename, location, dst_path):
         file_info, self.log = ll.get_file_info(
             location, dst_path, self.log, [None], print_flag[2])
         if file_log_flag[1]:
@@ -1201,6 +1218,147 @@ class Window(tk.Tk, MainProcess):
         )
 
     def set_routine_execution_script_generator_window_element(self):
+        self.canvas = tk.Canvas(
+            self,
+            bg=background_color,
+            height=window_hight,
+            width=window_width,
+            highlightthickness=0,
+            relief="ridge"
+        )
+        self.canvas.place(x=0, y=0)
+        self.canvas.create_text(
+            wwh,
+            60,
+            anchor="center",
+            text=canvas_title[5],
+            fill="#FFFFFF",
+            font=("ABeeZee", 40)
+        )
+        self.canvas.create_text(
+            150,
+            140,
+            anchor="center",
+            text="Filename",
+            fill=white_color,
+            font=("Consolas", 25, 'bold')
+        )
+        self.canvas.create_text(
+            800,
+            140,
+            anchor="center",
+            text=".lfbp",
+            fill=white_color,
+            font=("Consolas", 25, 'bold')
+        )
+        self.canvas.create_text(
+            110,
+            340,
+            anchor="center",
+            text="DST",
+            fill=white_color,
+            font=("Consolas", 25, 'bold')
+        )
+        self.button_4 = tk.Button(
+            self,
+            text=button_text[1][3],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(4)
+        )
+        self.button_4.place(
+            x=260,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_5 = tk.Button(
+            self,
+            text=button_text[1][4],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(5)
+        )
+        self.button_5.place(
+            x=460,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_6 = tk.Button(
+            self,
+            text=button_text[1][5],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=background_color,
+            activeforeground=background_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(6)
+        )
+        self.button_6.place(
+            x=660,
+            y=480,
+            width=200.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.button_8 = tk.Button(
+            self,
+            text=button_text[1][7],
+            font=("Carlito", 25, 'bold'),
+            fg=white_color,
+            bg=orange_color,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            command=lambda: self.button_click(8)
+        )
+        self.button_8.place(
+            x=835,
+            y=340,
+            width=150.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.entry_2 = tk.Entry(
+            font=("Cascadia Code", 15),
+            textvariable=self.dst
+        )
+        self.entry_2.place(
+            x=460,
+            y=340,
+            width=600.0,
+            height=50.0,
+            anchor="center"
+        )
+        self.filename.set('routine')
+        self.entry_3 = tk.Entry(
+            font=("Cascadia Code", 15),
+            textvariable=self.filename
+        )
+        self.entry_3.place(
+            x=250,
+            y=140,
+            width=510.0,
+            height=50.0,
+            anchor="w"
+        )
+
+    def list_and_progress(self):
         pass
 
     '''widget operation'''
@@ -1235,7 +1393,8 @@ class Window(tk.Tk, MainProcess):
         if self.status[0] == 0:
             # entry window
             if self.status[1] in [1, 2, 3, 4, 5, 6]:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
         elif self.status[0] == 1:
             # copy window
@@ -1273,10 +1432,12 @@ class Window(tk.Tk, MainProcess):
                     self.button_3.config(bg=background_color)
                     self.mode_selection = 0
             elif self.status[1] == 4:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 5:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
                 self.src = self.entry_1.get()
@@ -1292,16 +1453,17 @@ class Window(tk.Tk, MainProcess):
                 except:
                     b = False
                 if a and b:
+                    # self.destroy()
                     # start updating progress bar
                     if self.mode_selection == 1:
-                        self.log = MainProcess.single_file_copy(self, self.log)
+                        self.log = MainProcess.single_file_copy(
+                            self, self.log, self.src, self.dst)
                     elif self.mode_selection == 2:
                         self.log = MainProcess.single_folder_copy(
                             self, self.log)
                     elif self.mode_selection == 3:
                         self.log = MainProcess.multi_folder_copy(
                             self, self.log)
-                    # self.destroy()
             elif self.status[1] == 7:
                 if self.mode_selection == 0:
                     pass
@@ -1349,12 +1511,18 @@ class Window(tk.Tk, MainProcess):
                     self.button_3.config(bg=background_color)
                     self.mode_selection = 0
             elif self.status[1] == 4:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 5:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
+                self.src = self.entry_1.get()
+                self.dst = self.entry_2.get()
+                # print(self.src)
+                # print(self.dst)
                 try:
                     a = exists(self.src)
                 except:
@@ -1364,7 +1532,17 @@ class Window(tk.Tk, MainProcess):
                 except:
                     b = False
                 if a and b:
-                    self.destroy()
+                    # self.destroy()
+                    # start updating progress bar
+                    if self.mode_selection == 1:
+                        self.log = MainProcess.single_file_archive(
+                            self, self.log)
+                    elif self.mode_selection == 2:
+                        self.log = MainProcess.single_folder_archive(
+                            self, self.log)
+                    elif self.mode_selection == 3:
+                        self.log = MainProcess.multi_folder_archive(
+                            self, self.log)
             elif self.status[1] == 7:
                 if self.mode_selection == 0:
                     pass
@@ -1412,12 +1590,18 @@ class Window(tk.Tk, MainProcess):
                     self.button_3.config(bg=background_color)
                     self.mode_selection = 0
             elif self.status[1] == 4:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 5:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
+                self.src = self.entry_1.get()
+                self.dst = self.entry_2.get()
+                # print(self.src)
+                # print(self.dst)
                 try:
                     a = exists(self.src)
                 except:
@@ -1427,7 +1611,17 @@ class Window(tk.Tk, MainProcess):
                 except:
                     b = False
                 if a and b:
-                    self.destroy()
+                    # self.destroy()
+                    # start updating progress bar
+                    if self.mode_selection == 1:
+                        self.log = MainProcess.single_file_unpack(
+                            self, self.log)
+                    elif self.mode_selection == 2:
+                        self.log = MainProcess.single_folder_unpack(
+                            self, self.log)
+                    elif self.mode_selection == 3:
+                        self.log = MainProcess.multi_folder_unpack(
+                            self, self.log)
             elif self.status[1] == 7:
                 if self.mode_selection == 0:
                     pass
@@ -1442,10 +1636,12 @@ class Window(tk.Tk, MainProcess):
         elif self.status[0] == 4:
             # file list generator window
             if self.status[1] == 4:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 5:
-                print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
+                print("[LOG] [GUI] Closed " +
+                      canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
                 self.src = self.entry_1.get()
@@ -1467,10 +1663,10 @@ class Window(tk.Tk, MainProcess):
                 except:
                     b = False
                 if a and b and c:
+                    # self.destroy()
                     # start updating progress bar
                     self.log = MainProcess.file_log_generation(
-                        self, self.filename, self.src, self.dst, self.log)
-                    # self.destroy()
+                        self, self.log, self.filename, self.src, self.dst)
             elif self.status[1] == 7:
                 self.entry_1.delete(0, 'end')
                 self.path_selection(1, 2)
@@ -1483,7 +1679,7 @@ class Window(tk.Tk, MainProcess):
     def button_click(self, num):
         self.status[1] = num
         self.status[num+1] += 1
-        print("[LOG] Button status: " + str(self.status))
+        print("[LOG] [GUI] Button status: " + str(self.status))
         self.button_action()
 
     '''window operation'''
