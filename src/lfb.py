@@ -12,6 +12,7 @@ from turtle import color
 from unittest import skip
 from lfb_lib import archive_single_file, disk_size_check, get_file_info, get_folder_info, disk_size_check, copy_file, archive_single_file, archive_folder, unpack_file, export_file_log, export_log, generate_process_file
 from tkinter import *
+from gui import main
 
 # Path Variables
 src_1 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Local-File-Backup/src/backup_test/src/ffc.pyw'
@@ -360,7 +361,8 @@ def routine_execution():
 
 def normal_execution():
     print('[LOG] Python Script: {0} Executed'.format(argv[0]))
-    system('cmd /k')  # disable if not executed in cmd
+    log = main()
+    return log
 
 
 if __name__ == '__main__':
@@ -372,18 +374,19 @@ if __name__ == '__main__':
     except IndexError:
         start = default_timer()
         system('cls')
-        print("[LOG] Start executing {0}\n".format(Path(argv[0]).name))
-        log = []
-        normal_execution()
+        # read settings from file (the variables at the start of the script)
+        print("[LOG] Start executing {0}\n".format(
+            Path(argv[0]).name)) if print_flag[0] else None
+        log = normal_execution()
         stop = default_timer()
         log.append("[LOG] Total Operation Time: " +
                    str(stop - start) + " seconds\n")
-        if file_log_flag[2]:
-            export_log('log', log, src_8)
-        if print_flag[0]:
-            print("[LOG] Total Operation Time: " +
-                  str(stop - start) + " seconds\n")
-        print("[LOG] End executing {0}\n".format(Path(argv[0]).name))
+        export_log('log', log, src_8) if file_log_flag[2] else None
+        print("[LOG] Total Operation Time: " + str(stop - start) +
+              " seconds\n") if print_flag[0] else None
+        print("[LOG] End executing {0}\n".format(
+            Path(argv[0]).name)) if print_flag[0] else None
+        system('cmd /k')  # disable if not executed in cmd
 
 
 '''

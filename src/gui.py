@@ -4,6 +4,7 @@ from tkinter import filedialog
 from os import system, getcwd
 from os.path import isfile, isdir, exists
 from time import sleep
+from timeit import default_timer
 
 system('cls')
 
@@ -105,50 +106,130 @@ function_enable = [
 
 
 class MainProcess():
-    def __init__(self):
-        # self.progress = 0
-        # self.log = []
-        pass
+    progress = 0
 
-    def single_file_copy(self):
-        pass
+    def single_file_copy(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single File Copying Started") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Single File Copying Started") if print_flag[2] else None
 
-    def single_folder_copy(self):
-        pass
+        log.append(
+            "[LOG] [FUNCTION] Single File Copying Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Single File Copying Ended") if print_flag[2] else None
+        return log
 
-    def multi_folder_copy(self):
-        pass
+    def single_folder_copy(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Copying Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single Folder Copying Started") if print_flag[2] else None
 
-    def single_file_archive(self):
-        pass
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Copying Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Single Folder Copying Ended") if print_flag[2] else None
+        return log
 
-    def single_folder_archive(self):
-        pass
+    def multi_folder_copy(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Copying Started") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Multi Folder Copying Started") if print_flag[2] else None
 
-    def multi_folder_archive(self):
-        pass
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Copying Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Multi Folder Copying Ended") if print_flag[2] else None
+        return log
 
-    def single_file_unpack(self):
-        pass
+    def single_file_archive(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single File Archiving Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single File Archiving Started") if print_flag[2] else None
 
-    def single_folder_unpack(self):
-        pass
+        log.append(
+            "[LOG] [FUNCTION] Single File Archiving Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Single File Archiving Ended") if print_flag[2] else None
+        return log
 
-    def multi_folder_unpack(self):
-        pass
+    def single_folder_archive(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Archiving Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single Folder Archiving Started") if print_flag[2] else None
 
-    def file_log_generation(self, filename, location, dst_path):
-        log = []
-        file_info, log = ll.get_file_info(
-            location, dst_path, log, [None], print_flag[2])
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Archiving Ended") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single Folder Archiving Ended") if print_flag[2] else None
+        return log
+
+    def multi_folder_archive(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Archiving Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Multi Folder Archiving Started") if print_flag[2] else None
+
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Archiving Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Multi Folder Archiving Ended") if print_flag[2] else None
+        return log
+
+    def single_file_unpack(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single File Unpacking Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single File Unpacking Started") if print_flag[2] else None
+
+        log.append(
+            "[LOG] [FUNCTION] Single File Unpacking Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Single File Unpacking Ended") if print_flag[2] else None
+        return log
+
+    def single_folder_unpack(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Unpacking Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single Folder Unpacking Started") if print_flag[2] else None
+
+        log.append(
+            "[LOG] [FUNCTION] Single Folder Unpacking Ended") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Single Folder Unpacking Ended") if print_flag[2] else None
+        return log
+
+    def multi_folder_unpack(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Unpacking Started") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Multi Folder Unpacking Started") if print_flag[2] else None
+
+        log.append(
+            "[LOG] [FUNCTION] Multi Folder Unpacking Ended") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Multi Folder Unpacking Ended") if print_flag[2] else None
+        return log
+
+    def file_log_generation(self, filename, location, dst_path, log):
+        file_info, self.log = ll.get_file_info(
+            location, dst_path, self.log, [None], print_flag[2])
         if file_log_flag[1]:
             ll.export_file_log(filename, file_info, dst_path)
+        log.append("[LOG] [FUNCTION] File Log Generated: " +
+                   filename) if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] File Log Generated: " +
+              filename) if print_flag[2] else None
+        return log
 
-    def process_file_generation(self):
-        pass
+    def process_file_generation(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Process File Generated") if file_log_flag[0] else None
+        print("[LOG] [FUNCTION] Process File Generated") if print_flag[2] else None
+        return log
 
-    def routine_execution_script_generation(self):
-        pass
+    def routine_execution_script_generation(self, log):
+        log.append(
+            "[LOG] [FUNCTION] Routine Execution Script Generated") if file_log_flag[0] else None
+        print(
+            "[LOG] [FUNCTION] Routine Execution Script Generated") if print_flag[2] else None
+        return log
 
 
 class Window(tk.Tk, MainProcess):
@@ -159,11 +240,11 @@ class Window(tk.Tk, MainProcess):
     ]
     mode_selection = 3  # 1: single file, 2: single folder, 3: multiple folders
 
-    def __init__(self, size, color):
+    def __init__(self, size, color, log):
         '''Window Restart Refresh'''
         # self.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]  # refresh status count
         import tkinter as tk  # enable reopening different windows
-
+        self.log = log
         '''Window Setting'''
         tk.Tk.__init__(self)
         self.geometry(size)
@@ -1148,7 +1229,7 @@ class Window(tk.Tk, MainProcess):
 
     def button_action(self):
         # Handling actions inside GUI
-        # print("[LOG] Clicked Window/Button/Window Name/Button Name: "
+        # print("s Clicked Window/Button/Window Name/Button Name: "
         #   + str(self.status[0]) + "/" + str(self.status[1]) + "/"
         #   + str(canvas_title[self.status[0]]) + "/" + str(button_text[self.status[0]-2][self.status[1]-1]))
         if self.status[0] == 0:
@@ -1198,6 +1279,10 @@ class Window(tk.Tk, MainProcess):
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
+                self.src = self.entry_1.get()
+                self.dst = self.entry_2.get()
+                # print(self.src)
+                # print(self.dst)
                 try:
                     a = exists(self.src)
                 except:
@@ -1207,7 +1292,16 @@ class Window(tk.Tk, MainProcess):
                 except:
                     b = False
                 if a and b:
-                    self.destroy()
+                    # start updating progress bar
+                    if self.mode_selection == 1:
+                        self.log = MainProcess.single_file_copy(self, self.log)
+                    elif self.mode_selection == 2:
+                        self.log = MainProcess.single_folder_copy(
+                            self, self.log)
+                    elif self.mode_selection == 3:
+                        self.log = MainProcess.multi_folder_copy(
+                            self, self.log)
+                    # self.destroy()
             elif self.status[1] == 7:
                 if self.mode_selection == 0:
                     pass
@@ -1346,7 +1440,7 @@ class Window(tk.Tk, MainProcess):
             elif self.status[1] == 8:
                 self.path_selection(2, 1)
         elif self.status[0] == 4:
-            # copy window
+            # file list generator window
             if self.status[1] == 4:
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
@@ -1354,9 +1448,12 @@ class Window(tk.Tk, MainProcess):
                 print("[LOG] Closed " + canvas_title[self.status[0]] + " Window")
                 self.destroy()
             elif self.status[1] == 6:
-                # self.src = self.entry_1.get()
-                # self.dst = self.entry_2.get()
+                self.src = self.entry_1.get()
+                self.dst = self.entry_2.get()
                 self.filename = self.entry_3.get()
+                # print(self.src)
+                # print(self.dst)
+                # print(self.filename)
                 if self.filename == '':
                     c = False
                 else:
@@ -1371,11 +1468,14 @@ class Window(tk.Tk, MainProcess):
                     b = False
                 if a and b and c:
                     # start updating progress bar
-                    MainProcess.file_log_generation(
-                        self, self.filename, self.src, self.dst)
+                    self.log = MainProcess.file_log_generation(
+                        self, self.filename, self.src, self.dst, self.log)
+                    # self.destroy()
             elif self.status[1] == 7:
+                self.entry_1.delete(0, 'end')
                 self.path_selection(1, 2)
             elif self.status[1] == 8:
+                self.entry_2.delete(0, 'end')
                 self.path_selection(2, 1)
         elif self.status[0] == 5:
             pass
@@ -1398,30 +1498,44 @@ class WindowsProcess():
     filename = None
     src = None
     dst = None
+    log = []
 
     def show_status(self):
-        print("[LOG] Status: " + str(self.status))
+        if print_flag[1]:
+            print("[LOG] [GUI] Status: " + str(self.status))
+        if file_log_flag[0]:
+            self.log.append("[LOG] [GUI] Status: " + str(self.status))
 
     def show_path(self):
-        print("[LOG] Source: " + str(self.src))
-        print("[LOG] Destination: " + str(self.dst))
+        if print_flag[1]:
+            print("[LOG] [GUI] Source: " + str(self.src))
+            print("[LOG] [GUI] Destination: " + str(self.dst))
+        if file_log_flag[0]:
+            self.log.append("[LOG] [GUI] Source: " + str(self.src))
+            self.log.append("[LOG] [GUI] Destination: " + str(self.dst))
 
     def show_data_file_list_generator(self):
-        print("[LOG] Status: " + str(self.status))
-        print("[LOG] Filename: " + str(self.filename))
-        print("[LOG] Source: " + str(self.src))
-        print("[LOG] Destination: " + str(self.dst))
+        if print_flag[1]:
+            print("[LOG] [GUI] Status: " + str(self.status))
+            print("[LOG] [GUI] Filename: " + str(self.filename))
+            print("[LOG] [GUI] Source: " + str(self.src))
+            print("[LOG] [GUI] Destination: " + str(self.dst))
+        if file_log_flag[0]:
+            self.log.append("[LOG] [GUI] Status: " + str(self.status))
+            self.log.append("[LOG] [GUI] Filename: " + str(self.filename))
+            self.log.append("[LOG] [GUI] Source: " + str(self.src))
+            self.log.append("[LOG] [GUI] Destination: " + str(self.dst))
 
     def entry_process(self):
         Window.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        entry_window = Window(window_size, background_color)
+        entry_window = Window(window_size, background_color, self.log)
         entry_window.set_entry_window_element()
         entry_window.show_window()
         self.status = entry_window.status
 
     def copy_process(self):
         Window.status = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        copy_window = Window(window_size, background_color)
+        copy_window = Window(window_size, background_color, self.log)
         copy_window.set_copy_window_element()
         copy_window.show_window()
         self.status = copy_window.status
@@ -1430,7 +1544,7 @@ class WindowsProcess():
 
     def archive_process(self):
         Window.status = [2, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        archive_window = Window(window_size, background_color)
+        archive_window = Window(window_size, background_color, self.log)
         archive_window.set_archive_window_element()
         archive_window.show_window()
         self.status = archive_window.status
@@ -1439,7 +1553,7 @@ class WindowsProcess():
 
     def unpack_process(self):
         Window.status = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        unpack_window = Window(window_size, background_color)
+        unpack_window = Window(window_size, background_color, self.log)
         unpack_window.set_unpack_window_element()
         unpack_window.show_window()
         self.status = unpack_window.status
@@ -1448,7 +1562,8 @@ class WindowsProcess():
 
     def file_list_generator_process(self):
         Window.status = [4, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        file_list_generator_window = Window(window_size, background_color)
+        file_list_generator_window = Window(
+            window_size, background_color, self.log)
         file_list_generator_window.set_file_list_generator_window_element()
         file_list_generator_window.show_window()
         self.status = file_list_generator_window.status
@@ -1459,7 +1574,7 @@ class WindowsProcess():
     def routine_execution_script_generator_process(self):
         Window.status = [5, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         routine_execution_script_generator_window = Window(
-            window_size, background_color)
+            window_size, background_color, self.log)
         routine_execution_script_generator_window.set_routine_execution_script_generator_window_element()
         routine_execution_script_generator_window.show_window()
         self.status = routine_execution_script_generator_window.status
@@ -1467,6 +1582,7 @@ class WindowsProcess():
 
 
 def main():
+    # read settings from file (the variables at the start of the script)
     wp = WindowsProcess()
     wp.entry_process()
     wp.show_status()
@@ -1510,10 +1626,12 @@ def main():
             # back button of copy window
             main()
             break
+    return WindowsProcess.log
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    print("This is a module.")
     # system('cmd /k')  # disable if not executed in cmd
 
 '''
