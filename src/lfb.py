@@ -31,8 +31,8 @@ dst_3 = 'D:/Note_Database/Subject/CPDWG Custom Program Developed With Gidhub/Loc
 filter_1 = [
     True,
     [None],  # ['.txt'],
-    [['07-31'], ['log_2022-07-31_1.txt']],
-    [16000, 48000],
+    [['']],  # [['07-31'], ['log_2022-07-31_1.txt']],
+    [0, 10000000000],
     [None, None],  # use time.mktime(9-tuple) to generate time code
     [None, None],  # use time.mktime(9-tuple) to generate time code
     [None, None]  # use time.mktime(9-tuple) to generate time code
@@ -129,8 +129,9 @@ process = [
 # del file_info[:], src_path, dst_path
 
 '''multi_folder_copy'''
+# print('Multi Folder Copy')
 # filename = function_enable[2][0]
-# src_path = src_8
+# src_path = src_2
 # dst_path = dst_2
 # file_info, log = get_file_info(
 #     src_path, dst_path, log, filter_1, print_flag[2])
@@ -153,6 +154,7 @@ process = [
 #             print(
 #                 "Progress: {0}/{1}:\t{2}".format(progress[0], progress[1], log[-1]))
 # del file_info[:], src_path, dst_path
+# print('finished multi folder copy')
 
 '''single_file_archive'''
 # filename = 'test_ffc'

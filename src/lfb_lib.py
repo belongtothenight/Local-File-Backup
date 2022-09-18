@@ -1,7 +1,7 @@
 from concurrent.futures import process
 from logging import root
 from shutil import disk_usage, copy2, make_archive, unpack_archive, move, rmtree
-from os import system, listdir, stat, walk, chdir, getcwd, sep, mkdir
+from os import system, listdir, stat, walk, chdir, getcwd, sep, mkdir, makedirs
 from os.path import isfile, join, isdir, basename, dirname, exists
 from pathlib import Path
 from telnetlib import STATUS
@@ -564,6 +564,17 @@ def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l
         This function copies a file from the source path to the destination path. It also logs the actions performed.
     '''
     # Add duplication to this function
+    # print('fd_src ' + fd_src)
+    # print('fd_src_r ' + fd_src_r)
+    # print('fd_dst ' + fd_dst)
+    sub_path = fd_src.replace(fd_src_r, '')
+    sub_path = sub_path.replace('\\', '/')
+    # print('sub_path ' + sub_path)
+    dst = fd_dst + sub_path
+    dst_dir = dirname(dst)
+    # print(dst_dir)
+    makedirs(dst_dir, exist_ok=True)
+    # print(dst)
     try:
         # File with same name in dst
         j = fd_dst_l.index(join(fd_dst, Path(fd_src).name))
@@ -572,23 +583,21 @@ def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l
         if size_src == size_dst[j] and atime_src == atime_dst[j] and mtime_src == mtime_dst[j]:
             # File has the same metadata beside creation time
             if print_sub_flag:
-                print("[LOG] File is the same, skip " + fd_src)
+                print("[LOG] File is the same, skip\t\t" + fd_src)
             log.append("[LOG] File is the same, skip copy\t\t" + fd_src)
         else:
             # File has different metadata
             if print_sub_flag:
-                print("[LOG] File is different, copy " + fd_src)
+                print("[LOG] File is different, copy\t\t" + fd_src)
             log.append("[LOG] File is different, copy\t\t" + fd_src)
             # need to copy folders as well
-            dst = join(fd_dst, (fd_src_r - fd_src))
-            print(dst)
             copy2(fd_src, dst)
     except Exception as e:
         # File is not found in dst
         if print_sub_flag:
-            print("[LOG] File is not found in dst, copy" + fd_src)
+            print("[LOG] File is not found in dst, copy\t" + fd_src)
         log.append("[LOG] File is not found in dst, copy\t" + fd_src)
-        copy2(fd_src, fd_dst)
+        copy2(fd_src, dst)
     return log
 
 
