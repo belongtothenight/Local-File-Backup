@@ -564,7 +564,7 @@ def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l
         This function copies a file from the source path to the destination path. It also logs the actions performed.
     '''
     # Add duplication to this function
-    # print('fd_src ' + fd_src)
+    # print('fd_src ' + fd  _src)
     # print('fd_src_r ' + fd_src_r)
     # print('fd_dst ' + fd_dst)
     sub_path = fd_src.replace(fd_src_r, '')

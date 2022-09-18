@@ -6,6 +6,7 @@ from os import system, getcwd
 from os.path import isfile, isdir, exists, dirname
 from time import sleep
 from timeit import default_timer
+from sys import maxsize
 
 system('cls')
 
@@ -1498,6 +1499,7 @@ class Window(tk.Tk, MainProcess):
                 if a and b:
                     # self.destroy()
                     # start updating progress bar
+                    print('[LOG] [GUI] Started gathering file information...')
                     if self.mode_selection == 1:
                         self.log = MainProcess.single_file_copy(
                             self, self.log, self.src, self.dst)
