@@ -391,13 +391,23 @@ def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
     fd, err, size, atime, mtime, ctime = create()  # create empty lists
     fd_src, err_src, size_src, atime_src, mtime_src, ctime_src = list_all_files(
         src_path, fd, err, size, atime, mtime, ctime, filter)
+    print('[LOG] Source file loaded successfully.') if print_sub_flag else None
+
     fd, err, size, atime, mtime, ctime = create()  # reset
     fd_dst, err_dst, size_dst, atime_dst, mtime_dst, ctime_dst = list_all_files(
         dst_path, fd, err, size, atime, mtime, ctime, filter)
+    print('[LOG] Destination file loaded successfully.') if print_sub_flag else None
+
     fd, err, size, atime, mtime, ctime = create()  # reset
     tfs_src = sum_file_size(size_src)
     tfs_dst = sum_file_size(size_dst)
     tfs = tfs_src + tfs_dst
+    print('[LOG] File size loaded successfully.') if print_sub_flag else None
+
+    fd_src = [str(Path(x)) for x in fd_src]
+    fd_dst = [str(Path(x)) for x in fd_dst]
+    print('[LOG] File directory converted successfully.') if print_sub_flag else None
+
     # this delete the variables
     del fd[:], err[:], size[:], atime[:], mtime[:], ctime[:]
 
@@ -407,6 +417,7 @@ def get_file_info(src_path, dst_path, log, filter, print_sub_flag):
     total = total_src + total_dst
     used = used_src + used_dst
     free = free_src + free_dst
+    print('[LOG] Disk size loaded successfully.') if print_sub_flag else None
 
     # Include root directory
     root_fd_src = src_path
@@ -564,20 +575,16 @@ def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l
         This function copies a file from the source path to the destination path. It also logs the actions performed.
     '''
     # Add duplication to this function
-    # print('fd_src ' + fd  _src)
-    # print('fd_src_r ' + fd_src_r)
-    # print('fd_dst ' + fd_dst)
     sub_path = fd_src.replace(fd_src_r, '')
     sub_path = sub_path.replace('\\', '/')
-    # print('sub_path ' + sub_path)
     dst = fd_dst + sub_path
     dst_dir = dirname(dst)
-    # print(dst_dir)
     makedirs(dst_dir, exist_ok=True)
-    # print(dst)
+    fd_src = str(Path(join(dst_dir, Path(fd_src).name)))
     try:
         # File with same name in dst
-        j = fd_dst_l.index(join(fd_dst, Path(fd_src).name))
+        j = fd_dst_l.index(fd_src)
+        print('j ' + str(j))
         if print_sub_flag:
             print("[LOG] Find file: " + fd_src)
         if size_src == size_dst[j] and atime_src == atime_dst[j] and mtime_src == mtime_dst[j]:
@@ -594,10 +601,15 @@ def copy_file(fd_src, fd_src_r, size_src, atime_src, mtime_src, fd_dst, fd_dst_l
             copy2(fd_src, dst)
     except Exception as e:
         # File is not found in dst
-        if print_sub_flag:
-            print("[LOG] File is not found in dst, copy\t" + fd_src)
-        log.append("[LOG] File is not found in dst, copy\t" + fd_src)
-        copy2(fd_src, dst)
+        try:
+            copy2(fd_src, dst)
+            if print_sub_flag:
+                print("[LOG] File is not found in dst, copy\t" + fd_src)
+            log.append("[LOG] File is not found in dst, copy\t" + fd_src)
+        except:
+            if print_sub_flag:
+                print("[LOG] Error: " + str(e) + " when copying " + fd_src)
+            log.append("[LOG] Error: " + str(e) + " when copying " + fd_src)
     return log
 
 

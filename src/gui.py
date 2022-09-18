@@ -7,6 +7,7 @@ from os.path import isfile, isdir, exists, dirname
 from time import sleep
 from timeit import default_timer
 from sys import maxsize
+from pathlib import Path
 
 system('cls')
 
@@ -1502,13 +1503,13 @@ class Window(tk.Tk, MainProcess):
                     print('[LOG] [GUI] Started gathering file information...')
                     if self.mode_selection == 1:
                         self.log = MainProcess.single_file_copy(
-                            self, self.log, self.src, self.dst)
+                            self, self.log, str(Path(self.src)), str(Path(self.dst)))
                     elif self.mode_selection == 2:
                         self.log = MainProcess.single_folder_copy(
-                            self, self.log, self.src, self.dst)
+                            self, self.log, str(Path(self.src)), str(Path(self.dst)))
                     elif self.mode_selection == 3:
                         self.log = MainProcess.multi_folder_copy(
-                            self, self.log, self.src, self.dst)
+                            self, self.log, str(Path(self.src)), str(Path(self.dst)))
             elif self.status[1] == 7:
                 self.entry_1.delete(0, 'end')
                 if self.mode_selection == 0:

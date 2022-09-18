@@ -68,10 +68,10 @@ This project is inspired by [SyncBack](https://www.2brightsparks.com/).
 
 ## GUI
 
-1. [ ] Select source and destination.
-   1. [ ] Source Directory
-   2. [ ] Destination Directory
-   3. [ ] src and dst set selection.
+1. [x] Select source and destination.
+   1. [x] Source Directory
+   2. [x] Destination Directory
+   3. [x] src and dst set selection.
 2. [ ] View all copying files.
    1. [ ] Filtering
    2. [ ] Check and uncheck files
